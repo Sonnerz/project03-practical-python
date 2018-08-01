@@ -1,0 +1,24 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Home</h1>
+{% with messages = get_flashed_messages() %} 
+{% if messages %}
+<ul>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %} 
+{% endwith %}
+
+<form method="POST" name="addUsernameForm" id="addUsernameForm">
+    <div class="control-group">
+        <div class="form-group floating-label-form-group controls">
+            <input type="text" class="form-control" placeholder="add Username" name="addusername" id="addusername" required data-validation-required-message="Please enter your username.">
+            <p class="help-block text-danger"></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary" id="sendAnswerButton">Submit your username</button>
+    </div>
+</form>
+{{username}} {% endblock %}
