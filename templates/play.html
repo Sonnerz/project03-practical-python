@@ -1,6 +1,7 @@
 {% extends 'base.html' %} {% block content %}
 <h1>Play</h1>
-<form method="POST" name="sentAnswer" id="answerForm">
+{{riddles}}
+<form method="POST" name="riddleAnswer" id="answerForm">
     <div class="control-group">
         <div class="form-group floating-label-form-group controls">
             <input type="text" class="form-control" placeholder="Riddle Answer" name="answer" id="answer" required data-validation-required-message="Please enter your answer.">

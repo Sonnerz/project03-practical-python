@@ -10,7 +10,7 @@
 {% endif %} 
 {% endwith %}
 
-<form method="POST" name="addUsernameForm" id="addUsernameForm">
+<form action="/instructions" method="POST" name="addUsernameForm" id="addUsernameForm">
     <div class="control-group">
         <div class="form-group floating-label-form-group controls">
             <input type="text" class="form-control" placeholder="add Username" name="addusername" id="addusername" required data-validation-required-message="Please enter your username.">
@@ -21,6 +21,4 @@
         <button type="submit" class="btn btn-primary" id="sendAnswerButton">Enter a username and Play</button>
     </div>
 </form>
-{{username}}
-{{method}}
-{% endblock %}
+{{username}} {% endblock %}
