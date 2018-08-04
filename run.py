@@ -1,6 +1,6 @@
 import os
 from riddlesList import * 
-from flask import Flask, render_template, request, flash, redirect, url_for
+from flask import Flask, render_template, request, flash, redirect, url_for, session
 
 app = Flask(__name__)
 app.secret_key = 'The cat is on the roof'
@@ -38,15 +38,19 @@ def initialise_leaderboard(username):
 @app.route('/', methods=["GET", "POST"])
 def index():
     if request.method == "POST":
-        username = request.form["addusername"].title()
-    
+        username = request.form['addusername'].title()
+        print("username no session ", username)
+        print("usernames: ", usernames)
         if username not in usernames:
-            usernames.append(username)
-            flash("Success {}, your name is added. Click play".format(username))
-            initialise_leaderboard(username)
+            session['username'] = username
+            usernames.append(session['username'])
+            print("username - session: ", session['username'])
+            print("usernames: ", usernames)
+            flash("Success {}, your name is added. Click play".format(session['username']))
+            initialise_leaderboard(session['username'])
             # return redirect(username)
         else:
-            flash("Fail {}, Name taken try again".format(username)) 
+            flash("Fail {}, Name taken try again".format(session['username']))     
     return render_template("index.html", page_title="Riddle-Me-This - Home")
     
     
@@ -60,9 +64,11 @@ def user(username):
     
     
    
-@app.route('/play')
+@app.route('/play', methods=["GET", "POST"])
 def play():
-    return render_template("play.html", page_title="Riddle-Me-This - Play", username=username)
+   
+    
+    return render_template("play.html", page_title="Riddle-Me-This - Play", username=session['username'])
     
 
 
