@@ -3,7 +3,7 @@
 <p>{{username}}</p>
 
 <p>{{nextRiddle}}</p>
-<form method="POST" name="riddleAnswer" id="answerForm">
+<form method="POST" action="/riddle" name="riddleAnswer" id="answerForm">
     <div class="control-group">
         <div class="form-group floating-label-form-group controls">
             <input type="text" class="form-control" placeholder="Riddle Answer" name="riddleAnswer" id="riddleAnswer" required data-validation-required-message="Please enter your answer.">
@@ -14,7 +14,7 @@
         <button type="submit" class="btn btn-primary" id="sendAnswerButton">Submit your Answer</button>
     </div>
 </form>
-<br><br><br><br><br>
+<br><br>
 
 {% with messages_play = get_flashed_messages() %} 
 {% if messages_play %}

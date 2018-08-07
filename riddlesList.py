@@ -6,5 +6,9 @@ riddles = [
     {
         "Question": "The more you take aways, the larger it becomes? What is it?",
         "Answer": "Hole" 
+    },
+    {
+        "Question": "Say my name and I am no more. What am I?",
+        "Answer": "Silence" 
     }
 ]

@@ -9,7 +9,6 @@ leaderboard = {}
 score = 0
 attempts = 0
 
-
 def initialise_leaderboard(username):
     leaderboard.update({session['username']:session['score']})
     return
@@ -43,13 +42,15 @@ def index():
 def check_answer(answerInputByPlayer, correctAnswer):
     if correctAnswer == answerInputByPlayer:
         session['score'] += 1
-        print('correct answer, next question')
+        flash("CORRECT answer {}, next question.".format(correctAnswer))
+        print("CORRECT answer" , correctAnswer)
         leaderboard.update({session['username']: session['score']})
         return    
     else:
         session['attempts'] += 1
         if session['attempts'] == 2:
-            flash("two attempts, the answer is: {}".format(correctAnswer))
+            flash("WRONG two attempts, the answer is: {}".format(correctAnswer))
+            session['attempts'] = 0
         return
     return
 
@@ -62,27 +63,35 @@ def getNextRiddle(riddleIndex):
         nextRiddle = riddles[riddleIndex]
         #print(nextRiddle)
         return nextRiddle
-    return
+     
 
-@app.route('/play', methods=["GET", "POST"])
+@app.route('/play')
 def play():
-    currentRiddleIndex = 0 #0
-    nextRiddle = getNextRiddle(0)
-    print("currentRiddleIndex :", currentRiddleIndex)
-    flash("nextRiddle :::: {}".format(nextRiddle))
+    nextRiddle = getNextRiddle(0) #dictionary
+    session['currentRiddleIndex'] =  0
+    session['currentRiddle'] = nextRiddle
+    return render_template("play.html", page_title="Riddle-Me-This - Play", username=session['username'], 
+                            leaderboard=leaderboard, currentRiddleIndex=session['currentRiddleIndex'], nextRiddle=nextRiddle['Question'])
+    
+
+@app.route('/riddle', methods=["GET", "POST"])
+def riddle():
+    getNextRiddle(session['currentRiddleIndex'])
     if request.method == "POST":
         userAnswer = request.form['riddleAnswer'].title()
         flash("Answer added {}.".format(userAnswer))
-        check_answer(userAnswer, nextRiddle['Answer'].title())
-        print("check answer done - moved on")
-    
-        currentRiddleIndex +=1
-        print("currentRiddleIndex inside if :", currentRiddleIndex)
-        nextRiddle = getNextRiddle(1)
-        print(nextRiddle)
-    return render_template("play.html", page_title="Riddle-Me-This - Play", username=session['username'], 
-                            leaderboard=leaderboard, currentRiddleIndex=currentRiddleIndex, nextRiddle=nextRiddle['Question'] )
-    
+        print(session['currentRiddle']['Answer'].title())
+        check_answer(userAnswer, session['currentRiddle']['Answer'].title())
+        #print("check answer done - moved on")
+        
+        session['currentRiddleIndex'] +=1
+        nextRiddle = getNextRiddle(session['currentRiddleIndex'])
+        #flash("nextRiddle :::: {}".format(nextRiddle))
+    return render_template("play.html", page_title="Riddle-Me-This - Play", username=session['username'], leaderboard=leaderboard,
+                            currentRiddleIndex=session['currentRiddleIndex'], nextRiddle=nextRiddle['Question'])
+
+
+#session.pop('username', None)
 #nextRiddle=nextRiddle['Question']
 
     #first_riddleQ = riddles[0]['Question']
