@@ -1,10 +1,12 @@
 {% extends 'base.html' %} {% block content %}
 <h1>Play</h1>
-{{username}}
+<p>{{username}}</p>
+
+<p>{{nextRiddle}}</p>
 <form method="POST" name="riddleAnswer" id="answerForm">
     <div class="control-group">
         <div class="form-group floating-label-form-group controls">
-            <input type="text" class="form-control" placeholder="Riddle Answer" name="answer" id="answer" required data-validation-required-message="Please enter your answer.">
+            <input type="text" class="form-control" placeholder="Riddle Answer" name="riddleAnswer" id="riddleAnswer" required data-validation-required-message="Please enter your answer.">
             <p class="help-block text-danger"></p>
         </div>
     </div>
@@ -12,4 +14,26 @@
         <button type="submit" class="btn btn-primary" id="sendAnswerButton">Submit your Answer</button>
     </div>
 </form>
+<br><br><br><br><br>
+
+{% with messages_play = get_flashed_messages() %} 
+{% if messages_play %}
+<ul>
+    {% for mess in messages_play %}
+    <li>{{ mess }}</li>
+    {% endfor %}
+</ul>
+{% endif %} 
+{% endwith %}
+
+
+<h2>LeaderBoard</h2>
+{{leaderboard}}
+
+<h2>Attempts</h2>
+{{session['attempts']}}
+{{attempts}}
+
+<h2>current Riddle Index</h2>
+{{currentRiddleIndex}}
 {% endblock %}

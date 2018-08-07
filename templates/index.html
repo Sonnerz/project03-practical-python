@@ -15,7 +15,7 @@ instructions
 <form method="POST" name="addUsernameForm" id="addUsernameForm">
     <div class="control-group">
         <div class="form-group floating-label-form-group controls">
-            <input type="text" class="form-control" placeholder="add Username" name="addusername" id="addusername" required data-validation-required-message="Please enter your username.">
+            <input type="text" class="form-control" placeholder="add Username" name="addUsername" id="addUsername" required data-validation-required-message="Please enter your username.">
             <p class="help-block text-danger"></p>
         </div>
     </div>
@@ -23,6 +23,10 @@ instructions
         <button type="submit" class="btn btn-primary" id="sendAnswerButton">Enter a username and Play</button>
     </div>
 </form>
-{{username}}
-{{method}}
+
+
+<br><br><br>
+<h2>LeaderBoard</h2>
+{{leaderboard}}
+
 {% endblock %}
