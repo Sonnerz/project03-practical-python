@@ -1,9 +1,10 @@
 {% extends 'base.html' %} {% block content %}
 <h1>Play</h1>
-<p>{{username}}</p>
+<h2>Hi {{username}}</h2>
 
-<p>{{nextRiddle}}</p>
-<form method="POST" action="/riddle" name="riddleAnswer" id="answerForm">
+<p>{{riddleQ}}</p>
+
+<form method="POST" name="riddleAnswer" id="answerForm">
     <div class="control-group">
         <div class="form-group floating-label-form-group controls">
             <input type="text" class="form-control" placeholder="Riddle Answer" name="riddleAnswer" id="riddleAnswer" required data-validation-required-message="Please enter your answer.">
@@ -14,7 +15,7 @@
         <button type="submit" class="btn btn-primary" id="sendAnswerButton">Submit your Answer</button>
     </div>
 </form>
-<br><br>
+<br>
 
 {% with messages_play = get_flashed_messages() %} 
 {% if messages_play %}
@@ -29,11 +30,20 @@
 
 <h2>LeaderBoard</h2>
 {{leaderboard}}
-
+<br>
+<h2>Usernames</h2>
+{{usernames}}
+<br>
 <h2>Attempts</h2>
-{{session['attempts']}}
 {{attempts}}
-
+<br>
 <h2>current Riddle Index</h2>
-{{currentRiddleIndex}}
+{{riddleIndex}}
+<br>
+<h2>Correct Riddle anwer</h2>
+{{riddleA}}
+<br>
+<h2>Global Score</h2>
+{{score}}
+
 {% endblock %}
