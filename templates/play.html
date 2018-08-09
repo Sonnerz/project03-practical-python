@@ -17,11 +17,11 @@
 </form>
 <br>
 
-{% with messages_play = get_flashed_messages() %} 
-{% if messages_play %}
+{% with messages = get_flashed_messages() %} 
+{% if messages %}
 <ul>
-    {% for mess in messages_play %}
-    <li>{{ mess }}</li>
+    {% for message in messages %}
+    <li>{{ message }}</li>
     {% endfor %}
 </ul>
 {% endif %} 
@@ -43,7 +43,10 @@
 <h2>Correct Riddle anwer</h2>
 {{riddleA}}
 <br>
-<h2>Global Score</h2>
+<h2>Players List</h2>
+{{players}}
+<br>
+<h2>Score</h2>
 {{score}}
 
 {% endblock %}
