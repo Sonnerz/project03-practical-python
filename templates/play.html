@@ -1,52 +1,49 @@
 {% extends 'base.html' %} {% block content %}
 <h1>Play</h1>
 <h2>Hi {{username}}</h2>
-
-<p>{{riddleQ}}</p>
-
-<form method="POST" name="riddleAnswer" id="answerForm">
-    <div class="control-group">
-        <div class="form-group floating-label-form-group controls">
-            <input type="text" class="form-control" placeholder="Riddle Answer" name="riddleAnswer" id="riddleAnswer" required data-validation-required-message="Please enter your answer.">
-            <p class="help-block text-danger"></p>
-        </div>
+<div style="width:900px">
+    <div style="float:left;width:62%;background-color:#f5f5f5;padding:10px;box-sizing:border-box">
+        <p>{{riddleQ}}{{next_riddleQ}}</p>
+        <form method="POST" name="riddleAnswer" id="answerForm" action="/check">
+            <div class="control-group">
+                <div class="form-group floating-label-form-group controls">
+                    <input type="text" class="form-control" placeholder="Riddle Answer" name="riddleAnswer" id="riddleAnswer" required data-validation-required-message="Please enter your answer.">
+                    <p class="help-block text-danger"></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" id="sendAnswerButton">Submit your Answer</button>
+            </div>
+        </form>
+        {% with messages = get_flashed_messages() %} {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}<br><br></li>
+            {% endfor %}
+        </ul>
+        {% endif %} {% endwith %}
     </div>
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary" id="sendAnswerButton">Submit your Answer</button>
+    <div style="float:left;width:38%;background-color:#ccc;padding:10px;box-sizing:border-box">
+        <h2>LeaderBoard</h2>
+        {{leaderboard}}
+        <br>
+        <h2>Players List: <br>attempts :: username :: score</h2>
+        {{players}}
+        <br>        
+        <h2>Attempts</h2>
+        {{attempts}}
+        <br>
+        <h2>Current Riddle Number</h2>
+        {{riddleNumber}}
+        <br>
+        <br>
+        <h2>Correct Riddle anwer</h2>
+        {{riddleA}} {{first_riddleA}}
+        <h2>Usernames</h2>
+        {{usernames}}
     </div>
-</form>
-<br>
 
-{% with messages = get_flashed_messages() %} 
-{% if messages %}
-<ul>
-    {% for message in messages %}
-    <li>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %} 
-{% endwith %}
+</div>
 
-
-<h2>LeaderBoard</h2>
-{{leaderboard}}
-<br>
-<h2>Usernames</h2>
-{{usernames}}
-<br>
-<h2>Attempts</h2>
-{{attempts}}
-<br>
-<h2>current Riddle Index</h2>
-{{riddleIndex}}
-<br>
-<h2>Correct Riddle anwer</h2>
-{{riddleA}}
-<br>
-<h2>Players List</h2>
-{{players}}
-<br>
-<h2>Score</h2>
-{{score}}
 
 {% endblock %}

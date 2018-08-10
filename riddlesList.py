@@ -18,15 +18,18 @@ def content():
     riddles = [
                 {
                     "Question": "What belongs to you but others use it more than you do? -- (Name)",
-                    "Answer": "Name" 
+                    "Answer": "Name",
+                    "Number": 1
                 },
                 {
                     "Question": "The more you take away, the larger it becomes? What is it? -- (Hole)",
-                    "Answer": "Hole" 
+                    "Answer": "Hole",
+                    "Number": 2
                 },
                 {
                     "Question": "Say my name and I am no more. What am I? -- (Silence)",
-                    "Answer": "Silence" 
+                    "Answer": "Silence",
+                    "Number": 3
                 }
               ]
     return riddles
