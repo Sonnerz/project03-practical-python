@@ -24,26 +24,30 @@ def check_answer(answerInputByPlayer, correctAnswer, riddleIndex):
     if correctAnswer == answerInputByPlayer:
         flash("you are CORRECT answer {}, next question.".format(correctAnswer))
         for item in players:
-            print(item) #{'attempts': 0, 'score': 0, 'username': 'Harley'}{'attempts': 0, 'score': 0, 'username': 'Bob'}{'attempts': 0, 'score': 0, 'username': 'Zed'}
-            print(item['score'], item['attempts'], item['username'])#0 0 Zed 0 0 Bob 0 0 Harley
-            #for score, attempt, username in item:#.iteritems():
-            #    if (username == session['username']):
-            #        print(score, attempt)   
-        
-        
-        #riddleIndex += 1
-        #leaderboard.update({session['username']:score})
-        #riddle = get_next_riddle(riddleIndex) #returns a dictionary NEXT RIDDLE
-        #return riddle
+            print("All item in players list: ", item) #{'attempts': 0, 'score': 0, 'username': 'Harley'}{'attempts': 0, 'score': 0, 'username': 'Bob'}{'attempts': 0, 'score': 0, 'username': 'Zed'}
+            print("Score: ", item['score'], "Attempts: ", item['attempts'], "Username: ", item['username'])#0 0 Zed 0 0 Bob 0 0 Harley
+            if item['username'] == session['username']:
+                print("Score: ", item['score'])
+                item['score'] += 1
+                print("Score after +1: ", item['score'])
+                leaderboard.update({session['username']:item['score']})
+                print("riddleIndex: ", riddleIndex)
+                riddleIndex += 1
+                print("riddleIndex after +1: ", riddleIndex)
+                riddle = get_next_riddle(riddleIndex) #returns a dictionary NEXT RIDDLE
+                return riddle
     else:
-        global attempts
-        attempts += 1
-        if attempts == 2:
-            flash("you are WRONG two attempts, the answer is: {}".format(correctAnswer))
-            attempts = 0
-        else:
-            flash("WRONG try again, one more attempt")
-    return
+        for item in players:
+             if item['username'] == session['username']:
+                print("Attempts: ", item['attempts'])
+                item['attempts'] += 1
+                print("Attempts after +1: ", item['attempts'])
+                if item['attempts'] == 2:
+                    flash("you are WRONG two attempts, the answer is: {}".format(correctAnswer))
+                    item['attempts'] = 0 #reset attempts back to 0
+                else:
+                    flash("WRONG try again, one more attempt")
+                return
 
 
 @app.route('/play', methods=["GET", "POST"])
@@ -51,15 +55,15 @@ def play():
     riddle = get_next_riddle(0) #returns a dictionary FIRST RIDDLE
     if request.method == "POST":
         userAnswer = request.form['riddleAnswer'].title()
-        flash("players answer {}: ".format(userAnswer))
-        flash("correct answer {}: ".format(riddle["Answer"]))
+        flash("players answer: {}".format(userAnswer))
+        flash("correct answer: {}".format(riddle["Answer"]))
         check_answer(userAnswer, riddle['Answer'], riddles.index(riddle))
     return render_template("play.html", page_title="Riddle-Me-This - Play", username=session['username'], leaderboard=leaderboard, 
                             players=players, usernames=usernames, riddleQ=riddle["Question"])
 
 
 
-@app.route('/', methods=["GET","POST"])
+@app.route('/', methods=["GET", "POST"])
 def index():
     if request.method == "POST":
         username = request.form['addUsername'].title()
@@ -72,14 +76,16 @@ def index():
             return redirect('play')
         else:
             flash("Fail {}, Name taken try again".format(username))     
-    return render_template("index.html", page_title="Riddle-Me-This - Home", username=session['username'], usernames=usernames, leaderboard=leaderboard)
+    return render_template("index.html", page_title="Riddle-Me-This - Home", usernames=usernames, leaderboard=leaderboard)
 
 
 
 #riddleIndex=riddles.index(riddle), riddleQ=riddle['Question'], riddleA=riddle['Answer']
 
 
-
+            #for score, attempt, username in item:#.iteritems():
+            #    if (username == session['username']):
+            #        print(score, attempt)
 
 
 #'hello world'[::-1] #reverse the answer
