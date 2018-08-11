@@ -19,17 +19,17 @@ def content():
                 {
                     "Question": "What belongs to you but others use it more than you do? -- (Name)",
                     "Answer": "Name",
-                    "Number": 1
+                    "Number": 0
                 },
                 {
                     "Question": "The more you take away, the larger it becomes? What is it? -- (Hole)",
                     "Answer": "Hole",
-                    "Number": 2
+                    "Number": 1
                 },
                 {
                     "Question": "Say my name and I am no more. What am I? -- (Silence)",
                     "Answer": "Silence",
-                    "Number": 3
+                    "Number": 2
                 }
               ]
     return riddles
