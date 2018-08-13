@@ -1,5 +1,6 @@
 import os
 import ast
+from datetime import datetime
 from riddlesList import content
 from operator import itemgetter
 from flask import Flask, render_template, request, flash, redirect, url_for, session, current_app
@@ -26,7 +27,9 @@ def start_game():
     Intialise the global lists and dictionary. Populate with the player info to track their progress.Intialise.Intialise
     Get the first riddle to start the game. Redirect to the game html page - play() play.html.
     '''
-    leaderboard.append({"username":session['username'], "score":0}) # added to leaderboard
+    date = datetime.now().strftime("%d-%m-%Y")
+    flash(date)
+    leaderboard.append({"username":session['username'], "score":0, "timestamp":date}) # added to leaderboard
     player_info.append({"username":session['username'], "score":0, "attempt":0, "riddle_number":0}) #creates a player
     global riddle
     riddle = get_next_riddle(0) #returns a dictionary FIRST RIDDLE
@@ -111,6 +114,7 @@ def index():
     '''
     Get username from player and check if it's already taken
     '''
+    mess = "woohooo!!!"
     if request.method == "POST":
         username = request.form['addUsername'].title() # username from from input
         if username not in usernames:
@@ -138,3 +142,5 @@ if __name__ == '__main__':
     
 #request_username = request.args['username']
 #username = ast.literal_eval(request_username)
+
+#session.pop('_flashes', None)

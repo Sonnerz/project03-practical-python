@@ -14,16 +14,18 @@
         
         <div>
             <h2>leaders sorted list []</h2>
-            <div style="float:left;width:400px;background-color:#ccc;text-align:center">
-                <div style="float:left;padding:5px;width:30%;">index</div>
-                <div style="float:left;padding:5px;width:30%;">username</div>
-                <div style="float:left;padding:5px;width:30%;">score</div>
+            <div style="float:left;width:400px;background-color:#ccc;text-align:center;padding:5px;">
+                <div style="float:left;width:25%;">index</div>
+                <div style="float:left;width:25%;">username</div>
+                <div style="float:left;width:25%;">score</div>
+                <div style="float:left;width:25%;">date</div>
             </div>
             {% for rows in newlist %}
             <div style="float:left;width:400px;background-color:#f5f5f5;text-align:center">
-                <div style="float:left;padding:5px;width:30%;">{{ loop.index }}</div>
-                <div style="float:left;padding:5px;width:30%;">{{ rows['username'] }}</div>
-                <div style="float:left;padding:5px;width:30%;">{{ rows['score'] }}</div>
+                <div style="float:left;width:25%;">{{ loop.index }}</div>
+                <div style="float:left;width:25%;">{{ rows['username'] }}</div>
+                <div style="float:left;width:25%;">{{ rows['score'] }}</div>
+                <div style="float:left;width:25%;">{{ rows['timestamp'] }}</div>
             </div>
             {% endfor%}
         </div>
@@ -31,16 +33,18 @@
         
         <div style="clear:both;padding-top:30px;">
             <h2>leaders for Loop</h2>
-            <div style="float:left;width:400px;background-color:#ccc;text-align:center">
-                <div style="float:left;padding:5px;width:30%;">index</div>
-                <div style="float:left;padding:5px;width:30%;">username</div>
-                <div style="float:left;padding:5px;width:30%;">score</div>
+            <div style="float:left;width:400px;background-color:#ccc;text-align:center;padding:5px;">
+                <div style="float:left;width:25%;">index</div>
+                <div style="float:left;width:25%;">username</div>
+                <div style="float:left;width:25%;">score</div>
+                <div style="float:left;width:25%;">date</div>
             </div>
             {% for leaders in leaderboard %}
             <div style="float:left;width:400px;background-color:#f5f5f5;text-align:center">
-                <div style="float:left;padding:5px;width:30%;">{{ loop.index }}</div>
-                <div style="float:left;padding:5px;width:30%;">{{ leaders.username }}</div>
-                <div style="float:left;padding:5px;width:30%;">{{ leaders.score }}</div>
+                <div style="float:left;width:25%;">{{ loop.index }}</div>
+                <div style="float:left;width:25%;">{{ leaders.username }}</div>
+                <div style="float:left;width:25%;">{{ leaders.score }}</div>
+                <div style="float:left;width:25%;">{{ leaders.timestamp }}</div>
             </div>
             {% endfor%}
         </div>
