@@ -28,10 +28,17 @@ Enter a username
 
 <br><br><br>
 <h2>LeaderBoard</h2>
-{{leaderboard}}
+{% for leader in leaderboard %}
+    <p>
+        username: {{ leader.username }}<br>
+        score: {{ leader.score }}
+    </p>
+{% endfor %}
 <br>
 <h2>Usernames</h2>
-{{usernames}}
-<br>
+{% for item in usernames %}
+    <p>{{ item }}</p>
+{% endfor %}
+
 
 {% endblock %}
