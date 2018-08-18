@@ -45,7 +45,7 @@ def start_game():
 def play():
     try:
         return render_template("play_v4.html", page_title="Riddle-Me-This - Play", username=session['username'], leaderboard=leaderboard, 
-                                    player_info=player_info, usernames=usernames, riddle=riddle)
+                                    player_info=player_info, usernames=usernames, riddle=riddle, session=session)
     except Exception as e:
         return render_template("500.html", error=e)                                    
 
@@ -58,7 +58,8 @@ def end():
             if player['username'] == session['username']:
                 leaderboard.append({"username": session['username'], "score": player['score'], "timestamp":date}) # added to leaderboard
         newlist = sorted(leaderboard, key=itemgetter('score'), reverse=True) # show sorted by score leader board
-        return render_template("end_v4.html", page_title="Riddle-Me-This - Play", username=session['username'], leaderboard=leaderboard, 
+        session.pop('username', None)
+        return render_template("end_v4.html", page_title="Riddle-Me-This - Play",  leaderboard=leaderboard, 
                                         players=player_info, usernames=usernames, newlist=newlist)
     except Exception as e:
         return render_template("500.html", error=e)                                        
@@ -116,25 +117,45 @@ def check():
             riddle = get_next_riddle(next_riddle_index) # not end of game, get next riddle
     return redirect(url_for('play'))    
 
+def check_username(username):
+    '''
+    check if it's already taken
+    '''
+    if (username not in usernames):
+        usernames.append(username) # if its a new unique username, add to usernames[]
+        session['username'] = username # add username to flask session
+        flash("Success {}, your name is added. Her is your first question. The session is: {}".format(username, session))
+        return True
+    elif (username in usernames) and session['username'] == username:
+        flash("Fail {}, session already".format(username)) # username taken try again until username is not in usernames[]  
+        return False
+    elif (username in usernames) and session['username'] != username:
+        flash("Fail {}, name in list. register new name".format(username)) # username taken try again until username is not in usernames[]  
+        return False    
+    else:
+        flash("Fail {}, Name taken try again".format(username)) # username taken try again until username is not in usernames[]  
+        return render_template("index.html", page_title="Riddle-Me-This - Home", usernames=usernames, leaderboard=leaderboard) 
+   
+    
+
 
 @app.route('/', methods=["GET", "POST"])
 def index():
     '''
-    Get username from player and check if it's already taken
+    Get username from form
     '''
+    #session.pop('username', None)
     try:
         if request.method == "POST":
-            username = request.form['addUsername'].title() # username from from input
-            if username not in usernames:
-                usernames.append(username) # if its a new unique username, add to usernames[]
-                session['username'] = username # add username to flask session
-                flash("Success {}, your name is added. Her is your first question. The session is: {}".format(username, session))
+            username_from_form = request.form['addUsername'].title()
+            if check_username(username_from_form):
                 return redirect(url_for('start_game')) # start the game
-            else:
-                flash("Fail {}, Name taken try again".format(username)) # username taken try again until username is not in usernames[]  
-        return render_template("index.html", page_title="Riddle-Me-This - Home", usernames=usernames, leaderboard=leaderboard)
+
     except Exception as e:
         return render_template("500.html", error=e)
+    return render_template("index.html", page_title="Riddle-Me-This - Home", usernames=usernames, leaderboard=leaderboard)     
+      
+
 
     
 @app.errorhandler(404)

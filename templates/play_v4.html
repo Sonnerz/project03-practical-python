@@ -9,7 +9,7 @@
             <div class="control-group">
                 <div class="form-group floating-label-form-group controls">
                     <input type="text" class="form-control" placeholder="Riddle Answer" name="riddleAnswer" 
-                    id="riddleAnswer" required data-validation-required-message="Please enter your answer." pattern="[A-Za-z]">
+                    id="riddleAnswer" required data-validation-required-message="Please enter your answer." pattern="[A-Za-z]{1,50}">
                     <p class="help-block text-danger"></p>
                 </div>
             </div>
@@ -64,6 +64,9 @@
         {% endfor %}
         <h2>Usernames List</h2>
         {{ usernames }}
+        <br>
+        <h2>Session</h2>
+        <p>{{ session }}</p> 
         
     </div>
 

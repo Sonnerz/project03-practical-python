@@ -1,3 +1,4 @@
+from flask import url_for
 import unittest
 import run
 from run import app
@@ -67,6 +68,16 @@ class TestRiddle(unittest.TestCase):
                 with app.test_request_context():
                     self.assertEqual(run.create_player(sess['username']), [{'username':'bob', 'score':0, 'attempt':0, 'riddle_number':0}])
                     
+
+    ''' TEST 05 '''
+    def test_players_can_register(self):
+        usernames = []
+        #response = self.app.post(url_for('index'), data=['bob'], follow_redirects=True)
+        with app.test_request_context():
+            response = self.app.post(url_for('index'), data=('bob'), follow_redirects=True)
+            
+            self.assertIn(['bob'], usernames)
+        
     
     
     # def test_check_answer(self):
