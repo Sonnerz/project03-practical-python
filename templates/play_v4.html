@@ -8,15 +8,8 @@
         <form method="POST" name="riddleAnswer" id="answerForm" action="/checkPlayerInput">
             <div class="control-group">
                 <div class="form-group floating-label-form-group controls">
-                    <input type="text" class="form-control" placeholder="Riddle Answer" name="riddleAnswer" id="riddleAnswer" required data-validation-required-message="Please enter your answer.">
-                    
-        {% for player in player_info %}
-            {% if player.username == session['username'] %}
-                    <input type="text" name="riddle_number" id="riddle_number" value="{{player.riddle_number}}">
-            {% endif %}
-        {% endfor %}                    
-                    
-                    
+                    <input type="text" class="form-control" placeholder="Riddle Answer" name="riddleAnswer" 
+                    id="riddleAnswer" required data-validation-required-message="Please enter your answer." pattern="[A-Za-z]">
                     <p class="help-block text-danger"></p>
                 </div>
             </div>

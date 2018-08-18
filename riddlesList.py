@@ -15,7 +15,7 @@
 
 
 def content():
-    riddles = [
+    riddles = (
                 {
                     "Question": "What belongs to you but others use it more than you do? -- (Name)",
                     "Answer": "Name",
@@ -31,5 +31,5 @@ def content():
                     "Answer": "Silence",
                     "Number": 2
                 }
-              ]
+              )
     return riddles
