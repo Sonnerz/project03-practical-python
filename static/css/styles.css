@@ -1,0 +1,143 @@
+@import url("https://fonts.googleapis.com/css?family=Margarine");
+.btn {
+  white-space: normal; }
+
+body {
+  font-family: 'Margarine', cursive;
+  background: url(/static/img/riddler-wallpaper.jpg) no-repeat fixed;
+  background-size: cover;
+  background-position: 0px 80px; }
+
+h1, h2, h3, h4, h5, h6, p, a, #container-content {
+  font-family: 'Margarine', cursive; }
+
+#container-nav {
+  background-color: #052003; }
+  #container-nav .empty-navbar {
+    height: 80px; }
+
+#container-content .logo-container {
+  padding-top: 30px;
+  text-align: center; }
+#container-content .logo-container img {
+  max-width: 100%; }
+#container-content #username-form-container {
+  padding: 20px 20px; }
+  #container-content #username-form-container #sc {
+    background-color: #f5f5f5;
+    width: 80%; }
+  #container-content #username-form-container #sc::after {
+    content: "";
+    opacity: 0.3; }
+  #container-content #username-form-container .btn-riddle {
+    color: #fff;
+    background-color: #052003;
+    border-color: #052003;
+    width: 100%; }
+  #container-content #username-form-container .btn-riddle:hover {
+    color: #052003;
+    background-color: #bad4bd;
+    border-color: #bad4bd; }
+  #container-content #username-form-container .form-control:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #052003;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(5, 32, 3, 0.25); }
+  #container-content #username-form-container .button-submit-margin {
+    margin-top: 40px; }
+  #container-content #username-form-container .button-howto-margin {
+    margin-top: 90px; }
+@media (min-width: 768px) {
+  #container-content #username-form-container {
+    padding: 100px 0px; } }
+
+#apodSection.apod {
+  background-image: url("../img/stars70.jpg");
+  background-position: center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover; }
+  #apodSection.apod h1 {
+    font-size: 2rem; }
+  #apodSection.apod p {
+    text-align: left; }
+  #apodSection.apod .apod-image {
+    max-width: 100%;
+    border: 1px solid #333; }
+  #apodSection.apod .apod-copyright {
+    float: right; }
+  #apodSection.apod .apod-date {
+    float: left; }
+  #apodSection.apod .apod-para {
+    clear: both; }
+  #apodSection.apod .apod-para-bg {
+    background-color: rgba(0, 18, 52, 0.3); }
+  #apodSection.apod #apod_vid_id {
+    border: 0; }
+  #apodSection.apod .video-container {
+    position: relative;
+    padding-bottom: 30%;
+    padding-top: 20px;
+    height: 0;
+    overflow: hidden; }
+  #apodSection.apod .video-container iframe,
+  #apodSection.apod .video-container object,
+  #apodSection.apod .video-container embed {
+    position: absolute;
+    top: 0;
+    left: 25%;
+    width: 50%;
+    height: 100%; }
+  #apodSection.apod #apod-error-row {
+    display: none; }
+  @media (min-width: 1200px) {
+    #apodSection.apod h1 {
+      font-size: 3.5rem; } }
+
+#apodSection.apod {
+  background-image: url("../img/stars70.jpg");
+  background-position: center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover; }
+  #apodSection.apod h1 {
+    font-size: 2rem; }
+  #apodSection.apod p {
+    text-align: left; }
+  #apodSection.apod .apod-image {
+    max-width: 100%;
+    border: 1px solid #333; }
+  #apodSection.apod .apod-copyright {
+    float: right; }
+  #apodSection.apod .apod-date {
+    float: left; }
+  #apodSection.apod .apod-para {
+    clear: both; }
+  #apodSection.apod .apod-para-bg {
+    background-color: rgba(0, 18, 52, 0.3); }
+  #apodSection.apod #apod_vid_id {
+    border: 0; }
+  #apodSection.apod .video-container {
+    position: relative;
+    padding-bottom: 30%;
+    padding-top: 20px;
+    height: 0;
+    overflow: hidden; }
+  #apodSection.apod .video-container iframe,
+  #apodSection.apod .video-container object,
+  #apodSection.apod .video-container embed {
+    position: absolute;
+    top: 0;
+    left: 25%;
+    width: 50%;
+    height: 100%; }
+  #apodSection.apod #apod-error-row {
+    display: none; }
+  @media (min-width: 1200px) {
+    #apodSection.apod h1 {
+      font-size: 3.5rem; } }
+
+/*# sourceMappingURL=styles.css.map */

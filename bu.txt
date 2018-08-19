@@ -1,3 +1,0 @@
-#                for leader in leaderboard:
-#                    if leader['username'] == session['username']:
-#                        leader['score'] += 1 # update leaderboard by 1

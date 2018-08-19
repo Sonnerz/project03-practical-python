@@ -2,20 +2,43 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}" type="text/css" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css')}}" type="text/css" />
+    
     <title>Riddle-Me-This</title>
 </head>
 
 <body>
-    <nav>
-        <ul>
-            <li><a href="{{url_for('index')}}">Home</a></li>
-        </ul>
-    </nav>
-    {% block content %}
-    {% endblock %}
+    <!-- Navigation -->
+    <div class="container-fluid" id="container-nav">
+        <div class="row">
+            <div class="col">
+                {% if request.path != "/" %}
+                <nav>
+                    <ul>
+                        <li><a href="{{url_for('index')}}">Home</a></li>
+                        <li><a href="{{url_for('end')}}">End the Game and view Leaderboard</a></li>
+                    </ul>
+                </nav>
+                {% else %}
+                <div class="empty-navbar">
+                    Riddle me this
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% block content %} {% endblock %}
+    <!-- Bootstrap JS -->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.3.1.slim.min.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/popper.min.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js')}}"></script>
 </body>
 
 </html>

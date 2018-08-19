@@ -70,25 +70,25 @@ class TestRiddle(unittest.TestCase):
                     
 
     ''' TEST 05 '''
-    def test_players_can_register(self):
-        usernames = []
-        #response = self.app.post(url_for('index'), data=['bob'], follow_redirects=True)
-        with app.test_request_context():
-            response = self.app.post(url_for('index'), data=('bob'), follow_redirects=True)
-            
-            self.assertIn(['bob'], usernames)
-        
-    
-    
-    # def test_check_answer(self):
-        #self.assertEqual(run.check_answer('player_answer', 'correct_answer'), isint)
-        #self.assertNotEqual('answer', 'noanswer')
-        #answerInputByPlayer = "Answer"
-        #self.assertEqual(answerInputByPlayer.title(), answerInputByPlayer.istitle())
-        #index = run.check_answer('answer','answer')
-        #self.assertIsNotNone  = (index, '')
+    def test_check_username(self):
+        with self.app as c:
+            with c.session_transaction() as sess: #creates session
+                sess['username'] = 'bob'
+                with app.test_request_context():
+                    username = 'bob'
+                    usernames = []
+                    if not usernames and username == 'bob': 
+                        self.assertTrue(run.check_username(username))
+                    username = 'bob'
+                    usernames = ['bob']
+                    if usernames and username == 'bob' and sess['username']:
+                        self.assertFalse(run.check_username(username))
+                    
      
 
 if __name__ == "__main__":
     unittest.main()             
+
+#run option 1: $ python3 test_riddle.py  
+#run option 2: $ python3 -m unittest -v
                 

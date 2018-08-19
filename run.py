@@ -1,4 +1,3 @@
-from asserts import *
 import os
 import ast
 from datetime import datetime
@@ -14,6 +13,10 @@ usernames = []
 leaderboard = []
 player_info = []
 riddle = {}
+
+@app.context_processor
+def debug_on_off():
+    return dict(debug=app.debug)
 
 def get_next_riddle(riddleIndex):
     '''
@@ -41,28 +44,35 @@ def start_game():
     return redirect(url_for('play'))    
 
 
-@app.route('/play_v4')
+@app.route('/play')
 def play():
-    try:
-        return render_template("play_v4.html", page_title="Riddle-Me-This - Play", username=session['username'], leaderboard=leaderboard, 
-                                    player_info=player_info, usernames=usernames, riddle=riddle, session=session)
-    except Exception as e:
-        return render_template("500.html", error=e)                                    
+        #try:
+            return render_template("play.html", page_title="Riddle-Me-This - Play", username=session['username'], leaderboard=leaderboard, 
+                                        player_info=player_info, usernames=usernames, riddle=riddle, session=session)
+        #except Exception as e:
+        #    return render_template("500.html", error=e)
 
-@app.route('/end_v4')
+@app.route('/end')
 def end():
-    try:
-        flash("End of game")
-        date = datetime.now().strftime("%d-%m-%Y")
-        for player in player_info:
-            if player['username'] == session['username']:
-                leaderboard.append({"username": session['username'], "score": player['score'], "timestamp":date}) # added to leaderboard
-        newlist = sorted(leaderboard, key=itemgetter('score'), reverse=True) # show sorted by score leader board
-        session.pop('username', None)
-        return render_template("end_v4.html", page_title="Riddle-Me-This - Play",  leaderboard=leaderboard, 
-                                        players=player_info, usernames=usernames, newlist=newlist)
-    except Exception as e:
-        return render_template("500.html", error=e)                                        
+        #try:
+            if session.get('username', None):
+                print(session['username'])
+                flash("End of game")
+                date = datetime.now().strftime("%d-%m-%Y")
+                for player in player_info:
+                    if player['username'] == session['username']:
+                        leaderboard.append({"username": session['username'], "score": player['score'], "timestamp":date}) # added to leaderboard
+                newlist = sorted(leaderboard, key=itemgetter('score'), reverse=True) # show sorted by score leader board
+                session.pop('username', None)
+                return render_template("end.html", page_title="Riddle-Me-This - Play", session=session, leaderboard=leaderboard, players=player_info, newlist=newlist)
+            else:
+                flash("log in please, aadd a user name")
+                print("sonya")
+                return redirect('/')
+       
+        #except Exception as e:
+        #    return render_template("500.html", error=e)        
+                
     
 
 
@@ -117,6 +127,8 @@ def check():
             riddle = get_next_riddle(next_riddle_index) # not end of game, get next riddle
     return redirect(url_for('play'))    
 
+
+
 def check_username(username):
     '''
     check if it's already taken
@@ -126,11 +138,11 @@ def check_username(username):
         session['username'] = username # add username to flask session
         flash("Success {}, your name is added. Her is your first question. The session is: {}".format(username, session))
         return True
-    elif (username in usernames) and session['username'] == username:
-        flash("Fail {}, session already".format(username)) # username taken try again until username is not in usernames[]  
+    elif (username in usernames) and not session.get('username', username):
+        flash("Fail {}, name in list".format(username)) # username taken try again until username is not in usernames[]  
         return False
-    elif (username in usernames) and session['username'] != username:
-        flash("Fail {}, name in list. register new name".format(username)) # username taken try again until username is not in usernames[]  
+    elif (username in usernames) and session.get('username', username):
+        flash("Fail {}, game already started. register new name".format(username)) # username taken try again until username is not in usernames[]  
         return False    
     else:
         flash("Fail {}, Name taken try again".format(username)) # username taken try again until username is not in usernames[]  
@@ -145,14 +157,13 @@ def index():
     Get username from form
     '''
     #session.pop('username', None)
-    try:
-        if request.method == "POST":
-            username_from_form = request.form['addUsername'].title()
-            if check_username(username_from_form):
-                return redirect(url_for('start_game')) # start the game
-
-    except Exception as e:
-        return render_template("500.html", error=e)
+    #try:
+    if request.method == "POST":
+        username_from_form = request.form['addUsername'].title()
+        if check_username(username_from_form):
+            return redirect(url_for('start_game')) # start the game
+    #except Exception as e:
+    #    return render_template("500.html", error=e)
     return render_template("index.html", page_title="Riddle-Me-This - Home", usernames=usernames, leaderboard=leaderboard)     
       
 
@@ -177,4 +188,4 @@ def internal_error(error):
 
 
 if __name__ == '__main__':
-    app.run(host=os.getenv('IP'), port=int(os.getenv('PORT')), debug=True)
+    app.run(host=os.getenv('IP'), port=int(os.getenv('PORT')), debug=False)
