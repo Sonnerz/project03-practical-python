@@ -36,11 +36,13 @@
                 <p>&nbsp;</p>
             {% endif %}
         {% endfor %}
-        
-       
-        
     </div>
-    <div style="float:left;width:38%;background-color:#ccc;padding:10px;box-sizing:border-box">
+ </div>   
+    
+    
+    
+{% if debug %}
+<div style="background-color: #ccc; width:200px; margin-top:100px">
         <h2>Players List:</h2>
         {% for player in player_info %}
         <p>
@@ -67,10 +69,7 @@
         <br>
         <h2>Session</h2>
         <p>{{ session }}</p> 
-        
-    </div>
-
 </div>
-
+{% endif %}
 
 {% endblock %}

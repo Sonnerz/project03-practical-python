@@ -1,0 +1,79 @@
+{% extends 'base.html' %} {% block page_content %}
+
+<!-- Content -->
+<div class="container" id="container-content">
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <div class="logo-container">
+                <img src="{{ url_for('static', filename='img/logo.png')}}" alt="Riddle Me This logo" tooltip="Riddle Me This logo"></img>
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div id="username-form-container">
+                <div id="form-bkg">
+                    <form method="POST" name="addUsernameForm" id="addUsernameForm">
+                        <div class="control-group">
+                            <div class="form-group floating-label-form-group controls">
+                                <input type="text" class="form-control" placeholder="Type your player name" name="addUsername" id="addUsername" required data-validation-required-message="Please enter your player name.">
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+                        <div id="messages-container">
+                            {% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %}
+                            <span>{{ message }}</span> {% endfor %} {% endif %} {% endwith %}
+                        </div>
+                        <div class="form-group button-submit-margin">
+                            <button type="submit" class="btn btn-riddle" id="sendAnswerButton">
+                            Submit a player name and start the game
+                        </button>
+                        </div>
+                    </form>
+                    <!-- Button trigger modal -->
+                    <div class="button-howto-margin">
+                        <button type="button" class="btn btn-riddle" data-toggle="modal" data-target="#helpModal">
+                            How to Play
+                        </button>
+                    </div>
+                </div>
+                <!-- Modal -->
+                <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="helpModal" aria-hidden="true">
+                    <div class="vertical-align-modal">
+                        <div class="modal-dialog vertical-align-center" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Riddle Me This Help</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <div class="modal-body">
+                                    Answer 10 Riddles. You will get to see the leader-board when you finish all 10 questions.
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-riddle" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if debug %}
+<div style="background-color: #ccc; width:200px; margin-top:100px">
+    <h2>LeaderBoard</h2>
+    {% for leader in leaderboard %}
+    <p>username: {{ leader.username }}<br> score: {{ leader.score }}</p>
+    {% endfor %}
+    <br>
+    <h2>Usernames</h2>
+    {% for item in usernames %}
+    <p>{{ item }}</p>
+    {% endfor %}
+    <br>
+    <h2>Session</h2>
+    <p>{{ session }}</p>
+</div>
+{% endif %} {% endblock %}

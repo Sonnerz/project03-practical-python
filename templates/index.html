@@ -1,73 +1,70 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
+
+
+
 
 <!-- Content -->
-<div class="container" id="container-content">
-    <div class="row">
-        <div class="col-12 col-md-6">
-            <div class="logo-container">
-                <img src="{{ url_for('static', filename='img/logo.png')}}" alt="Riddle Me This logo" tooltip="Riddle Me This logo"></img>
+{% block page_content_left %}
+<div class="logo-container">
+    <img src="{{ url_for('static', filename='img/logo.png')}}" alt="Riddle Me This logo" tooltip="Riddle Me This logo"></img>
+</div>
+{% endblock %} {% block page_content_right %}
+<div id="username-form-container">
+    <div id="form-bkg">
+        <form method="POST" name="addUsernameForm" id="addUsernameForm">
+            <div class="control-group">
+                <div class="form-group floating-label-form-group controls">
+                    <input type="text" class="form-control" placeholder="Type your player name" name="addUsername" id="addUsername" required data-validation-required-message="Please enter your player name.">
+                    <p class="help-block text-danger"></p>
+                </div>
             </div>
-        </div>
-        <div class="col-12 col-md-6">
-            <div id="username-form-container">
-<div id="sc">
-                <form method="POST" name="addUsernameForm" id="addUsernameForm">
+            <div id="messages-container">
+                <div class="alert-container">
+ 
                     
-                        <div class="control-group">
-                            <div class="form-group floating-label-form-group controls">
-                                <input type="text" class="form-control" placeholder="Type your player name" name="addUsername" id="addUsername" required data-validation-required-message="Please enter your player name.">
-                                <p class="help-block text-danger"></p>
-                            </div>
-                        </div>
-                        <div class="form-group button-submit-margin">
-                            <button type="submit" class="btn btn-riddle" id="sendAnswerButton">
+                    {% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %}
+                            <div class="alert alert-warning">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button> {{message}}
+                    </div> {% endfor %} {% endif %} {% endwith %}
+                </div>
+            </div>
+            <div class="form-group button-submit-margin">
+                <button type="submit" class="btn btn-riddle" id="sendAnswerButton">
                             Submit a player name and start the game
                         </button>
-                        </div>
-                    
-                </form>
-
-                <!-- Button trigger modal -->
-
-                <div class="button-howto-margin">
-                    <button type="button" class="btn btn-riddle" data-toggle="modal" data-target="#exampleModal">
-                      How to Play
-                    </button>
-                </div></div>
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            </div>
+        </form>
+        <!-- Button trigger modal -->
+        <div class="button-howto-margin">
+            <button type="button" class="btn btn-riddle" data-toggle="modal" data-target="#helpModal">
+                            How to Play
+                        </button>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="helpModal" aria-hidden="true">
+        <div class="vertical-align-modal">
+            <div class="modal-dialog vertical-align-center" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Riddle Me This Help</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
-                            </div>
-                            <div class="modal-body">
-                                ...
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
-                            </div>
-                        </div>
+                    </div>
+                    <div class="modal-body">
+                        Answer 10 Riddles. You will get to see the leader-board when you finish all 10 questions.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-riddle" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
-            {% with messages = get_flashed_messages() %} {% if messages %}
-            <ul>
-                {% for message in messages %}
-                <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-            {% endif %} {% endwith %}
         </div>
     </div>
 </div>
-
-{% if debug %}
-<div style="background-color: #ccc">
+{% endblock %} {% block content_dbug %} {% if debug %}
+<div style="background-color: #ccc; width:200px; margin-top:100px">
     <h2>LeaderBoard</h2>
     {% for leader in leaderboard %}
     <p>username: {{ leader.username }}<br> score: {{ leader.score }}</p>

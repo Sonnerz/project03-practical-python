@@ -139,13 +139,13 @@ def check_username(username):
         flash("Success {}, your name is added. Her is your first question. The session is: {}".format(username, session))
         return True
     elif (username in usernames) and not session.get('username', username):
-        flash("Fail {}, name in list".format(username)) # username taken try again until username is not in usernames[]  
+        flash("{}, this name has already been taken. Enter a different player name".format(username)) # username taken try again until username is not in usernames[]  
         return False
     elif (username in usernames) and session.get('username', username):
-        flash("Fail {}, game already started. register new name".format(username)) # username taken try again until username is not in usernames[]  
+        flash("{}, a game with this name has already started. Register a new name".format(username)) # username taken try again until username is not in usernames[]  
         return False    
     else:
-        flash("Fail {}, Name taken try again".format(username)) # username taken try again until username is not in usernames[]  
+        flash("{}, this player name has been taken, please try a different name.".format(username)) # username taken try again until username is not in usernames[]  
         return render_template("index.html", page_title="Riddle-Me-This - Home", usernames=usernames, leaderboard=leaderboard) 
    
     
@@ -188,4 +188,4 @@ def internal_error(error):
 
 
 if __name__ == '__main__':
-    app.run(host=os.getenv('IP'), port=int(os.getenv('PORT')), debug=False)
+    app.run(host=os.getenv('IP'), port=int(os.getenv('PORT')), debug=True)

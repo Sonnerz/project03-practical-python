@@ -1,3 +1,10 @@
 .btn {
     white-space: normal;
 }
+
+
+.alert-warning {
+    color: $darkred;
+    background-color: $alertyellow;
+    border-color: $alertyellow;
+}

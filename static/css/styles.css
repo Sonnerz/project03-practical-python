@@ -2,6 +2,11 @@
 .btn {
   white-space: normal; }
 
+.alert-warning {
+  color: #b32c16;
+  background-color: #fff3cd;
+  border-color: #fff3cd; }
+
 body {
   font-family: 'Margarine', cursive;
   background: url(/static/img/riddler-wallpaper.jpg) no-repeat fixed;
@@ -16,30 +21,40 @@ h1, h2, h3, h4, h5, h6, p, a, #container-content {
   #container-nav .empty-navbar {
     height: 80px; }
 
+.alert-container {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0; }
+
 #container-content .logo-container {
   padding-top: 30px;
   text-align: center; }
 #container-content .logo-container img {
   max-width: 100%; }
 #container-content #username-form-container {
-  padding: 20px 20px; }
-  #container-content #username-form-container #sc {
+  padding: 20px 20px;
+  /* StackOverflow solution to vertically and horizontally center the Modal */ }
+  #container-content #username-form-container #form-bkg {
+    background-color: rgba(245, 245, 245, 0.4);
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out; }
+  #container-content #username-form-container #messages-container {
+    color: #b32c16;
     background-color: #f5f5f5;
-    width: 80%; }
-  #container-content #username-form-container #sc::after {
-    content: "";
-    opacity: 0.3; }
+    margin: 0 auto;
+    width: 100%; }
   #container-content #username-form-container .btn-riddle {
     color: #fff;
     background-color: #052003;
     border-color: #052003;
     width: 100%; }
   #container-content #username-form-container .btn-riddle:hover {
-    color: #052003;
-    background-color: #bad4bd;
-    border-color: #bad4bd; }
+    color: #fff;
+    background-color: #b32c16;
+    border-color: #b32c16; }
   #container-content #username-form-container .form-control:focus {
-    color: #495057;
+    color: #052003;
     background-color: #fff;
     border-color: #052003;
     outline: 0;
@@ -48,96 +63,25 @@ h1, h2, h3, h4, h5, h6, p, a, #container-content {
     margin-top: 40px; }
   #container-content #username-form-container .button-howto-margin {
     margin-top: 90px; }
+  #container-content #username-form-container .vertical-align-modal {
+    display: table;
+    height: 100%;
+    width: 100%;
+    pointer-events: none; }
+  #container-content #username-form-container .vertical-align-center {
+    display: table-cell;
+    vertical-align: middle;
+    pointer-events: none; }
+  #container-content #username-form-container .modal-content {
+    width: inherit;
+    max-width: inherit;
+    height: inherit;
+    margin: 0 auto;
+    pointer-events: all; }
 @media (min-width: 768px) {
   #container-content #username-form-container {
-    padding: 100px 0px; } }
-
-#apodSection.apod {
-  background-image: url("../img/stars70.jpg");
-  background-position: center center;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover; }
-  #apodSection.apod h1 {
-    font-size: 2rem; }
-  #apodSection.apod p {
-    text-align: left; }
-  #apodSection.apod .apod-image {
-    max-width: 100%;
-    border: 1px solid #333; }
-  #apodSection.apod .apod-copyright {
-    float: right; }
-  #apodSection.apod .apod-date {
-    float: left; }
-  #apodSection.apod .apod-para {
-    clear: both; }
-  #apodSection.apod .apod-para-bg {
-    background-color: rgba(0, 18, 52, 0.3); }
-  #apodSection.apod #apod_vid_id {
-    border: 0; }
-  #apodSection.apod .video-container {
-    position: relative;
-    padding-bottom: 30%;
-    padding-top: 20px;
-    height: 0;
-    overflow: hidden; }
-  #apodSection.apod .video-container iframe,
-  #apodSection.apod .video-container object,
-  #apodSection.apod .video-container embed {
-    position: absolute;
-    top: 0;
-    left: 25%;
-    width: 50%;
-    height: 100%; }
-  #apodSection.apod #apod-error-row {
-    display: none; }
-  @media (min-width: 1200px) {
-    #apodSection.apod h1 {
-      font-size: 3.5rem; } }
-
-#apodSection.apod {
-  background-image: url("../img/stars70.jpg");
-  background-position: center center;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover; }
-  #apodSection.apod h1 {
-    font-size: 2rem; }
-  #apodSection.apod p {
-    text-align: left; }
-  #apodSection.apod .apod-image {
-    max-width: 100%;
-    border: 1px solid #333; }
-  #apodSection.apod .apod-copyright {
-    float: right; }
-  #apodSection.apod .apod-date {
-    float: left; }
-  #apodSection.apod .apod-para {
-    clear: both; }
-  #apodSection.apod .apod-para-bg {
-    background-color: rgba(0, 18, 52, 0.3); }
-  #apodSection.apod #apod_vid_id {
-    border: 0; }
-  #apodSection.apod .video-container {
-    position: relative;
-    padding-bottom: 30%;
-    padding-top: 20px;
-    height: 0;
-    overflow: hidden; }
-  #apodSection.apod .video-container iframe,
-  #apodSection.apod .video-container object,
-  #apodSection.apod .video-container embed {
-    position: absolute;
-    top: 0;
-    left: 25%;
-    width: 50%;
-    height: 100%; }
-  #apodSection.apod #apod-error-row {
-    display: none; }
-  @media (min-width: 1200px) {
-    #apodSection.apod h1 {
-      font-size: 3.5rem; } }
+    padding: 100px 0px; }
+  #container-content #form-bkg {
+    width: 80%; } }
 
 /*# sourceMappingURL=styles.css.map */
