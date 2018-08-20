@@ -1,5 +1,6 @@
 import os
 import ast
+from flask import Markup
 from datetime import datetime
 from riddlesList import content
 from operator import itemgetter
@@ -46,11 +47,8 @@ def start_game():
 
 @app.route('/play')
 def play():
-        #try:
-            return render_template("play.html", page_title="Riddle-Me-This - Play", username=session['username'], leaderboard=leaderboard, 
+    return render_template("play.html", page_title="Riddle-Me-This - Play", username=session['username'], leaderboard=leaderboard, 
                                         player_info=player_info, usernames=usernames, riddle=riddle, session=session)
-        #except Exception as e:
-        #    return render_template("500.html", error=e)
 
 @app.route('/end')
 def end():
@@ -93,9 +91,12 @@ def check_answer(answerInputByPlayer, correct_answer):
                 if (player['riddle_number'] < len(riddles)): # check for last riddle
                     return player['riddle_number'] 
             else:
-                flash("WRONG try again, one more attempt")
+                # incorrect_message = Markup("<strong>{}</strong> is incorrect.<br> Please try again, you have one more attempt".format(answerInputByPlayer)) 
+                flash("{} is incorrect.".format(answerInputByPlayer))
+                # flash(incorrect_message)
                 player['attempt'] += 1 # increase attempt by 1
                 if player['attempt'] == 2: # max of 2 attempts
+                    session.pop('_flashes', None)
                     player['attempt'] = 0 # reset attempts back to 0
                     player['riddle_number'] += 1                    #riddle_index += 1 # attempts over, next question
                     if (player['riddle_number'] < len(riddles)): #check for last riddle
@@ -113,10 +114,7 @@ def check():
     '''
     if request.method == "POST":
         player_answer = request.form['riddleAnswer'].title() # player answer from from input
-        flash("Players answer: {}".format(player_answer))
         global riddle
-        flash("Correct answer: {}".format(riddle["Answer"]))
-        
         #riddle_number = request.form.get('riddle_number')
         #print(session['username'], riddle_number)
         next_riddle_index = check_answer(player_answer, riddle['Answer']) # check_answer() called. Index returned.
@@ -136,14 +134,15 @@ def check_username(username):
     if (username not in usernames):
         usernames.append(username) # if its a new unique username, add to usernames[]
         session['username'] = username # add username to flask session
-        flash("Success {}, your name is added. Her is your first question. The session is: {}".format(username, session))
         return True
-    elif (username in usernames) and not session.get('username', username):
-        flash("{}, this name has already been taken. Enter a different player name".format(username)) # username taken try again until username is not in usernames[]  
+    elif (username in usernames) and not session.get('username') == username:
+        message_false = Markup("{}, this name has already been taken. <br>Enter a different player name".format(username))
+        flash(message_false) # username taken try again until username is not in usernames[]  
         return False
-    elif (username in usernames) and session.get('username', username):
-        flash("{}, a game with this name has already started. Register a new name".format(username)) # username taken try again until username is not in usernames[]  
-        return False    
+    elif (username in usernames) and session.get('username') == username:
+        message_false = Markup("{}, a game with this name has already started. You cannot continue or restart this game.<br>Register with a new name".format(username))
+        flash(message_false) # username taken try again and usnername already in a session - so game underway  
+        return False
     else:
         flash("{}, this player name has been taken, please try a different name.".format(username)) # username taken try again until username is not in usernames[]  
         return render_template("index.html", page_title="Riddle-Me-This - Home", usernames=usernames, leaderboard=leaderboard) 

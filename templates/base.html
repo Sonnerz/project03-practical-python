@@ -39,20 +39,29 @@
             </div>
         </div>
     </div>
+    <!-- Content -->
     <div class="container" id="container-content">
         <div class="row">
             <div class="col-12 col-md-6">
+                <!-- Content Left -->
                 {% block page_content_left %}{% endblock %}
             </div>
 
             <div class="col-12 col-md-6">
+                <!-- Content Right -->
                 {% block page_content_right %}{% endblock %}
             </div>
 
         </div>
     </div>
-    
-{% block content_dbug %}{% endblock %}
+    <!-- Debug panel for writing out var values -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                {% block content_debug %}{% endblock %}
+            </div>
+        </div>
+    </div>
     <!-- Bootstrap JS -->
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.3.1.slim.min.js')}}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/popper.min.js')}}"></script>

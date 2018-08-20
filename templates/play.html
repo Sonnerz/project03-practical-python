@@ -1,75 +1,82 @@
-{% extends 'base.html' %} {% block content %}
-<h1>Play v4</h1>
+{% extends 'base.html' %}
 
-<h2>Hi {{username}}</h2>
-<div style="width:900px">
-    <div style="float:left;width:62%;background-color:#f5f5f5;padding:10px;box-sizing:border-box">
-        <p>{{ riddle.Question }}</p>
+<!-- Content -->
+{% block page_content_left %}
+<div id="riddle-question-area">
+    <div class="welcome-user-message">
+        <!-- if it's the first riddle show 'first' otherwise show 'next' -->
+        {% if riddle.Number == 0 %} Hi {{username}},<br> try answering this first riddle: {% else %} Hi {{username}},<br> try answering this next riddle: {% endif %}
+    </div>
+    <div class="riddle-question-box">
+        <div class="riddle-question-text">
+            <p>{{ riddle.Question }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %} {% block page_content_right %}
+<div id="riddle-answer-area">
+    <div class="riddle-answer-box">
         <form method="POST" name="riddleAnswer" id="answerForm" action="/checkPlayerInput">
             <div class="control-group">
                 <div class="form-group floating-label-form-group controls">
-                    <input type="text" class="form-control" placeholder="Riddle Answer" name="riddleAnswer" 
-                    id="riddleAnswer" required data-validation-required-message="Please enter your answer." pattern="[A-Za-z]{1,50}">
-                    <p class="help-block text-danger"></p>
+                    <input type="text" class="form-control" placeholder="Enter your Riddle Answer" name="riddleAnswer" id="riddleAnswer" required data-validation-required-message="Please enter your answer." pattern="[A-Za-z]{1,50}">
                 </div>
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary" id="sendAnswerButton">Submit your Answer</button>
+                <button type="submit" class="btn btn-riddle" id="sendAnswerButton">Submit your Answer</button>
             </div>
         </form>
-        {% with messages = get_flashed_messages() %} {% if messages %}
-        <ul>
-            {% for message in messages %}
-            <li>{{ message }}<br><br></li>
-            {% endfor %}
-        </ul>
-        {% endif %} {% endwith %}
-        
-        
-        {% for player in player_info %}
-        <p>Number of attempts made:{{player.attempt}}</p>
-            {% if player.attempt == 0 %}
-                <p>2 attempts remaining</p>
-            {% elif player.attempt == 1 %}
-                <p>1 attempt remaining</p>
-            {% else %}
-                <p>&nbsp;</p>
-            {% endif %}
-        {% endfor %}
-    </div>
- </div>   
-    
-    
-    
-{% if debug %}
-<div style="background-color: #ccc; width:200px; margin-top:100px">
-        <h2>Players List:</h2>
-        {% for player in player_info %}
-        <p>
-            username: {{ player.username }}<br>
-            attempts: {{ player.attempt }}<br>
-            score: {{ player.score}}<br>
-            riddle_number: {{ player.riddle_number }}
-        </p>
-        {% endfor %}
-        <h2>Current Riddle Index</h2>
-        {{ riddle.Number }}
-        <br>
-        <h2>Correct Anwer</h2>
-        {{ riddle.Answer }}
-        <h2>Leader Board</h2>
-        {% for leader in leaderboard %}
-        <p>
-            username: {{ leader.username }}<br>
-            score: {{ leader.score }}
-        </p>
-        {% endfor %}
-        <h2>Usernames List</h2>
-        {{ usernames }}
-        <br>
-        <h2>Session</h2>
-        <p>{{ session }}</p> 
-</div>
-{% endif %}
 
-{% endblock %}
+        <div id="messages-container">
+            <div>
+                {% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %}
+                <p>{{ message }}</p>
+                {% endfor %} {% endif %} {% endwith %}
+            </div>
+        </div>
+
+        <div class="riddle-answer-attempts">
+            <div>
+                {% for player in player_info %} {% if player.username == session['username'] %} {{player_answer}}
+                <p>Number of attempts made:&nbsp;&nbsp;{{ player.attempt }}</p>
+                {% if player.attempt == 0 %}
+                <p>Attempts remaining:&nbsp;&nbsp; 2</p>
+                {% elif player.attempt == 1 %}
+                <p>Attempts remaining:&nbsp;&nbsp; 1</p>
+                {% else %} {% endif %}{% endif %} {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+
+
+    <!-- Debug area. Hidden if debug set to False -->
+    {% block content_debug %} {% if debug %}
+    <div id="panel-debug">
+        <div>
+            <h5>Players List:</h5>
+            {% for player in player_info %}
+            <p>
+                username: {{ player.username }}<br> attempts: {{ player.attempt }}<br> score: {{ player.score}}<br> riddle_number: {{ player.riddle_number }}
+                <br><br>
+            </p>
+            {% endfor %}
+        </div>
+        <div>
+            <h5>Current Riddle Index</h5>
+            <p>{{ riddle.Number }}</p>
+            <h5>Correct Anwer</h5>
+            <p>{{ riddle.Answer }}</p>
+            <h5>Leader Board</h5>
+            {% for leader in leaderboard %}
+            <p>
+                username: {{ leader.username }}<br> score: {{ leader.score }}
+            </p>
+            {% endfor %}
+            <h5>Usernames List</h5>
+            <p>{{ usernames }}</p>
+            <h5>Session</h5>
+            <p>{{ session }}</p>
+        </div>
+    </div>
+    {% endif %} {% endblock %}

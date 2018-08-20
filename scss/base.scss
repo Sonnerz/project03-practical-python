@@ -5,22 +5,77 @@ body {
   background-position: 0px 80px;
 }
 
-h1,h2,h3,h4,h5,h6,p,a,#container-content {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+#container-content {
   @include sans-serif-font;
 
 }
+
 #container-nav {
   background-color: $darkgreen;
-  
-  .empty-navbar {
+
+  .empty-navbar,
+  nav {
     height: 80px;
   }
 }
+
 .alert-container {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
 }
 
+.btn-riddle {
+  color: $white;
+  background-color: $darkgreen;
+  border-color: $darkgreen;
+  width: 100%;
+}
 
-    
+.btn-riddle:hover {
+  color: $white;
+  background-color: $darkred;
+  border-color: $darkred;
+}
+
+#messages-container {
+  div {
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    p {
+      color: $darkred;
+    }
+  }
+}
+
+/* Debugging Panel */
+
+#panel-debug {
+  margin-top: 100px;
+  padding: 10px 10px;
+  width: 100%;
+  background-color: #ccc;
+  overflow: hidden;
+  div {
+    background-color: #ccc;
+    float: left;
+    width: 50%;
+  }
+
+  h5,
+  p {
+    font-family: Arial, sans-serif!important;
+  }
+  p {
+    font-size: 0.9rem;
+  }
+}

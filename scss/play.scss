@@ -1,0 +1,66 @@
+#riddle-question-area {
+    padding-top: 30px;
+    .welcome-user-message {
+        font-size: 1.9rem;
+        margin-bottom: 20px;
+        text-align: center;
+        @include text-background()
+    }
+    .riddle-question-box {
+        display: table;
+        font-size: 1.5rem;
+        @include text-background()
+    }
+    .riddle-question-text {
+        display: table-cell;
+        text-align: center;
+        vertical-align: middle;
+        p {
+            width: 80%;
+            margin: 0 auto;
+            font-size: 1.2rem;
+        }
+    }
+    @media (min-width: 768px) {
+        .welcome-user-message {
+            text-align: left;
+            height: 100px;
+            font-size: 2rem;
+        }
+        .riddle-question-box {
+            height: 350px;
+            vertical-align: middle;
+        }
+        .riddle-question-text p {
+            font-size: 1.9rem;
+        }
+    }
+}
+
+#riddle-answer-area {
+    padding-top: 50px;
+    .riddle-answer-box {
+        font-size: 1.5rem;
+        @include text-background()
+    }
+}
+
+@media (min-width: 768px) {
+    #riddle-answer-area {
+        padding-top: 150px;
+    }
+    .riddle-answer-box {
+        vertical-align: middle;
+    }
+}
+
+.riddle-answer-attempts {
+    div {
+        width: 80%;
+        margin: 0 auto;
+        text-align: center;
+    }
+    p {
+        font-size: 1rem;
+    }
+}

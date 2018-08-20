@@ -2,9 +2,21 @@
     white-space: normal;
 }
 
-
 .alert-warning {
     color: $darkred;
     background-color: $alertyellow;
     border-color: $alertyellow;
+    font-family: Arial, sans serif;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+#riddle-answer-area .form-control{
+    height: 90px;
+    text-align: center;
+    font-size: 1.4rem;
+    
+    @media (min-width: 768px) {
+        height: 150px;
+    }
 }

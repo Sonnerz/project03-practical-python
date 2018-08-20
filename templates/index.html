@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
-
-
-
-<!-- Content -->
+<!-- Content Left Column - Logo -->
 {% block page_content_left %}
 <div class="logo-container">
     <img src="{{ url_for('static', filename='img/logo.png')}}" alt="Riddle Me This logo" tooltip="Riddle Me This logo"></img>
 </div>
-{% endblock %} {% block page_content_right %}
+{% endblock %}
+
+<!-- Content Right Column - Player name form -->
+{% block page_content_right %}
 <div id="username-form-container">
     <div id="form-bkg">
         <form method="POST" name="addUsernameForm" id="addUsernameForm">
@@ -20,28 +20,24 @@
             </div>
             <div id="messages-container">
                 <div class="alert-container">
- 
-                    
                     {% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %}
-                            <div class="alert alert-warning">
+                    <div class="alert alert-warning">
                         <button type="button" class="close" data-dismiss="alert">&times;</button> {{message}}
                     </div> {% endfor %} {% endif %} {% endwith %}
                 </div>
             </div>
             <div class="form-group button-submit-margin">
                 <button type="submit" class="btn btn-riddle" id="sendAnswerButton">
-                            Submit a player name and start the game
-                        </button>
+                    Submit a player name and start the game
+                </button>
             </div>
         </form>
         <!-- Button trigger modal -->
         <div class="button-howto-margin">
-            <button type="button" class="btn btn-riddle" data-toggle="modal" data-target="#helpModal">
-                            How to Play
-                        </button>
+            <button type="button" class="btn btn-riddle" data-toggle="modal" data-target="#helpModal">How to Play</button>
         </div>
     </div>
-    <!-- Modal -->
+    <!-- Modal for Help -->
     <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="helpModal" aria-hidden="true">
         <div class="vertical-align-modal">
             <div class="modal-dialog vertical-align-center" role="document">
@@ -49,11 +45,13 @@
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Riddle Me This Help</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
                     <div class="modal-body">
-                        Answer 10 Riddles. You will get to see the leader-board when you finish all 10 questions.
+                        You must answer 10 Riddles. <br>
+                        You will get only one attempt to answer all 10 riddles.<br>
+                        You will see your score on the leader-board when you complete all 10 questions.
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-riddle" data-dismiss="modal">Close</button>
@@ -63,19 +61,24 @@
         </div>
     </div>
 </div>
-{% endblock %} {% block content_dbug %} {% if debug %}
-<div style="background-color: #ccc; width:200px; margin-top:100px">
-    <h2>LeaderBoard</h2>
-    {% for leader in leaderboard %}
-    <p>username: {{ leader.username }}<br> score: {{ leader.score }}</p>
-    {% endfor %}
-    <br>
-    <h2>Usernames</h2>
-    {% for item in usernames %}
-    <p>{{ item }}</p>
-    {% endfor %}
-    <br>
-    <h2>Session</h2>
-    <p>{{ session }}</p>
+{% endblock %}
+
+<!-- Debug area. Hidden if debug set to False -->
+{% block content_debug %} {% if debug %}
+<div id="panel-debug">
+    <div>
+        <h5>LeaderBoard</h5>
+        {% for leader in leaderboard %}
+        <p>username: {{ leader.username }}<br> score: {{ leader.score }}</p>
+        {% endfor %}
+        <br>
+        <h5>Usernames</h5>
+        {% for item in usernames %}
+        <p>{{ item }}</p>
+        {% endfor %}
+        <br>
+        <h5>Session</h5>
+        <p>{{ session }}</p>
+    </div>
 </div>
 {% endif %} {% endblock %}

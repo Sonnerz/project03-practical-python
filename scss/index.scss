@@ -13,10 +13,7 @@
         padding: 20px 20px;
 
         #form-bkg {
-            background-color: rgba(245, 245, 245, 0.4);
-            border: 1px solid transparent;
-            border-radius: .25rem;
-            transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+            @include text-background() 
         }
         #messages-container {
             color: #b32c16;
@@ -24,19 +21,6 @@
             margin: 0 auto;
             width: 100%;
         }
-        .btn-riddle {
-            color: $white;
-            background-color: $darkgreen;
-            border-color: $darkgreen;
-            width: 100%;
-        }
-
-        .btn-riddle:hover {
-            color: $white;
-            background-color: $darkred;
-            border-color: $darkred;
-        }
-
         .form-control:focus {
             color: $darkgreen;
             background-color: $white;
@@ -49,7 +33,7 @@
             margin-top: 40px;
         }
         .button-howto-margin {
-            margin-top: 90px;
+            margin-top: 60px;
         }
 
         /* StackOverflow solution to vertically and horizontally center the Modal */
@@ -80,6 +64,9 @@
         }
         #form-bkg {
             width: 80%;
+        }
+        .button-howto-margin {
+            margin-top: 90px;
         }
     }
 
