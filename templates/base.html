@@ -54,10 +54,13 @@
 
         </div>
     </div>
-    <!-- Debug panel for writing out var values -->
-    <div class="container-fluid">
+    <!-- Debug panel for monitoring var values -->
+    <div class="container" style="margin-top:100px;display:none" id="panel-debug">
         <div class="row">
             <div class="col">
+                {% if debug %}
+                    <button onclick="viewPanel()">Hide/Show Debug Panel (only available in Debug Mode)</button> 
+                {% endif %} 
                 {% block content_debug %}{% endblock %}
             </div>
         </div>
@@ -66,6 +69,18 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.3.1.slim.min.js')}}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/popper.min.js')}}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js')}}"></script>
+    <script type="text/javascript">
+    // show/hide the Debug Panel
+        function viewPanel() {
+            var x = document.getElementById("panel-debug");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            }
+            else {
+                x.style.display = "none";
+            }
+        }
+    </script>
 </body>
 
 </html>

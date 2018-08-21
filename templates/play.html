@@ -56,7 +56,8 @@
 
     <!-- Debug area. Hidden if debug set to False -->
     {% block content_debug %} {% if debug %}
-    <div id="panel-debug">
+    <!--<button onclick="viewPanel()">Debug Panel (only visible in Debug Mode)</button>-->
+    <div>
         <div>
             <h5>Players List:</h5>
             {% for player in player_info %}

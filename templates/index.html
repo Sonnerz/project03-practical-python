@@ -49,9 +49,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        You must answer 10 Riddles. <br>
-                        You will get only one attempt to answer all 10 riddles.<br>
-                        You will see your score on the leader-board when you complete all 10 questions.
+                        You must answer 10 Riddles. <br> You will get only one attempt to answer all 10 riddles.<br> You will see your score on the leader-board when you complete all 10 questions.
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-riddle" data-dismiss="modal">Close</button>
@@ -65,7 +63,8 @@
 
 <!-- Debug area. Hidden if debug set to False -->
 {% block content_debug %} {% if debug %}
-<div id="panel-debug">
+<!--<button onclick="viewPanel()">Debug Panel (only visible in Debug Mode)</button>-->
+<div>
     <div>
         <h5>LeaderBoard</h5>
         {% for leader in leaderboard %}
@@ -80,5 +79,7 @@
         <h5>Session</h5>
         <p>{{ session }}</p>
     </div>
+</div>
+</div>
 </div>
 {% endif %} {% endblock %}

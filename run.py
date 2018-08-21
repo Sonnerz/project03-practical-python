@@ -104,6 +104,9 @@ def check_answer(answerInputByPlayer, correct_answer):
             return player['riddle_number'] # index of next riddle
 
 def number_to_string(number):
+    '''
+    Helper function - to change a digit to a word of number e.g. 7 to seven
+    '''
     switcher = {
         1: "One",
         2: "Two",
@@ -129,19 +132,13 @@ def check():
     If not the last riddle the index is passed to get_next_riddle() to get the next riddle from riddleList[]
     '''
     if request.method == "POST":
-        player_answer = request.form['riddleAnswer']
-        print(player_answer)
-        if player_answer.isdigit():
-            checked_player_answer = number_to_string(int(player_answer))
+        player_answer = request.form['riddleAnswer'] # get player answer from form
+        if player_answer.isdigit(): #check if answer is a digit instead of text e.g. 7 instead of seven
+            checked_player_answer = number_to_string(int(player_answer)) # send to helper function
         else:
-            checked_player_answer = player_answer
-        print(checked_player_answer)    
-        #player_answer = request.form['riddleAnswer'].title() # player answer from from input
+            checked_player_answer = player_answer # reset player_answer var with checked answer
         global riddle
-        #riddle_number = request.form.get('riddle_number')
-        #print(session['username'], riddle_number)
-        next_riddle_index = check_answer(checked_player_answer.title(), riddle['Answer']) # check_answer() called. Index returned.
-        #print(session['username'], riddle_number)
+        next_riddle_index = check_answer(checked_player_answer.title(), riddle['Answer']) # check_answer() called. Index of next riddle returned.
         if next_riddle_index == len(riddles): # check for last riddle
             return redirect(url_for('end')) # end of game
         else:
@@ -183,13 +180,14 @@ def index():
     Get username from form
     '''
     #session.pop('username', None)
-    #try:
-    if request.method == "POST":
-        username_from_form = request.form['addUsername'].title()
-        if check_username(username_from_form):
-            return redirect(url_for('start_game')) # start the game
-    #except Exception as e:
-    #    return render_template("500.html", error=e)
+    session.pop('_flashes', None)
+    try:
+        if request.method == "POST":
+            username_from_form = request.form['addUsername'].title()
+            if check_username(username_from_form):
+                return redirect(url_for('start_game')) # start the game
+    except Exception as e:
+        return render_template("500.html", error=e)
     return render_template("index.html", page_title="Riddle-Me-This - Home", usernames=usernames, leaderboard=leaderboard)     
       
 
@@ -197,20 +195,20 @@ def index():
     
 @app.errorhandler(404)
 def page_not_found(error):
+    '''
+    404 error is redirected to 404.html
+    '''
     return render_template('404.html'), 404
 
 @app.errorhandler(500)
 def internal_error(error):
+    '''
+    500 error is redirected to 500.html
+    '''
     session.pop('_flashes', None)
     session.pop('username', None)
     return render_template('500.html'), 500  
     
-    
-#request_username = request.args['username']
-#username = ast.literal_eval(request_username)
-
-#session.pop('_flashes', None)
-
 
 
 if __name__ == '__main__':

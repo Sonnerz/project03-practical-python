@@ -2,7 +2,7 @@ body {
   @include sans-serif-font;
   background: url(/static/img/riddler-wallpaper.jpg) no-repeat fixed;
   background-size: cover;
-  background-position: 0px 80px;
+  background-position: 0px 0px;
 }
 
 h1,
@@ -60,9 +60,8 @@ a,
 /* Debugging Panel */
 
 #panel-debug {
-  margin-top: 100px;
   padding: 10px 10px;
-  width: 100%;
+  width: 75%;
   background-color: #ccc;
   overflow: hidden;
   div {
