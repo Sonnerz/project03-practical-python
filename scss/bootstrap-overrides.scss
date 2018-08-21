@@ -3,9 +3,9 @@
 }
 
 .alert-warning {
-    color: $darkred;
-    background-color: $alertyellow;
-    border-color: $alertyellow;
+    color: $white;
+    background-color: $darkred;
+    border-color: $white;
     font-family: Arial, sans serif;
     font-size: 1rem;
     font-weight: 600;
@@ -19,4 +19,14 @@
     @media (min-width: 768px) {
         height: 150px;
     }
+}
+
+button.close {
+    background-color: transparent;
+    color: $black;
+    font-weight: 900;
+}
+
+.close:not(:disabled):not(.disabled):focus, .close:not(:disabled):not(.disabled):hover {
+    color: $white;
 }

@@ -49,7 +49,9 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        You must answer 10 Riddles. <br> You will get only one attempt to answer all 10 riddles.<br> You will see your score on the leader-board when you complete all 10 questions.
+                        You must answer 10 Riddles. <br> 
+                        You will only have one attempt to answer all 10 riddles but two attempts at each riddle.<br>
+                        When you complete all 10 questions, your score will be displayed on the leader-board.
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-riddle" data-dismiss="modal">Close</button>
@@ -62,24 +64,21 @@
 {% endblock %}
 
 <!-- Debug area. Hidden if debug set to False -->
-{% block content_debug %} {% if debug %}
-<!--<button onclick="viewPanel()">Debug Panel (only visible in Debug Mode)</button>-->
+{% block content_debug %}
+
 <div>
-    <div>
-        <h5>LeaderBoard</h5>
-        {% for leader in leaderboard %}
-        <p>username: {{ leader.username }}<br> score: {{ leader.score }}</p>
-        {% endfor %}
-        <br>
-        <h5>Usernames</h5>
-        {% for item in usernames %}
-        <p>{{ item }}</p>
-        {% endfor %}
-        <br>
-        <h5>Session</h5>
-        <p>{{ session }}</p>
-    </div>
+    <h5>LeaderBoard</h5>
+    {% for leader in leaderboard %}
+    <p>username: {{ leader.username }}<br> score: {{ leader.score }}</p>
+    {% endfor %}
+    <br>
+    <h5>Usernames</h5>
+    {% for item in usernames %}
+    <p>{{ item }}</p>
+    {% endfor %}
+    <br>
+    <h5>Session</h5>
+    <p>{{ session }}</p>
 </div>
-</div>
-</div>
-{% endif %} {% endblock %}
+
+{% endblock %}

@@ -3,9 +3,9 @@
   white-space: normal; }
 
 .alert-warning {
-  color: #b32c16;
-  background-color: #fff3cd;
-  border-color: #fff3cd;
+  color: #fff;
+  background-color: #b32c16;
+  border-color: #fff;
   font-family: Arial, sans serif;
   font-size: 1rem;
   font-weight: 600; }
@@ -17,6 +17,14 @@
   @media (min-width: 768px) {
     #riddle-answer-area .form-control {
       height: 150px; } }
+
+button.close {
+  background-color: transparent;
+  color: #000;
+  font-weight: 900; }
+
+.close:not(:disabled):not(.disabled):focus, .close:not(:disabled):not(.disabled):hover {
+  color: #fff; }
 
 body {
   font-family: 'Margarine', cursive;
@@ -57,20 +65,21 @@ a,
   background-color: #b32c16;
   border-color: #b32c16; }
 
-#messages-container div {
-  width: 80%;
+#messages-container {
   margin: 0 auto;
-  text-align: center; }
-  #messages-container div p {
-    color: #b32c16; }
+  text-align: center;
+  margin-bottom: 20px; }
+  #messages-container p {
+    color: #b32c16;
+    margin-bottom: 0; }
 
 /* Debugging Panel */
 #panel-debug {
   padding: 10px 10px;
-  width: 75%;
   background-color: #ccc;
   overflow: hidden; }
-  #panel-debug div {
+  #panel-debug div.left,
+  #panel-debug div.right {
     background-color: #ccc;
     float: left;
     width: 50%; }
@@ -89,7 +98,7 @@ a,
   padding: 20px 20px;
   /* StackOverflow solution to vertically and horizontally center the Modal */ }
   #container-content #username-form-container #form-bkg {
-    background-color: rgba(245, 245, 245, 0.6);
+    background-color: rgba(245, 245, 245, 0.7);
     border: 1px solid transparent;
     border-radius: .25rem;
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out; }
@@ -137,14 +146,17 @@ a,
     font-size: 1.9rem;
     margin-bottom: 20px;
     text-align: center;
-    background-color: rgba(245, 245, 245, 0.6);
+    padding: 5px 5px;
+    background-color: rgba(245, 245, 245, 0.7);
     border: 1px solid transparent;
     border-radius: .25rem;
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out; }
+    #riddle-question-area .welcome-user-message p {
+      font-size: 1.4rem; }
   #riddle-question-area .riddle-question-box {
     display: table;
     font-size: 1.5rem;
-    background-color: rgba(245, 245, 245, 0.6);
+    background-color: rgba(245, 245, 245, 0.7);
     border: 1px solid transparent;
     border-radius: .25rem;
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out; }
@@ -155,23 +167,27 @@ a,
     #riddle-question-area .riddle-question-text p {
       width: 80%;
       margin: 0 auto;
-      font-size: 1.2rem; }
+      font-size: 1.6rem; }
   @media (min-width: 768px) {
     #riddle-question-area .welcome-user-message {
       text-align: left;
       height: 100px;
-      font-size: 2rem; }
+      font-size: 2rem;
+      padding: 10px 10px; }
+      #riddle-question-area .welcome-user-message p {
+        font-size: 1.6rem; }
     #riddle-question-area .riddle-question-box {
-      height: 350px;
-      vertical-align: middle; }
+      height: 380px;
+      vertical-align: middle;
+      width: 100%; }
     #riddle-question-area .riddle-question-text p {
-      font-size: 1.9rem; } }
+      font-size: 2.2rem; } }
 
 #riddle-answer-area {
-  padding-top: 50px; }
+  padding-top: 30px; }
   #riddle-answer-area .riddle-answer-box {
     font-size: 1.5rem;
-    background-color: rgba(245, 245, 245, 0.6);
+    background-color: rgba(245, 245, 245, 0.7);
     border: 1px solid transparent;
     border-radius: .25rem;
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out; }
@@ -181,12 +197,45 @@ a,
     padding-top: 150px; }
 
   .riddle-answer-box {
-    vertical-align: middle; } }
-.riddle-answer-attempts div {
+    vertical-align: middle;
+    height: 380px; } }
+.riddle-answer-attempts {
   width: 80%;
   margin: 0 auto;
   text-align: center; }
-.riddle-answer-attempts p {
-  font-size: 1rem; }
+  .riddle-answer-attempts p {
+    font-size: 1rem; }
+
+#container-leader-content #messages-container {
+  margin-top: 100px; }
+
+.leaderboard-list {
+  padding: 40px;
+  background-color: rgba(245, 245, 245, 0.7);
+  border: 1px solid transparent;
+  border-radius: .25rem;
+  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out; }
+
+.leaderboard-row {
+  text-align: center;
+  margin-bottom: 20px;
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  border-spacing: 10px;
+  background-color: rgba(68, 97, 74, 0.3); }
+
+.leaderboard-row-header {
+  font-size: 1.7rem;
+  font-weight: 500;
+  text-decoration: underline;
+  background-color: #7b9a81; }
+
+.leaderboard-col {
+  display: table-cell;
+  width: 25%; }
+
+.leaderboard-col-data {
+  font-size: 1.4rem; }
 
 /*# sourceMappingURL=styles.css.map */

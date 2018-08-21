@@ -40,6 +40,7 @@
         </div>
     </div>
     <!-- Content -->
+    {% if request.path == "/"  or  request.path == "/play" %}
     <div class="container" id="container-content">
         <div class="row">
             <div class="col-12 col-md-6">
@@ -54,17 +55,29 @@
 
         </div>
     </div>
+    {% elif request.path == "/end" %}
+    <!-- Content Leaderboard -->
+    <div class="container" id="container-leader-content">
+        <div class="row">
+            <div class="col-12">
+                <!-- Content Leaderboard List -->
+                {% block page_content_leaderboard %}{% endblock %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    
     <!-- Debug panel for monitoring var values -->
-    <div class="container" style="margin-top:100px;display:none" id="panel-debug">
+    {% if debug %}
+    <div class="container" style="margin-top:100px;"><button onclick="viewPanel()">Hide/Show Debug Panel (only available in Debug Mode)</button></div>
+    <div class="container" style="display:block" id="panel-debug">
         <div class="row">
             <div class="col">
-                {% if debug %}
-                    <button onclick="viewPanel()">Hide/Show Debug Panel (only available in Debug Mode)</button> 
-                {% endif %} 
                 {% block content_debug %}{% endblock %}
             </div>
         </div>
     </div>
+    {% endif %} 
     <!-- Bootstrap JS -->
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.3.1.slim.min.js')}}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/popper.min.js')}}"></script>
@@ -72,12 +85,12 @@
     <script type="text/javascript">
     // show/hide the Debug Panel
         function viewPanel() {
-            var x = document.getElementById("panel-debug");
-            if (x.style.display === "none") {
-                x.style.display = "block";
+            var panel = document.getElementById("panel-debug");
+            if (panel.style.display === "none") {
+                panel.style.display = "block";
             }
             else {
-                x.style.display = "none";
+                panel.style.display = "none";
             }
         }
     </script>

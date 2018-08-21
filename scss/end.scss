@@ -1,0 +1,36 @@
+#container-leader-content {
+    #messages-container {
+        margin-top: 100px;
+    }
+}
+
+.leaderboard-list {
+    padding: 40px;
+    @include text-background()
+}
+
+.leaderboard-row {
+    text-align: center;
+    margin-bottom: 20px;
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 10px;
+    background-color: $leaderboard-row
+}
+
+.leaderboard-row-header {
+    font-size: 1.7rem;
+    font-weight: 500;
+    text-decoration: underline;
+    background-color: $leaderboard-row-header 
+}
+
+.leaderboard-col {
+    display: table-cell;
+    width: 25%;
+}
+
+.leaderboard-col-data {
+    font-size: 1.4rem;
+}

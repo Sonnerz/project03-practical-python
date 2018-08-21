@@ -5,13 +5,16 @@
 <div id="riddle-question-area">
     <div class="welcome-user-message">
         <!-- if it's the first riddle show 'first' otherwise show 'next' -->
-        {% if riddle.Number == 0 %} Hi {{username}},<br> try answering this first riddle: {% else %} Hi {{username}},<br> try answering this next riddle: {% endif %}
+        {% if riddle.Number == 0 %} 
+        <h2>Hi {{username}},</h2><p>try answering this first riddle:</p> 
+        {% else %} 
+        <h2>Hi {{username}},</h2><p>try answering this next riddle:</p> 
+        {% endif %}
     </div>
     <div class="riddle-question-box">
         <div class="riddle-question-text">
             {% if riddle.Path != "" %}
-            <img src="{{ riddle.Path }}" alt="riddle image"/>
-            {% else %}
+            <img src="{{ riddle.Path }}" alt="riddle image" /> {% else %}
             <p>{{ riddle.Question }}</p>
             {% endif %}
         </div>
@@ -32,15 +35,12 @@
         </form>
 
         <div id="messages-container">
-            <div>
                 {% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %}
                 <p>{{ message }}</p>
                 {% endfor %} {% endif %} {% endwith %}
-            </div>
         </div>
 
         <div class="riddle-answer-attempts">
-            <div>
                 {% for player in player_info %} {% if player.username == session['username'] %} {{player_answer}}
                 <p>Number of attempts made:&nbsp;&nbsp;{{ player.attempt }}</p>
                 {% if player.attempt == 0 %}
@@ -48,40 +48,37 @@
                 {% elif player.attempt == 1 %}
                 <p>Attempts remaining:&nbsp;&nbsp; 1</p>
                 {% else %} {% endif %}{% endif %} {% endfor %}
-            </div>
         </div>
     </div>
     {% endblock %}
 
 
     <!-- Debug area. Hidden if debug set to False -->
-    {% block content_debug %} {% if debug %}
-    <!--<button onclick="viewPanel()">Debug Panel (only visible in Debug Mode)</button>-->
-    <div>
-        <div>
-            <h5>Players List:</h5>
-            {% for player in player_info %}
-            <p>
-                username: {{ player.username }}<br> attempts: {{ player.attempt }}<br> score: {{ player.score}}<br> riddle_number: {{ player.riddle_number }}
-                <br><br>
-            </p>
-            {% endfor %}
-        </div>
-        <div>
-            <h5>Current Riddle Index</h5>
-            <p>{{ riddle.Number }}</p>
-            <h5>Correct Anwer</h5>
-            <p>{{ riddle.Answer }}</p>
-            <h5>Leader Board</h5>
-            {% for leader in leaderboard %}
-            <p>
-                username: {{ leader.username }}<br> score: {{ leader.score }}
-            </p>
-            {% endfor %}
-            <h5>Usernames List</h5>
-            <p>{{ usernames }}</p>
-            <h5>Session</h5>
-            <p>{{ session }}</p>
-        </div>
+    {% block content_debug %}
+    <div class="left">
+        <h5>Players List:</h5>
+        {% for player in player_info %}
+        <p>
+            username: {{ player.username }}<br> attempts: {{ player.attempt }}<br> score: {{ player.score}}<br> riddle_number: {{ player.riddle_number }}
+            <br><br>
+        </p>
+        {% endfor %}
     </div>
-    {% endif %} {% endblock %}
+    <div class="right">
+        <h5>Current Riddle Index</h5>
+        <p>{{ riddle.Number }}</p>
+        <h5>Correct Anwer</h5>
+        <p>{{ riddle.Answer }}</p>
+        <h5>Leader Board</h5>
+        {% for leader in leaderboard %}
+        <p>
+            username: {{ leader.username }}<br> score: {{ leader.score }}
+        </p>
+        {% endfor %}
+        <h5>Usernames List</h5>
+        <p>{{ usernames }}</p>
+        <h5>Session</h5>
+        <p>{{ session }}</p>
+    </div>
+
+    {% endblock %}

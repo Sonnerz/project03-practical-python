@@ -11,9 +11,10 @@ riddles = content()
 app = Flask(__name__)
 app.secret_key = 'The cat is on the roof'
 usernames = []
-leaderboard = []
+leaderboard = [{"username": "sonya", "score": 4, "timestamp":"10:15:23"}]
 player_info = []
 riddle = {}
+
 
 @app.context_processor
 def debug_on_off():
@@ -52,24 +53,22 @@ def play():
 
 @app.route('/end')
 def end():
-        #try:
-            if session.get('username', None):
-                print(session['username'])
-                flash("End of game")
-                date = datetime.now().strftime("%d-%m-%Y")
+        try:
+            if session.get('username'):
+                gameend_message = Markup("<strong>{}</strong> your Game is Over!<br>View the leaderboard below".format(session['username']))
+                flash(gameend_message)
+                date_completed = datetime.now().strftime("%d-%m-%Y")
                 for player in player_info:
                     if player['username'] == session['username']:
-                        leaderboard.append({"username": session['username'], "score": player['score'], "timestamp":date}) # added to leaderboard
-                newlist = sorted(leaderboard, key=itemgetter('score'), reverse=True) # show sorted by score leader board
+                        leaderboard.append({"username": session['username'], "score": player['score'], "timestamp":date_completed}) # added to leaderboard
+                sorted_leaderboard_list = sorted(leaderboard, key=itemgetter('score'), reverse=True) # show sorted by score leader board
                 session.pop('username', None)
-                return render_template("end.html", page_title="Riddle-Me-This - Play", session=session, leaderboard=leaderboard, players=player_info, newlist=newlist)
+                return render_template("end.html", page_title="Riddle-Me-This - Game Over", session=session, leaderboard=leaderboard, players=player_info, sorted_leaderboard_list=sorted_leaderboard_list)
             else:
-                flash("log in please, aadd a user name")
-                print("sonya")
-                return redirect('/')
-       
-        #except Exception as e:
-        #    return render_template("500.html", error=e)        
+                sorted_leaderboard_list = sorted(leaderboard, key=itemgetter('score'), reverse=True) # show sorted by score leader board
+                return render_template("end.html", page_title="Riddle-Me-This - Game Over", leaderboard=leaderboard, sorted_leaderboard_list=sorted_leaderboard_list)
+        except Exception as e:
+            return render_template("500.html", error=e)        
                 
     
 
@@ -84,19 +83,17 @@ def check_answer(answerInputByPlayer, correct_answer):
     for player in player_info:
         if player['username'] == session['username']:
             if correct_answer == answerInputByPlayer:
-                flash("you are CORRECT. Answer:  {}, next question.".format(correct_answer))
+                flash("Correct! The answer was:  {}.".format(correct_answer))
                 player['attempt'] = 0
                 player['score'] += 1 # increase score by 1
                 player['riddle_number'] += 1
                 if (player['riddle_number'] < len(riddles)): # check for last riddle
                     return player['riddle_number'] 
             else:
-                # incorrect_message = Markup("<strong>{}</strong> is incorrect.<br> Please try again, you have one more attempt".format(answerInputByPlayer)) 
-                flash("{} is incorrect.".format(answerInputByPlayer))
-                # flash(incorrect_message)
+                flash("{} is incorrect.".format(answerInputByPlayer)) # flash(incorrect_message)
                 player['attempt'] += 1 # increase attempt by 1
                 if player['attempt'] == 2: # max of 2 attempts
-                    session.pop('_flashes', None)
+                    flash("{} was the correct answer.".format(correct_answer)) # flash(incorrect_message)
                     player['attempt'] = 0 # reset attempts back to 0
                     player['riddle_number'] += 1                    #riddle_index += 1 # attempts over, next question
                     if (player['riddle_number'] < len(riddles)): #check for last riddle
@@ -117,7 +114,8 @@ def number_to_string(number):
         7: "Seven",
         8: "Eight",
         9: "Nine",
-        10: "Ten"
+        10: "Ten",
+        18: "Eighteen"
     }
     return switcher.get(number, "Invalid number")
     
@@ -213,3 +211,7 @@ def internal_error(error):
 
 if __name__ == '__main__':
     app.run(host=os.getenv('IP'), port=int(os.getenv('PORT')), debug=True)
+    
+    
+    
+# incorrect_message = Markup("<strong>{}</strong> is incorrect.<br> Please try again, you have one more attempt".format(answerInputByPlayer)) 

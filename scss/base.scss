@@ -47,13 +47,12 @@ a,
 }
 
 #messages-container {
-  div {
-    width: 80%;
-    margin: 0 auto;
-    text-align: center;
-    p {
-      color: $darkred;
-    }
+  margin: 0 auto;
+  text-align: center;
+  margin-bottom: 20px;
+  p {
+    color: $darkred;
+    margin-bottom: 0;
   }
 }
 
@@ -61,10 +60,10 @@ a,
 
 #panel-debug {
   padding: 10px 10px;
-  width: 75%;
   background-color: #ccc;
   overflow: hidden;
-  div {
+  div.left,
+  div.right {
     background-color: #ccc;
     float: left;
     width: 50%;
