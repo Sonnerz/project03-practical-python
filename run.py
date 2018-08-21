@@ -103,6 +103,22 @@ def check_answer(answerInputByPlayer, correct_answer):
                         return player['riddle_number'] 
             return player['riddle_number'] # index of next riddle
 
+def number_to_string(number):
+    switcher = {
+        1: "One",
+        2: "Two",
+        3: "Three",
+        4: "Four",
+        5: "Five",
+        6: "Six",
+        7: "Seven",
+        8: "Eight",
+        9: "Nine",
+        10: "Ten"
+    }
+    return switcher.get(number, "Invalid number")
+    
+        
 
 @app.route('/checkPlayerInput', methods=["GET", "POST"])
 def check():
@@ -113,11 +129,18 @@ def check():
     If not the last riddle the index is passed to get_next_riddle() to get the next riddle from riddleList[]
     '''
     if request.method == "POST":
-        player_answer = request.form['riddleAnswer'].title() # player answer from from input
+        player_answer = request.form['riddleAnswer']
+        print(player_answer)
+        if player_answer.isdigit():
+            checked_player_answer = number_to_string(int(player_answer))
+        else:
+            checked_player_answer = player_answer
+        print(checked_player_answer)    
+        #player_answer = request.form['riddleAnswer'].title() # player answer from from input
         global riddle
         #riddle_number = request.form.get('riddle_number')
         #print(session['username'], riddle_number)
-        next_riddle_index = check_answer(player_answer, riddle['Answer']) # check_answer() called. Index returned.
+        next_riddle_index = check_answer(checked_player_answer.title(), riddle['Answer']) # check_answer() called. Index returned.
         #print(session['username'], riddle_number)
         if next_riddle_index == len(riddles): # check for last riddle
             return redirect(url_for('end')) # end of game
@@ -131,10 +154,10 @@ def check_username(username):
     '''
     check if it's already taken
     '''
-    if (username not in usernames):
-        usernames.append(username) # if its a new unique username, add to usernames[]
-        session['username'] = username # add username to flask session
-        return True
+    if (username not in usernames) and session.get('username') == username:
+        message_false = Markup("{}, a game with this name has already started. You cannot continue or restart this game.<br>Register with a new name".format(username))
+        flash(message_false) # username taken try again until username is not in usernames[]  
+        return False
     elif (username in usernames) and not session.get('username') == username:
         message_false = Markup("{}, this name has already been taken. <br>Enter a different player name".format(username))
         flash(message_false) # username taken try again until username is not in usernames[]  
@@ -143,6 +166,10 @@ def check_username(username):
         message_false = Markup("{}, a game with this name has already started. You cannot continue or restart this game.<br>Register with a new name".format(username))
         flash(message_false) # username taken try again and usnername already in a session - so game underway  
         return False
+    elif (username not in usernames):
+        usernames.append(username) # if its a new unique username, add to usernames[]
+        session['username'] = username # add username to flask session
+        return True        
     else:
         flash("{}, this player name has been taken, please try a different name.".format(username)) # username taken try again until username is not in usernames[]  
         return render_template("index.html", page_title="Riddle-Me-This - Home", usernames=usernames, leaderboard=leaderboard) 

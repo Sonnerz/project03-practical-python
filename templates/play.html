@@ -9,7 +9,11 @@
     </div>
     <div class="riddle-question-box">
         <div class="riddle-question-text">
+            {% if riddle.Path != "" %}
+            <img src="{{ riddle.Path }}" alt="riddle image"/>
+            {% else %}
             <p>{{ riddle.Question }}</p>
+            {% endif %}
         </div>
     </div>
 </div>
@@ -19,7 +23,7 @@
         <form method="POST" name="riddleAnswer" id="answerForm" action="/checkPlayerInput">
             <div class="control-group">
                 <div class="form-group floating-label-form-group controls">
-                    <input type="text" class="form-control" placeholder="Enter your Riddle Answer" name="riddleAnswer" id="riddleAnswer" required data-validation-required-message="Please enter your answer." pattern="[A-Za-z]{1,50}">
+                    <input type="text" class="form-control" placeholder="Enter your Riddle Answer" name="riddleAnswer" id="riddleAnswer" required data-validation-required-message="Please enter your answer." pattern="[A-Za-z0-9]{1,50}">
                 </div>
             </div>
             <div class="form-group">
