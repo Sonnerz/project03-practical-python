@@ -1,16 +1,24 @@
 {% extends 'base.html' %}
 
-<!-- Content -->
+<!-- Play Content -->
+<!-- Riddle Text Column -->
 {% block page_content_left %}
 <div id="riddle-question-area">
     <div class="welcome-user-message">
-        <!-- if it's the first riddle show 'first' otherwise show 'next' -->
+        <!-- Welcome Player message -->
+        <!-- if it's the first riddle show 'first', last riddle show 'last' otherwise show 'next'.  -->
         {% if riddle.Number == 0 %} 
-        <h2>Hi {{username}},</h2><p>try answering this first riddle:</p> 
+        <h2>Hi {{username}},</h2><p>try answering this <span>first</span> riddle:</p>
+        {% elif riddle.Number|int() == length_of_riddles|int()-1 %}
+        <h2>Hi {{username}},</h2><p>try answering this <span>last</span> riddle:</p>
+        {% elif riddle.Number|int() > length_of_riddles|int()-1 %}
+        <h2>Hi {{username}},</h2><p>there are no more riddles</p>
         {% else %} 
-        <h2>Hi {{username}},</h2><p>try answering this next riddle:</p> 
+        <h2>Hi {{username}},</h2><p>try answering this <span>next</span> riddle:</p> 
         {% endif %}
     </div>
+    <!-- Riddle Text -->
+    <!-- Show Riddle Text or Riddle Image -->
     <div class="riddle-question-box">
         <div class="riddle-question-text">
             {% if riddle.Path != "" %}
@@ -20,17 +28,30 @@
         </div>
     </div>
 </div>
-{% endblock %} {% block page_content_right %}
+{% endblock %} 
+
+<!-- Riddle Answer Column -->
+{% block page_content_right %}
 <div id="riddle-answer-area">
     <div class="riddle-answer-box">
         <form method="POST" name="riddleAnswer" id="answerForm" action="/checkPlayerInput">
             <div class="control-group">
                 <div class="form-group floating-label-form-group controls">
+                    {% if riddle.Number|int() < length_of_riddles|int() %}
                     <input type="text" class="form-control" placeholder="Enter your Riddle Answer" name="riddleAnswer" id="riddleAnswer" required data-validation-required-message="Please enter your answer." pattern="[A-Za-z0-9]{1,50}">
+                    {% else %}
+                    <!-- Disable input at end of game -->
+                    <input type="text" class="form-control" placeholder="End of Game" disabled>
+                    {% endif %}
                 </div>
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-riddle" id="sendAnswerButton">Submit your Answer</button>
+                {% if riddle.Number|int() < length_of_riddles|int() %}
+                <button type="submit" name="sendAnswerButton" class="btn btn-riddle" id="sendAnswerButton">Submit your Answer</button>
+                {% else %}
+                <!-- Disable button at end of game -->
+                <button type="submit" name="sendAnswerButton" class="btn btn-riddle" id="sendAnswerButton" disabled>Submit your Answer</button>
+                {% endif %}
             </div>
         </form>
 
@@ -40,6 +61,8 @@
                 {% endfor %} {% endif %} {% endwith %}
         </div>
 
+        <!-- Show attempt info during game until game is over, then hide it -->
+        {% if riddle.Number|int() < length_of_riddles|int() %}
         <div class="riddle-answer-attempts">
                 {% for player in player_info %} {% if player.username == session['username'] %} {{player_answer}}
                 <p>Number of attempts made:&nbsp;&nbsp;{{ player.attempt }}</p>
@@ -49,6 +72,12 @@
                 <p>Attempts remaining:&nbsp;&nbsp; 1</p>
                 {% else %} {% endif %}{% endif %} {% endfor %}
         </div>
+        {% else %}
+        <!-- Button Go to Leader Board -->
+        <div>
+            <input type="button" class="btn btn-riddle" onclick="location.href='/end';" value="Game over, go to Leader Board" />
+        </div>
+        {% endif %}
     </div>
     {% endblock %}
 

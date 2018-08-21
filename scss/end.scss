@@ -2,35 +2,58 @@
     #messages-container {
         margin-top: 100px;
     }
-}
+    .leaderboard-list {
+        padding: 10px;
+        @include text-background()
+    }
 
-.leaderboard-list {
-    padding: 40px;
-    @include text-background()
-}
+    .leaderboard-row {
+        text-align: center;
+        margin-bottom: 20px;
+        width: 100%;
+        border-spacing: 10px;
+        background-color: $leaderboard-row;
+        clear: both;
+    }
 
-.leaderboard-row {
-    text-align: center;
-    margin-bottom: 20px;
-    display: table;
-    width: 100%;
-    table-layout: fixed;
-    border-spacing: 10px;
-    background-color: $leaderboard-row
-}
+    .leaderboard-row-header {
+        font-size: 0.9rem;
+        font-weight: 500;
+        text-decoration: underline;
+        background-color: $leaderboard-row-header;
+    }
+    .leaderboard-col-header {
+        text-decoration: underline;
+    }
 
-.leaderboard-row-header {
-    font-size: 1.7rem;
-    font-weight: 500;
-    text-decoration: underline;
-    background-color: $leaderboard-row-header 
-}
+    .leaderboard-col {
+        float: left;
+        width: 25%;
+        padding: 20px;
+    }
 
-.leaderboard-col {
-    display: table-cell;
-    width: 25%;
-}
+    .leaderboard-col-data {
+        font-size: 0.9rem;
+        white-space: nowrap;
+    }
+    .time {
+        font-size: 0.6rem;
+        line-height: 20px;
+    }
 
-.leaderboard-col-data {
-    font-size: 1.4rem;
+    @media (min-width: 768px) {
+        .leaderboard-list {
+            padding: 40px;
+        }
+        .leaderboard-row-header {
+            font-size: 1.7rem;
+        }
+        .leaderboard-col-data {
+            font-size: 1.4rem;
+        }
+        .time {
+            font-size: 1.4rem;
+            line-height: normal;
+        }
+    }
 }

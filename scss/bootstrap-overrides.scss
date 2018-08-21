@@ -30,3 +30,7 @@ button.close {
 .close:not(:disabled):not(.disabled):focus, .close:not(:disabled):not(.disabled):hover {
     color: $white;
 }
+
+.btn:disabled {
+    color: #ccc;
+}

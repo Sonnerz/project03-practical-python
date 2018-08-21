@@ -33,7 +33,7 @@ a,
   margin: 0;
 }
 
-.btn-riddle {
+.btn-riddle, .btn-riddle-index {
   color: $white;
   background-color: $darkgreen;
   border-color: $darkgreen;
@@ -55,6 +55,13 @@ a,
     margin-bottom: 0;
   }
 }
+
+@media (min-width: 768px) {
+  .btn-riddle {
+    width: 80%;
+  }
+}
+
 
 /* Debugging Panel */
 

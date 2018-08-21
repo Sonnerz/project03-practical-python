@@ -9,6 +9,9 @@
         p {
             font-size: 1.4rem;
         }
+        span {
+            color:$darkred;
+        }
     }
     .riddle-question-box {
         display: table;
@@ -61,6 +64,9 @@
     .riddle-answer-box {
         vertical-align: middle;
         height: 380px;
+        margin: 0 auto;
+        text-align: center;
+        margin-bottom: 20px;
     }
 }
 

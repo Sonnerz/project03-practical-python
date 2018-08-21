@@ -1,5 +1,4 @@
-{% extends 'base.html' %} 
-{% block page_content_leaderboard %}
+{% extends 'base.html' %} {% block page_content_leaderboard %}
 
 <div id="messages-container">
     <div class="alert-container">
@@ -11,18 +10,19 @@
 </div>
 <div class="leaderboard-list">
     <div class="leaderboard-row leaderboard-row-header">
-        <div class="leaderboard-col">Position</div>
-        <div class="leaderboard-col">Player name</div>
-        <div class="leaderboard-col">Score</div>
-        <div class="leaderboard-col">Date</div>
+        <div class="leaderboard-col leaderboard-col-header">Position</div>
+        <div class="leaderboard-col leaderboard-col-header">Player</div>
+        <div class="leaderboard-col leaderboard-col-header">Score</div>
+        <div class="leaderboard-col leaderboard-col-header">Date</div>
+        <div style="clear:both;"></div>
     </div>
-    <div class="leaderboard-row">{{ message }}</div>
     {% for rows in sorted_leaderboard_list %}
     <div class="leaderboard-row">
         <div class="leaderboard-col leaderboard-col-data">{{ loop.index }}</div>
         <div class="leaderboard-col leaderboard-col-data">{{ rows.username }}</div>
         <div class="leaderboard-col leaderboard-col-data">{{ rows.score }}</div>
-        <div class="leaderboard-col leaderboard-col-data">{{ rows.timestamp }}</div>
+        <div class="leaderboard-col leaderboard-col-data time">{{ rows.timestamp }}</div>
+        <div style="clear:both;"></div>
     </div>
     {% endfor %}
 </div>
