@@ -23,24 +23,35 @@
     <!-- Navigation -->
     <div class="container-fluid" id="container-nav">
         <div class="row">
-            <div class="col">
-                {% if request.path != "/" %}
-                <nav>
-                    <ul>
-                        <li><a href="{{url_for('index')}}">Home</a></li>
-                        <li><a href="{{url_for('end')}}">End the Game and view Leaderboard</a></li>
-                    </ul>
-                </nav>
-                {% else %}
-                <div class="empty-navbar">
-                    Riddle me this
+            {% if request.path != "/" %}
+            <div class="col-6">
+                <div id="nav-logo">
+                    <a href="/" title="Riddle Me This home"><img src="{{ url_for('static', filename='img/logo-navbar.png')}}" alt="Riddle Me This" title="Riddle Me This"></a>
                 </div>
-                {% endif %}
             </div>
+            <div class="col-6">
+                <nav>
+                    <div class="row">
+                        <div class="col-12 col-md-6 col-md-3">
+                            {% for player in player_info %} {% if session['username'] == player.username %} {{ player.username }} score: {{ player.score}} {% endif %} {% endfor %}
+                        </div>
+                        <div class="col-12 col-md-6 col-md-3">
+                            <button type="button" class="btn btn-nav" onclick="location.href='/end';">Leaderboard</button>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            {% else %}
+            <div class="col-12 empty-navbar">
+                Riddle me this
+            </div>
+            {% endif %}
         </div>
     </div>
+
+
     <!-- Content -->
-    {% if request.path == "/"  or  request.path == "/play" %}
+    {% if request.path == "/" or request.path == "/play" %}
     <div class="container" id="container-content">
         <div class="row">
             <div class="col-12 col-md-6">
@@ -66,7 +77,7 @@
         </div>
     </div>
     {% endif %}
-    
+
     <!-- Debug panel for monitoring var values -->
     {% if debug %}
     <div class="container" style="margin-top:100px;"><button onclick="viewPanel()">Hide/Show Debug Panel (only available in Debug Mode)</button></div>
@@ -77,13 +88,13 @@
             </div>
         </div>
     </div>
-    {% endif %} 
+    {% endif %}
     <!-- Bootstrap JS -->
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.3.1.slim.min.js')}}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/popper.min.js')}}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js')}}"></script>
     <script type="text/javascript">
-    // show/hide the Debug Panel
+        // show/hide the Debug Panel
         function viewPanel() {
             var panel = document.getElementById("panel-debug");
             if (panel.style.display === "none") {

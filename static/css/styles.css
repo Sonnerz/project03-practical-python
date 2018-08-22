@@ -47,21 +47,53 @@ a,
   font-family: 'Margarine', cursive; }
 
 #container-nav {
-  background-color: #052003; }
-  #container-nav .empty-navbar,
+  background-color: #052003;
+  height: 80px; }
+  #container-nav #nav-logo {
+    height: 80px;
+    position: relative; }
+  #container-nav #nav-logo img {
+    width: 100%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); }
   #container-nav nav {
-    height: 80px; }
+    color: #fff;
+    font-size: 1.4rem; }
+  @media (min-width: 768px) {
+    #container-nav nav {
+      line-height: 80px; }
+    #container-nav #nav-logo {
+      height: 80px; }
+    #container-nav #nav-logo img {
+      width: 100%;
+      position: static;
+      left: 0;
+      top: 0;
+      transform: translate(0, 0); } }
 
 .alert-container {
   box-sizing: border-box;
   padding: 0;
   margin: 0; }
 
-.btn-riddle, .btn-riddle-index {
+.btn-riddle,
+.btn-riddle-index {
   color: #fff;
   background-color: #052003;
   border-color: #052003;
   width: 100%; }
+
+.btn-nav {
+  color: #b32c16;
+  background-color: #fff;
+  border-color: #b32c16; }
+
+.btn-nav:hover {
+  color: #fff;
+  background-color: #052003;
+  border-color: #fff; }
 
 .btn-riddle:hover {
   color: #fff;
@@ -78,7 +110,11 @@ a,
 
 @media (min-width: 768px) {
   .btn-riddle {
-    width: 80%; } }
+    width: 80%; }
+
+  #nav-logo img {
+    width: 100%;
+    max-width: 450px; } }
 /* Debugging Panel */
 #panel-debug {
   padding: 10px 10px;
@@ -147,7 +183,7 @@ a,
     margin-top: 90px; } }
 
 #riddle-question-area {
-  padding-top: 30px; }
+  padding-top: 60px; }
   #riddle-question-area .welcome-user-message {
     font-size: 1.9rem;
     margin-bottom: 20px;
@@ -182,8 +218,6 @@ a,
       height: 100px;
       font-size: 2rem;
       padding: 10px 10px; }
-      #riddle-question-area .welcome-user-message p {
-        font-size: 1.6rem; }
     #riddle-question-area .riddle-question-box {
       height: 380px;
       vertical-align: middle;
@@ -202,7 +236,7 @@ a,
 
 @media (min-width: 768px) {
   #riddle-answer-area {
-    padding-top: 150px; }
+    padding-top: 180px; }
 
   .riddle-answer-box {
     vertical-align: middle;
