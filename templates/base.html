@@ -23,7 +23,7 @@
     <!-- Navigation -->
     <div class="container-fluid" id="container-nav">
         <div class="row">
-            {% if request.path != "/" %}
+            {% if request.path == "/play" %}
             <div class="col-6">
                 <div id="nav-logo">
                     <a href="/" title="Riddle Me This home"><img src="{{ url_for('static', filename='img/logo-navbar.png')}}" alt="Riddle Me This" title="Riddle Me This"></a>
@@ -33,7 +33,7 @@
                 <nav>
                     <div class="row">
                         <div class="col-12 col-md-6 col-md-3">
-                            {% for player in player_info %} {% if session['username'] == player.username %} {{ player.username }} score: {{ player.score}} {% endif %} {% endfor %}
+                            {% for player in player_info %} {% if session['username'] == player.username %} {{ player.username }}: {{ player.score}} {% endif %} {% endfor %}
                         </div>
                         <div class="col-12 col-md-6 col-md-3">
                             <button type="button" class="btn btn-nav" onclick="location.href='/end';">Leaderboard</button>
@@ -41,9 +41,13 @@
                     </div>
                 </nav>
             </div>
+            {%  elif request.path == "/" %}
+            <div class="col-12"></div>
             {% else %}
-            <div class="col-12 empty-navbar">
-                Riddle me this
+            <div class="col-6">
+               <div id="nav-logo">
+                    <a href="/" title="Riddle Me This home"><img src="{{ url_for('static', filename='img/logo-navbar.png')}}" alt="Riddle Me This" title="Riddle Me This"></a>
+                </div>
             </div>
             {% endif %}
         </div>

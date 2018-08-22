@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 <!-- Play Content -->
 <!-- Riddle Text Column -->
 {% block page_content_left %}
@@ -20,15 +19,25 @@
     <!-- Riddle Text -->
     <!-- Show Riddle Text or Riddle Image -->
     <div class="riddle-question-box">
+    {% if riddle.Number|int() < length_of_riddles|int() %} 
         <div class="riddle-question-text">
-            {% if riddle.Path != "" %}
-            <img src="{{ riddle.Path }}" alt="riddle image" /> {% else %}
+            {% if riddle.Number|int() < length_of_riddles|int() %} 
+            {% if riddle.Path !="" %} 
+                <img src="{{ riddle.Path }}" alt="riddle image" /> 
+            {% else %}
             <p>{{ riddle.Question }}</p>
-            {% endif %}
+            {% endif %}{% endif %}
         </div>
+        <div class="riddle-count"><p>Riddle {{ riddle.Number +1 }} of {{ length_of_riddles  }}</p></div>
+    {% else %}
+    <div class="game-over">
+        <img src="static/img/game-over.png" alt="Game over" title="Game over" style="width:100%">
     </div>
+    {% endif %}
 </div>
-{% endblock %} 
+
+</div>
+{% endblock %}
 
 <!-- Riddle Answer Column -->
 {% block page_content_right %}
@@ -37,77 +46,77 @@
         <form method="POST" name="riddleAnswer" id="answerForm" action="/checkPlayerInput">
             <div class="control-group">
                 <div class="form-group floating-label-form-group controls">
-                    {% if riddle.Number|int() < length_of_riddles|int() %}
-                    <input type="text" class="form-control" placeholder="Enter your Riddle Answer" name="riddleAnswer" id="riddleAnswer" required data-validation-required-message="Please enter your answer." pattern="[A-Za-z0-9]{1,50}">
-                    {% else %}
-                    <!-- Disable input at end of game -->
-                    <input type="text" class="form-control" placeholder="End of Game" disabled>
-                    {% endif %}
+                        {% if riddle.Number|int() < length_of_riddles|int() %} 
+                        <input type="text" class="form-control" placeholder="Enter your Riddle Answer" name="riddleAnswer" id="riddleAnswer" required data-validation-required-message="Please enter your answer."  pattern="[A-Za-z0-9]{1,50}">
+                        {% else %}
+                        <p class="end-message">Well done {{ session['username'] }}!<br>
+                        {% for player in player_info %}
+                        You got  {% if session['username'] == player.username %} {{ player.score}} riddles correct <br>
+                        and you got {{ player.wrong }} incorrect. {% endif %}</p>
+                        {% endfor %} 
+                        {% endif %}
                 </div>
             </div>
             <div class="form-group">
-                {% if riddle.Number|int() < length_of_riddles|int() %}
-                <button type="submit" name="sendAnswerButton" class="btn btn-riddle" id="sendAnswerButton">Submit your Answer</button>
-                {% else %}
-                <!-- Disable button at end of game -->
-                <button type="submit" name="sendAnswerButton" class="btn btn-riddle" id="sendAnswerButton" disabled>Submit your Answer</button>
-                {% endif %}
+                {% if riddle.Number|int() < length_of_riddles|int() %} <button type="submit" name="sendAnswerButton" class="btn btn-riddle" id="sendAnswerButton">Submit your Answer</button>
+                    {% endif %}
             </div>
         </form>
 
         <div id="messages-container">
-                {% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %}
-                <p>{{ message }}</p>
-                {% endfor %} {% endif %} {% endwith %}
+            {% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %}
+            <p>{{ message }}</p>
+            {% endfor %} {% endif %} {% endwith %}
         </div>
 
         <!-- Show attempt info during game until game is over, then hide it -->
-        {% if riddle.Number|int() < length_of_riddles|int() %}
-        <div class="riddle-answer-attempts">
-                {% for player in player_info %} {% if player.username == session['username'] %} {{player_answer}}
-                <p>Number of attempts made:&nbsp;&nbsp;{{ player.attempt }}</p>
-                {% if player.attempt == 0 %}
-                <p>Attempts remaining:&nbsp;&nbsp; 2</p>
-                {% elif player.attempt == 1 %}
-                <p>Attempts remaining:&nbsp;&nbsp; 1</p>
-                {% else %} {% endif %}{% endif %} {% endfor %}
-        </div>
-        {% else %}
-        <!-- Button Go to Leader Board -->
-        <div>
-            <input type="button" class="btn btn-riddle" onclick="location.href='/end';" value="Game over, go to Leader Board" />
-        </div>
-        {% endif %}
+        {% if riddle.Number|int() < length_of_riddles|int() %} <div class="riddle-answer-attempts">
+            {% for player in player_info %} {% if player.username == session['username'] %} {{player_answer}}
+            <p>Number of attempts made:&nbsp;&nbsp;{{ player.attempt }}</p>
+            {% if player.attempt == 0 %}
+            <p>Attempts remaining:&nbsp;&nbsp; 2</p>
+            {% elif player.attempt == 1 %}
+            <p>Attempts remaining:&nbsp;&nbsp; 1</p>
+            {% else %} {% endif %}{% endif %} {% endfor %}
     </div>
-    {% endblock %}
+    {% else %}
+    <!-- Button Go to Leader Board -->
+    <div>
+        <input type="button" class="btn btn-riddle" onclick="location.href='/end';" value="Game over, go to Leader Board" />
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
 
 
-    <!-- Debug area. Hidden if debug set to False -->
-    {% block content_debug %}
-    <div class="left">
-        <h5>Players List:</h5>
-        {% for player in player_info %}
-        <p>
-            username: {{ player.username }}<br> attempts: {{ player.attempt }}<br> score: {{ player.score}}<br> riddle_number: {{ player.riddle_number }}
-            <br><br>
-        </p>
-        {% endfor %}
-    </div>
-    <div class="right">
-        <h5>Current Riddle Index</h5>
-        <p>{{ riddle.Number }}</p>
-        <h5>Correct Anwer</h5>
-        <p>{{ riddle.Answer }}</p>
-        <h5>Leader Board</h5>
-        {% for leader in leaderboard %}
-        <p>
-            username: {{ leader.username }}<br> score: {{ leader.score }}
-        </p>
-        {% endfor %}
-        <h5>Usernames List</h5>
-        <p>{{ usernames }}</p>
-        <h5>Session</h5>
-        <p>{{ session }}</p>
-    </div>
+<!-- Debug area. Hidden if debug set to False -->
+{% block content_debug %}
+<div class="left">
+    Length:{{length_of_riddles}}
+    Number:{{riddle.Number}}
+    <h5>Players List:</h5>
+    {% for player in player_info %}
+    <p>
+        username: {{ player.username }}<br> attempts: {{ player.attempt }}<br> score: {{ player.score}}<br> riddle_number: {{ player.riddle_number }}
+        <br><br>
+    </p>
+    {% endfor %}
+</div>
+<div class="right">
+    <h5>Current Riddle Index</h5>
+    <p>{{ riddle.Number }}</p>
+    <h5>Correct Anwer</h5>
+    <p>{{ riddle.Answer }}</p>
+    <h5>Leader Board</h5>
+    {% for leader in leaderboard %}
+    <p>
+        username: {{ leader.username }}<br> score: {{ leader.score }}
+    </p>
+    {% endfor %}
+    <h5>Usernames List</h5>
+    <p>{{ usernames }}</p>
+    <h5>Session</h5>
+    <p>{{ session }}</p>
+</div>
 
-    {% endblock %}
+{% endblock %}

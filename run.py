@@ -33,7 +33,7 @@ def create_player(username):
     '''
     Creates a player dict{} in player_info List to track the players; score, attempts and their current riddle
     '''
-    player_info.append({"username":username, "score":0, "attempt":0, "riddle_number":0}) #creates a player
+    player_info.append({"username":username, "score":0, "attempt":0, "wrong":0, "riddle_number":0}) #creates a player
     return player_info
 
 
@@ -51,7 +51,7 @@ def start_game():
 
 @app.route('/play')
 def play():
-    length_of_riddles = len(riddles) -1
+    length_of_riddles = len(riddles)
     return render_template("play.html", page_title="Riddle-Me-This - Play", username=session['username'], leaderboard=leaderboard, 
                                         player_info=player_info, usernames=usernames, riddle=riddle, session=session, length_of_riddles=length_of_riddles)
 
@@ -64,8 +64,6 @@ def end():
     '''
     try:
         if session.get('username'):
-            gameend_message = Markup("<strong>{}</strong> your Game is Over!<br>Find your name on the leaderboard below".format(session['username']))
-            flash(gameend_message) # flash with html markup
             date_completed = datetime.now().strftime("%d-%m-%Y") # date now
             for player in player_info:
                 if player['username'] == session['username']:
@@ -81,8 +79,7 @@ def end():
                 
     
 
-
-def check_answer(answerInputByPlayer, correct_answer):
+def check_answer(answerInputByPlayer, riddle):
     '''
     Based on the username in session the inputed answer is compared against the actual riddle answer.
     If the answer is correct, the score is increased by 1, the leaderboard is updated. The index is increased by one to find next riddle in riddle list []
@@ -91,23 +88,30 @@ def check_answer(answerInputByPlayer, correct_answer):
     '''
     for player in player_info:
         if player['username'] == session['username']:
-            if correct_answer == answerInputByPlayer:
-                flash("Correct! The answer was:  {}.".format(correct_answer)) # flash - player told answer is correct
+            print(riddle['Question'])
+            print(riddle['Answer'])
+            if riddle['Answer'] == answerInputByPlayer:
+                flash("Correct! The answer was:  {}.".format(riddle['Answer'])) # flash - player told answer is correct
                 player['attempt'] = 0
                 player['score'] += 1 # increase score by 1
                 player['riddle_number'] += 1 # increase riddle number by 1
+                print("A :", player)
                 if (player['riddle_number'] < len(riddles)): # check for last riddle
                     return player['riddle_number'] # return the next riddle number
             else:
                 flash("{} is incorrect.".format(answerInputByPlayer)) # flash - player told answer is incorrect
                 player['attempt'] += 1 # increase attempt by 1
+                print("B :", player)
                 if player['attempt'] == 2: # max of 2 attempts reached
-                    flash("{} was the correct answer.".format(correct_answer)) # flash - player told the correct answer
+                    player['wrong'] += 1 # increase wrong count by 1
+                    flash("{} was the correct answer.".format(riddle['Answer'])) # flash - player told the correct answer
                     player['attempt'] = 0 # reset attempts back to 0
                     player['riddle_number'] += 1 # increase riddle number by 1
+                    print("C :", player)
                     if (player['riddle_number'] < len(riddles)): # check for last riddle
                         return player['riddle_number'] # return the next riddle number
             return player['riddle_number'] # index of next riddle
+
 
 def number_to_string(number):
     '''
@@ -145,11 +149,12 @@ def check():
         else:
             checked_player_answer = player_answer # reset player_answer var with checked answer
         global riddle
-        next_riddle_index = check_answer(checked_player_answer.title(), riddle['Answer']) # check_answer() called. Index of next riddle returned.
-        if next_riddle_index >= len(riddles): # check for last riddle
-            flash("END OF GAME")
+        next_riddle_index = check_answer(checked_player_answer.title(), riddle) # check_answer() called. Index of next riddle returned.
+        if next_riddle_index < len(riddles): # check for last riddle
+            riddle = get_next_riddle(next_riddle_index)
         else:
-            riddle = get_next_riddle(next_riddle_index) # not end of game, get next riddle
+            riddle = {'Number':len(riddles)} # set Riddle Number to length of riddles list
+            redirect(url_for('play')) 
     return redirect(url_for('play'))    
 
 
