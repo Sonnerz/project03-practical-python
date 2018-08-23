@@ -35,7 +35,7 @@ class TestRiddle(unittest.TestCase):
     
     
     ''' TEST 03 '''
-    ''' StackOverflow '''
+    ''' StackOverflow sourced session information'''
     def test_index(self):
         """
         Test that the a session is created and populated with a value for username
@@ -66,7 +66,7 @@ class TestRiddle(unittest.TestCase):
             with c.session_transaction() as sess:
                 sess['username'] = 'bob'
                 with app.test_request_context():
-                    self.assertEqual(run.create_player(sess['username']), [{'username':'bob', 'score':0, 'attempt':0, 'riddle_number':0}])
+                    self.assertEqual(run.create_player(sess['username']), [{'username':'bob', 'score':0, 'attempt':0,  "wrong":0, "riddle_number":0, "attempt_total":0}])
                     
 
     ''' TEST 05 '''
@@ -80,10 +80,30 @@ class TestRiddle(unittest.TestCase):
                     if not usernames and username == 'bob': 
                         self.assertTrue(run.check_username(username))
                     username = 'bob'
+                    usernames = []
+                    if not usernames and username == 'bob' and sess['username']: 
+                        self.assertFalse(run.check_username(username))                        
+                    username = 'bob'
                     usernames = ['bob']
                     if usernames and username == 'bob' and sess['username']:
                         self.assertFalse(run.check_username(username))
-                    
+                    username = 'bob'
+                    usernames = ['bob']
+                    if usernames and username == 'bob' and not sess['username']:
+                        self.assertFalse(run.check_username(username))
+                        
+                        
+    ''' TEST 06 '''
+    def test_number_to_string(self):
+        """
+        Test helper function number_to_string()
+        """
+        test_number = run.number_to_string(2) # take a number return a word
+        test_number1 = run.number_to_string(345) # take a number return a string
+        test_number2 = run.number_to_string("answer") # take a number return a string
+        self.assertEqual(test_number, "Two")
+        self.assertEqual(test_number1, "345")
+        self.assertEqual(test_number2, "answer")
      
 
 if __name__ == "__main__":
