@@ -14,8 +14,11 @@
         <form method="POST" name="addUsernameForm" id="addUsernameForm">
             <div class="control-group">
                 <div class="form-group floating-label-form-group controls">
-                    <input type="text" class="form-control" placeholder="Type your player name" name="addUsername" id="addUsername" required data-validation-required-message="Please enter your player name.">
-                    <p class="help-block text-danger"></p>
+                    <input type="text" class="form-control" placeholder="Enter a player name..." name="addUsername" id="addUsername" required data-validation-required-message="Please enter your player name.">
+                </div>
+                <!-- Button trigger modal -->
+                <div class="link-howto-margin">
+                    <p><a href="#helpModal" data-toggle="modal" data-target="#helpModal"><i class="fa fa-info-circle" aria-hidden="true"></i>How to Play</a></p>
                 </div>
             </div>
             <div id="messages-container">
@@ -28,17 +31,13 @@
             </div>
             <div class="form-group button-submit-margin">
                 <button type="submit" class="btn btn-riddle-index" id="sendAnswerButton">
-                    Submit a player name and start the game
+                        Start a game
                 </button>
             </div>
         </form>
-        <!-- Button trigger modal -->
-        <div class="button-howto-margin">
-            <button type="button" class="btn btn-riddle-index" data-toggle="modal" data-target="#helpModal">How to Play</button>
-        </div>
     </div>
     <!-- Modal for Help -->
-    <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="helpModal" aria-hidden="true">
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="helpModal" aria-hidden="true" id="helpModal">
         <div class="vertical-align-modal">
             <div class="modal-dialog vertical-align-center" role="document">
                 <div class="modal-content">
@@ -49,9 +48,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        You must answer 10 Riddles. <br> 
-                        You will only have one attempt to answer all 10 riddles but two attempts at each riddle.<br>
-                        When you complete all 10 questions, your score will be displayed on the leader-board.
+                        You must answer 10 Riddles. <br> You will only have one attempt to answer all 10 riddles but two attempts at each riddle.<br> When you complete all 10 questions, your score will be displayed on the leader-board.
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-riddle" data-dismiss="modal">Close</button>
@@ -67,9 +64,9 @@
 {% block content_debug %}
 
 <div>
-    <h5>LeaderBoard</h5>
-    {% for leader in leaderboard %}
-    <p>username: {{ leader.username }}<br> score: {{ leader.score }}</p>
+    <h5>Player</h5>
+    {% for player in player_info %}
+    <p>username: {{ player.username }}<br> score: {{ player.score }}</p>
     {% endfor %}
     <br>
     <h5>Usernames</h5>

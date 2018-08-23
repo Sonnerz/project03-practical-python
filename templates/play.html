@@ -47,8 +47,9 @@
         <form method="POST" name="riddleAnswer" id="answerForm" action="/checkPlayerInput">
             <div class="control-group">
                 <div class="form-group floating-label-form-group controls">
-                    {% if riddle.Number|int() < length_of_riddles|int() %} <input type="text" class="form-control" placeholder="Enter your Riddle Answer" name="riddleAnswer" id="riddleAnswer" required data-validation-required-message="Please enter your answer."
-                        pattern="[A-Za-z0-9]{1,50}">
+                    {% if riddle.Number|int() < length_of_riddles|int() %} 
+                    <input type="text" class="form-control" placeholder="Enter your Riddle Answer..." name="riddleAnswer" id="riddleAnswer" required data-validation-required-message="Please enter your answer." pattern="[A-Za-z0-9]{1,50}">
+                    <input type="text" name="player_riddle_number" id="player_riddle_number" value={{ player.riddle_number }}>
                         {% else %}
                         <p class="end-message">Well done {{ session['username'] }}!<br> 
                         {% for player in player_info %} 
@@ -60,8 +61,9 @@
                 </div>
             </div>
             <div class="form-group">
-                {% if riddle.Number|int() < length_of_riddles|int() %} <button type="submit" name="sendAnswerButton" class="btn btn-riddle" id="sendAnswerButton">Submit your Answer</button>
-                    {% endif %}
+                {% if riddle.Number|int() < length_of_riddles|int() %} 
+                    <button type="submit" name="sendAnswerButton" class="btn btn-riddle" id="sendAnswerButton">Submit your Answer</button>
+                {% endif %}
             </div>
         </form>
 
@@ -72,8 +74,8 @@
         </div>
 
         <!-- Show attempt info during game until game is over, then hide it -->
-        {% if riddle.Number|int()
-        < length_of_riddles|int() %} <div class="riddle-answer-attempts">
+        {% if riddle.Number|int() < length_of_riddles|int() %} 
+        <div class="riddle-answer-attempts">
             {% for player in player_info %} {% if player.username == session['username'] %} {{player_answer}}
             <p>Number of attempts made:&nbsp;&nbsp;{{ player.attempt }}</p>
             {% if player.attempt == 0 %}
@@ -81,7 +83,7 @@
             {% elif player.attempt == 1 %}
             <p>Attempts remaining:&nbsp;&nbsp; 1</p>
             {% else %} {% endif %}{% endif %} {% endfor %}
-    </div>
+        </div>
     {% else %}
     <!-- Button Go to Leader Board -->
     <div>
@@ -99,8 +101,13 @@
     <h5>Players List:</h5>
     {% for player in player_info %}
     <p>
-        username: {{ player.username }}<br> attempts: {{ player.attempt }}<br> score: {{ player.score}}<br> riddle_number: {{ player.riddle_number }}
-        <br><br>
+        username: {{ player.username }}<br> 
+        attempts: {{ player.attempt }}<br> 
+        score: {{ player.score}}<br>
+        wrong: {{ player.wrong }}<br>
+        riddle_number: {{ player.riddle_number }}<br>
+        attempt_total: {{ player.attempt_total }}<br>
+        <br>
     </p>
     {% endfor %}
 </div>

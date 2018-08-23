@@ -7,8 +7,7 @@
     background-color: $darkred;
     border-color: $white;
     font-family: Arial, sans serif;
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: 0.8em;
 }
 
 #riddle-answer-area .form-control{
@@ -34,10 +33,14 @@ button.close {
 .btn:disabled {
     color: #ccc;
 }
-form-control {
-    border: 1px solid $darkgreen;
-
+.form-control {
+    border: 2px solid $darkgreen;
+    width: 80%;
 }
 .form-control:focus {
-    border-color: $darkgreen;
+    border-color: $darkred;
 }
+.form-group {
+    margin-bottom: 0;
+}
+    

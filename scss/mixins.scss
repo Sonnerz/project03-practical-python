@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css?family=Margarine');
-// @import url('https://fonts.googleapis.com/css?family=Baloo+Tamma');
 // Mixins
 @mixin transition-all() {
   -webkit-transition: all 0.2s;
@@ -15,7 +14,6 @@
 
 @mixin sans-serif-font() {
   font-family: 'Margarine', cursive;
-  // font-family: 'Baloo Tamma', cursive;
 }
  
 @mixin text-background() {

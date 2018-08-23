@@ -60,10 +60,9 @@ def play():
     '''
     try:
         if session.get('username'):
-            for player in player_info:
-                length_of_riddles = len(riddles)
-                return render_template("play.html", page_title="Riddle-Me-This - Play", username=session['username'], leaderboard=leaderboard, 
-                                        player_info=player_info, player=player, usernames=usernames, riddle=riddle, session=session, length_of_riddles=length_of_riddles)
+            length_of_riddles = len(riddles)
+            return render_template("play.html", page_title="Riddle-Me-This - Play", username=session['username'], leaderboard=leaderboard, 
+                                        player_info=player_info, usernames=usernames, riddle=riddle, session=session, length_of_riddles=length_of_riddles)
         else:
             return redirect(url_for('index')) 
     except Exception as e:
@@ -77,23 +76,17 @@ def end():
     The session is cleared. Else the leaderboard is still rendered to the broswer if there are games in session at the same time.
     '''
     try:
-        # if session.get('username'):
-        #     date_completed = datetime.now().strftime("%d-%m-%Y") # date now
-        #     for player in player_info:
-        #         if not leaderboard:
-        #             leaderboard.append({"username": session['username'], "score": player['score'], "timestamp":date_completed}) # added to leaderboard list
-        #         else:    
-        #             for leader in leaderboard:
-        #                 print(leaderboard)
-        #                 if player['username'] == session['username'] and player['username'] != leader['username']:
-        #                     print(player['username'] ,session['username'] , player['username'] , leader['username'])
-        #                     leaderboard.append({"username": session['username'], "score": player['score'], "timestamp":date_completed}) # added to leaderboard list
+        if session.get('username'):
+            date_completed = datetime.now().strftime("%d-%m-%Y") # date now
+            for player in player_info:
+                if player['username'] == session['username']:
+                    leaderboard.append({"username": session['username'], "score": player['score'], "timestamp":date_completed}) # added to leaderboard list
             sorted_leaderboard_list = sorted(leaderboard, key=itemgetter('score'), reverse=True) # show leader board list sorted by score
-            #session.pop('username', None) # clear the session
+            session.pop('username', None) # clear the session
             return render_template("end.html", page_title="Riddle-Me-This - Game Over", session=session, leaderboard=leaderboard, players=player_info, sorted_leaderboard_list=sorted_leaderboard_list)
-        # else:
-        #     sorted_leaderboard_list = sorted(leaderboard, key=itemgetter('score'), reverse=True) # show leader board list sorted by score 
-        #     return render_template("end.html", page_title="Riddle-Me-This - Game Over", leaderboard=leaderboard, sorted_leaderboard_list=sorted_leaderboard_list)
+        else:
+            sorted_leaderboard_list = sorted(leaderboard, key=itemgetter('score'), reverse=True) # show leader board list sorted by score 
+            return render_template("end.html", page_title="Riddle-Me-This - Game Over", leaderboard=leaderboard, sorted_leaderboard_list=sorted_leaderboard_list)
     except Exception as e:
         return render_template("500.html", error=e)        
                 
@@ -114,7 +107,7 @@ def check_answer(answerInputByPlayer, riddle):
                 player['score'] += 1 # increase score by 1
                 player['riddle_number'] += 1 # increase riddle number by 1
                 if (player['riddle_number'] < len(riddles)): # check for last riddle
-                    return player # player
+                    return player['riddle_number'] # return the next riddle number
             else:
                 flash("{} is incorrect.".format(answerInputByPlayer)) # flash - player told answer is incorrect
                 player['attempt'] += 1 # increase attempt by 1
@@ -126,8 +119,8 @@ def check_answer(answerInputByPlayer, riddle):
                     player['attempt'] = 0 # reset attempts back to 0
                     player['riddle_number'] += 1 # increase riddle number by 1
                     if (player['riddle_number'] < len(riddles)): # check for last riddle
-                        return player # return player
-            return player # return player
+                        return player['riddle_number'] # return the next riddle number
+            return player['riddle_number'] # index of next riddle
 
 
 def number_to_string(number):
@@ -135,17 +128,17 @@ def number_to_string(number):
     Helper function - to change a digit to the word version of a number e.g. 7 to seven
     '''
     switcher = {
-        1: "one",
-        2: "two",
-        3: "three",
-        4: "four",
-        5: "five",
-        6: "six",
-        7: "seven",
-        8: "eight",
-        9: "nine",
-        10: "ten",
-        18: "eighteen"
+        1: "One",
+        2: "Two",
+        3: "Three",
+        4: "Four",
+        5: "Five",
+        6: "Six",
+        7: "Seven",
+        8: "Eight",
+        9: "Nine",
+        10: "Ten",
+        # 18: "Eighteen"
     }
     return switcher.get(number, str(number))
     
@@ -167,13 +160,11 @@ def check():
         else:
             checked_player_answer = player_answer # reset player_answer var with checked answer
         global riddle
-        player = check_answer(checked_player_answer.lower(), riddle) # check_answer() called. Index of next riddle returned.
-        if player['riddle_number'] < len(riddles): # check for last riddle
-            riddle = get_next_riddle(player['riddle_number'])
+        next_riddle_index = check_answer(checked_player_answer.lower(), riddle) # check_answer() called. Index of next riddle returned.
+        if next_riddle_index < len(riddles): # check for last riddle
+            riddle = get_next_riddle(next_riddle_index)
         else:
             riddle = {'Number':len(riddles)} # set Riddle Number to length of riddles list
-            date_completed = datetime.now().strftime("%d-%m-%Y") # date now
-            leaderboard.append({"username": session['username'], "score": player['score'], "timestamp":date_completed})
             redirect(url_for('play')) 
     return redirect(url_for('play'))    
 

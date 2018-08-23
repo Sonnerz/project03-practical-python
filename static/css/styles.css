@@ -7,8 +7,7 @@
   background-color: #b32c16;
   border-color: #fff;
   font-family: Arial, sans serif;
-  font-size: 1rem;
-  font-weight: 600; }
+  font-size: 0.8em; }
 
 #riddle-answer-area .form-control {
   height: 90px;
@@ -29,11 +28,15 @@ button.close {
 .btn:disabled {
   color: #ccc; }
 
-form-control {
-  border: 1px solid #052003; }
+.form-control {
+  border: 2px solid #052003;
+  width: 80%; }
 
 .form-control:focus {
-  border-color: #052003; }
+  border-color: #b32c16; }
+
+.form-group {
+  margin-bottom: 0; }
 
 body {
   font-family: 'Margarine', cursive;
@@ -51,6 +54,9 @@ p,
 a,
 #container-content {
   font-family: 'Margarine', cursive; }
+
+i {
+  margin-right: 5px; }
 
 #container-nav {
   background-color: #052003;
@@ -89,7 +95,7 @@ a,
   color: #fff;
   background-color: #052003;
   border-color: #052003;
-  width: 100%; }
+  width: 60%; }
 
 .btn-nav {
   color: #b32c16;
@@ -117,6 +123,9 @@ a,
 @media (min-width: 768px) {
   .btn-riddle {
     width: 80%; }
+
+  #helpModal .btn-riddle {
+    width: 100%; }
 
   #nav-logo img {
     width: 100%;
@@ -154,15 +163,20 @@ a,
   padding: 20px 20px;
   /* StackOverflow solution to vertically and horizontally center the Modal */ }
   #container-content #username-form-container #form-bkg {
+    padding-top: 50px;
     background-color: rgba(245, 245, 245, 0.7);
     border: 1px solid transparent;
     border-radius: .25rem;
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out; }
+    #container-content #username-form-container #form-bkg form {
+      text-align: right; }
+    #container-content #username-form-container #form-bkg input {
+      margin: 0 auto; }
   #container-content #username-form-container #messages-container {
     color: #b32c16;
     background-color: #f5f5f5;
     margin: 0 auto;
-    width: 100%; }
+    width: 80%; }
   #container-content #username-form-container .form-control:focus {
     color: #052003;
     background-color: #fff;
@@ -170,9 +184,13 @@ a,
     outline: 0;
     box-shadow: 0 0 0 0.2rem rgba(5, 32, 3, 0.25); }
   #container-content #username-form-container .button-submit-margin {
-    margin-top: 40px; }
-  #container-content #username-form-container .button-howto-margin {
-    margin-top: 60px; }
+    margin-top: 20px;
+    padding-right: 43px;
+    margin-bottom: 40px; }
+  #container-content #username-form-container .link-howto-margin {
+    padding-bottom: 5px;
+    text-align: right;
+    padding-right: 43px; }
   #container-content #username-form-container .vertical-align-modal {
     display: table;
     height: 100%;
@@ -190,9 +208,10 @@ a,
     pointer-events: all; }
 @media (min-width: 768px) {
   #container-content #username-form-container {
-    padding: 100px 0px; }
-  #container-content #form-bkg {
+    padding: 100px 0px;
     width: 80%; }
+  #container-content #form-bkg {
+    width: 100%; }
   #container-content .button-howto-margin {
     margin-top: 90px; } }
 
@@ -274,6 +293,8 @@ a,
   #riddle-answer-area .end-message {
     margin-top: 15%;
     text-align: center; }
+  #riddle-answer-area .form-control {
+    width: 100%; }
 
 @media (min-width: 768px) {
   .riddle-answer-box {
@@ -290,7 +311,10 @@ a,
   margin: 0 auto;
   text-align: center; }
   .riddle-answer-attempts p {
-    font-size: 1rem; }
+    font-size: 1rem;
+    margin-bottom: 0.5rem; }
+  .riddle-answer-attempts p:nth-child(2) {
+    margin-bottom: 0; }
 
 #container-leader-content #messages-container {
   margin-top: 100px; }

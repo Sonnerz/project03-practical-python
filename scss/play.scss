@@ -27,7 +27,6 @@
             }
         }
     }
-
     .riddle-question-text {
         display: table-cell;
         text-align: center;
@@ -86,6 +85,9 @@
         margin-top: 15%;
         text-align: center;
     }
+    .form-control {
+        width: 100%;
+    }
 }
 
 @media (min-width: 768px) {
@@ -107,5 +109,9 @@
     text-align: center;
     p {
         font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
+    p:nth-child(2){
+        margin-bottom: 0;
     }
 }

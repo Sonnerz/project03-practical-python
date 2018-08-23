@@ -17,6 +17,9 @@ a,
   @include sans-serif-font;
 
 }
+i {
+  margin-right:5px;
+}
 
 #container-nav {
   background-color: $darkgreen;
@@ -66,7 +69,7 @@ a,
   color: $white;
   background-color: $darkgreen;
   border-color: $darkgreen;
-  width: 100%;
+  width: 60%;
 }
 
 .btn-nav {
@@ -100,6 +103,9 @@ a,
 @media (min-width: 768px) {
   .btn-riddle {
     width: 80%;
+  }
+  #helpModal .btn-riddle {
+    width: 100%;
   }
   #nav-logo img {
     width: 100%;

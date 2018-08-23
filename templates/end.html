@@ -31,14 +31,15 @@
 <!-- Debug area. Hidden if debug set to False -->
 {% block content_debug %}
 <div>
+    {{ players }}
     <h2>LeaderBoard</h2>
-    {% for leader in leaderboard %}
+    {% for player in player_info %}
     <p>
-        username: {{ leader['username'] }}<br> score: {{ leader['score'] }}
+        username: {{ player['username'] }}<br> score: {{ player['score'] }}
     </p>
     {% endfor %}
     <h2>session</h2>
-    {{session}}
+    {{ session['username'] }}
 </div>
 
 </div>

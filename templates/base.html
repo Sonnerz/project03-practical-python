@@ -13,6 +13,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}" type="text/css" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css" />
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css')}}" type="text/css" />
 
@@ -33,7 +35,7 @@
                 <nav>
                     <div class="row">
                         <div class="col-12 col-md-6 col-md-3">
-                            {% for player in player_info %} {% if session['username'] == player.username %} {{ player.username }}: {{ player.score}} {% endif %} {% endfor %}
+                                {% for player in player_info %} {% if session['username'] == player.username %} {{ player.username }}: {{ player.score }} {% endif %} {% endfor %}
                         </div>
                         <div class="col-12 col-md-6 col-md-3">
                             <button type="button" class="btn btn-nav" onclick="location.href='/end';">Leaderboard</button>
@@ -41,14 +43,29 @@
                     </div>
                 </nav>
             </div>
-            {%  elif request.path == "/" %}
-            <div class="col-12"></div>
-            {% else %}
+            {% elif request.path == "/end" and session.get('username') %}
             <div class="col-6">
-               <div id="nav-logo">
+                <div id="nav-logo">
                     <a href="/" title="Riddle Me This home"><img src="{{ url_for('static', filename='img/logo-navbar.png')}}" alt="Riddle Me This" title="Riddle Me This"></a>
                 </div>
+            </div>    
+            <div class="col-6">
+                <nav>
+                    <div class="row">
+                        <div class="col-12 col-md-6 col-md-3">
+                             {% for player in player_info %} 
+                             {% if session['username'] == player.username %} 
+                             {{ player.username }} 
+                             {% endif %} {% endfor %}
+                        </div>
+                        <div class="col-12 col-md-6 col-md-3">
+                            <button type="button" class="btn btn-nav" onclick="location.href='/play';">Resume Game</button>
+                        </div>
+                    </div>
+                </nav>
             </div>
+            {%  else  %}
+            <div class="col-12"></div>
             {% endif %}
         </div>
     </div>
