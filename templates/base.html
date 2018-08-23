@@ -53,6 +53,8 @@
         </div>
     </div>
 
+<!-- error -->
+{% block errorcontent %}{% endblock %}
 
     <!-- Content -->
     {% if request.path == "/" or request.path == "/play" %}
@@ -77,6 +79,7 @@
             <div class="col-12">
                 <!-- Content Leaderboard List -->
                 {% block page_content_leaderboard %}{% endblock %}
+                
             </div>
         </div>
     </div>

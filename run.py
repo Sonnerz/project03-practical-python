@@ -33,7 +33,7 @@ def create_player(username):
     '''
     Creates a player dict{} in player_info List to track the players; score, attempts and their current riddle
     '''
-    player_info.append({"username":username, "score":0, "attempt":0, "wrong":0, "riddle_number":0}) #creates a player
+    player_info.append({"username":username, "score":0, "attempt":0, "wrong":0, "riddle_number":0, "attempt_total":0}) #creates a player
     return player_info
 
 
@@ -51,9 +51,18 @@ def start_game():
 
 @app.route('/play')
 def play():
-    length_of_riddles = len(riddles)
-    return render_template("play.html", page_title="Riddle-Me-This - Play", username=session['username'], leaderboard=leaderboard, 
+    '''
+    If no session is running this page can't be accessed. User is redirected to index page
+    '''
+    try:
+        if session.get('username'):
+            length_of_riddles = len(riddles)
+            return render_template("play.html", page_title="Riddle-Me-This - Play", username=session['username'], leaderboard=leaderboard, 
                                         player_info=player_info, usernames=usernames, riddle=riddle, session=session, length_of_riddles=length_of_riddles)
+        else:
+            return redirect(url_for('index')) 
+    except Exception as e:
+        return render_template("500.html", error=e)
 
 
 @app.route('/end')
@@ -101,9 +110,11 @@ def check_answer(answerInputByPlayer, riddle):
             else:
                 flash("{} is incorrect.".format(answerInputByPlayer)) # flash - player told answer is incorrect
                 player['attempt'] += 1 # increase attempt by 1
+                player['attempt_total'] +1# increase attempt_total by 1
                 print("B :", player)
                 if player['attempt'] == 2: # max of 2 attempts reached
                     player['wrong'] += 1 # increase wrong count by 1
+                    player['attempt_total'] +=2 # increase attempt_total by 2
                     flash("{} was the correct answer.".format(riddle['Answer'])) # flash - player told the correct answer
                     player['attempt'] = 0 # reset attempts back to 0
                     player['riddle_number'] += 1 # increase riddle number by 1
@@ -130,7 +141,7 @@ def number_to_string(number):
         10: "Ten",
         18: "Eighteen"
     }
-    return switcher.get(number, "Invalid number")
+    return switcher.get(number, "number")
     
         
 
@@ -210,7 +221,7 @@ def page_not_found(error):
     '''
     404 error is redirected to 404.html
     '''
-    return render_template('404.html'), 404
+    return render_template('404.html')
 
 @app.errorhandler(500)
 def internal_error(error):
@@ -219,7 +230,7 @@ def internal_error(error):
     '''
     session.pop('_flashes', None)
     session.pop('username', None)
-    return render_template('500.html'), 500  
+    return render_template('500.html') 
     
 
 

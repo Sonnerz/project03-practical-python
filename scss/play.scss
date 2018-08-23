@@ -21,6 +21,7 @@
         .riddle-count {
             float:right;
             padding-right: 20px;
+            vertical-align: bottom;
             p {
                 font-size: 1rem;
             }
@@ -31,7 +32,7 @@
         display: table-cell;
         text-align: center;
         vertical-align: middle;
-        float:left;
+        // float:left;
         p {
             width: 80%;
             margin: 15% auto;
@@ -64,7 +65,7 @@
             width: 100%;
         }
         .riddle-question-text p {
-            font-size: 2.2rem;
+            font-size: 2.1rem;
         }
         .welcome-user-message {
             text-align: left;

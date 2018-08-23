@@ -32,6 +32,9 @@ button.close {
 form-control {
   border: 1px solid #052003; }
 
+.form-control:focus {
+  border-color: #052003; }
+
 body {
   font-family: 'Margarine', cursive;
   background: url(/static/img/riddler-wallpaper.jpg) no-repeat fixed;
@@ -118,6 +121,14 @@ a,
   #nav-logo img {
     width: 100%;
     max-width: 450px; } }
+/* error pages */
+#error-page {
+  margin-top: 100px;
+  background-color: rgba(245, 245, 245, 0.7);
+  border: 1px solid transparent;
+  border-radius: .25rem;
+  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out; }
+
 /* Debugging Panel */
 #panel-debug {
   padding: 10px 10px;
@@ -210,14 +221,14 @@ a,
     width: 100%; }
     #riddle-question-area .riddle-question-box .riddle-count {
       float: right;
-      padding-right: 20px; }
+      padding-right: 20px;
+      vertical-align: bottom; }
       #riddle-question-area .riddle-question-box .riddle-count p {
         font-size: 1rem; }
   #riddle-question-area .riddle-question-text {
     display: table-cell;
     text-align: center;
-    vertical-align: middle;
-    float: left; }
+    vertical-align: middle; }
     #riddle-question-area .riddle-question-text p {
       width: 80%;
       margin: 15% auto;
@@ -245,7 +256,7 @@ a,
       vertical-align: middle;
       width: 100%; }
     #riddle-question-area .riddle-question-text p {
-      font-size: 2.2rem; }
+      font-size: 2.1rem; }
     #riddle-question-area .welcome-user-message {
       text-align: left;
       height: 100px;

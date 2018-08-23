@@ -1,8 +1,11 @@
 <!-- extend base layout -->
 {% extends "base.html" %}
 
-{% block content %}
-  <h1>404 --- File Not Found</h1>
+{% block errorcontent %}
+<div class="container" id="error-page">
+  <h1>404 -- File Not Found</h1>
+  <p>The administrator has been notified. Sorry for the inconvenience!</p>
   <p>{{ error }}</p>
   <p><a href="{{ url_for('index') }}">Back</a></p>
+</div>  
 {% endblock %}
