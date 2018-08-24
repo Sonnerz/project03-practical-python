@@ -21,6 +21,7 @@
                     <p><a href="#helpModal" data-toggle="modal" data-target="#helpModal"><i class="fa fa-info-circle" aria-hidden="true"></i>How to Play</a></p>
                 </div>
             </div>
+            {{ restart_message }}
             <div id="messages-container">
                 <div class="alert-container">
                     {% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %}
@@ -31,7 +32,7 @@
             </div>
             <div class="form-group button-submit-margin">
                 <button type="submit" class="btn btn-riddle-index" id="sendAnswerButton">
-                        Start a game
+                        Start/Resume a game
                 </button>
             </div>
         </form>
@@ -64,9 +65,21 @@
 {% block content_debug %}
 
 <div>
+    <h5>Length</h5>
+    {{ length }}
     <h5>Player</h5>
     {% for player in player_info %}
-    <p>username: {{ player.username }}<br> score: {{ player.score }}</p>
+    <p>username: {{ player.username }}<br> score: {{ player.score }}
+    <br> wrong: {{ player.wrong }}<br> attempt_total: {{ player.attempt_total }}
+    <br> riddle_number: {{ player.riddle_number }}
+    <br> restart: {{ player.restart }}
+    <br> resume: {{ player.resume }}
+    </p>
+    {% endfor %}
+    <br>
+    <h5>Leaderboard</h5>
+    {% for leader in leaderboard %}
+    <p>username: {{ leader.username }}<br> score: {{ leader.score }}</p>
     {% endfor %}
     <br>
     <h5>Usernames</h5>

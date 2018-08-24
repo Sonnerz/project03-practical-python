@@ -6,28 +6,27 @@
     <div class="welcome-user-message">
         <!-- Welcome Player message -->
         <!-- if it's the first riddle show 'first', last riddle show 'last' otherwise show 'next'.  -->
-        {% if riddle.Number == 0 %}
-        <h2>Hi {{username}},</h2>
-        <p>try answering this <span>first</span> riddle: {{ riddle.Number +1 }} of {{ length_of_riddles }}</p>
-        {% elif riddle.Number|int() == length_of_riddles|int()-1 %}
-        <h2>Hi {{username}},</h2>
-        <p>try answering this <span>last</span> riddle: {{ riddle.Number +1 }} of {{ length_of_riddles }}</p>
-        {% elif riddle.Number|int() > length_of_riddles|int()-1 %}
-        <h2>Hi {{username}},</h2>
+        {% if player.riddle_number|int() == 0 %}
+        <h2>Hi {{ player.username }},</h2>
+        <p>try answering this <span>first</span> riddle: {{ player.riddle_number|int() +1 }} of {{ length_of_riddles }}</p>
+        {% elif player.riddle_number|int() == length_of_riddles|int()-1 %}
+        <h2>Hi {{ player.username }},</h2>
+        <p>try answering this <span>last</span> riddle: {{ player.riddle_number|int() +1 }} of {{ length_of_riddles }}</p>
+        {% elif player.riddle_number|int() > length_of_riddles|int()-1 %}
+        <h2>Hi {{ player.username }},</h2>
         <p>there are no more riddles</p>
         {% else %}
-        <h2>Hi {{username}},</h2>
-        <p>try answering this <span>next</span> riddle: {{ riddle.Number +1 }} of {{ length_of_riddles }}</p>
+        <h2>Hi {{ player.username }},</h2>
+        <p>try answering this <span>next</span> riddle: {{ player.riddle_number|int() +1 }} of {{ length_of_riddles }}</p>
         {% endif %}
     </div>
     <!-- Riddle Text -->
     <!-- Show Riddle Text or Riddle Image -->
     <div class="riddle-question-box">
-        {% if riddle.Number|int() < length_of_riddles|int() %} 
+        {% if player.riddle_number|int() < length_of_riddles|int() %} 
             <div class="riddle-question-text">
-                {% if riddle.Number|int()
-                < length_of_riddles|int() %} {% if riddle.Path !="" %} <img src="{{ riddle.Path }}" alt="riddle image" /> {% else %}
-                <p>{{ riddle.Question }}</p>
+                {% if player.riddle_number|int() < length_of_riddles|int() %} {% if player.riddle_path !="" %} <img src="{{ player.riddle_path }}" alt="riddle image" /> {% else %}
+                <p>{{ player.riddle_question }}</p>
                 {% endif %}{% endif %}
             </div>
             {% else %}
@@ -47,20 +46,21 @@
         <form method="POST" name="riddleAnswer" id="answerForm" action="/checkPlayerInput">
             <div class="control-group">
                 <div class="form-group floating-label-form-group controls">
-                    {% if riddle.Number|int() < length_of_riddles|int() %} 
-                    <input type="text" class="form-control" placeholder="Enter your Riddle Answer..." name="riddleAnswer" id="riddleAnswer" required data-validation-required-message="Please enter your answer." pattern="[A-Za-z0-9]{1,50}">
-                        {% else %}
+                    {% if player.riddle_number|int() < length_of_riddles|int() %} 
+                        <input type="text" class="form-control" placeholder="Enter your Riddle Answer..." name="riddleAnswer" id="riddleAnswer" required data-validation-required-message="Please enter your answer." pattern="[A-Za-z0-9]{1,50}">
+                        <input type="text" name="player_riddle_number" id="player_riddle_number" value={{ player.riddle_number|int(), length_of_riddles|int() }}>
+                        {{ length_of_riddles}}
+                    {% else %}
                         <p class="end-message">Well done {{ session['username'] }}!<br> 
-                        {% for player in player_info %} 
                         {% if session['username'] == player.username %} 
                         {{ player.score}} riddles correct <br> and  {{ player.wrong }} incorrect.<br> 
                         You had a total of {{ player.attempt_total }} attempts.
                         {% endif %}</p>
-                        {% endfor %} {% endif %}
+                        {% endif %}
                 </div>
             </div>
             <div class="form-group">
-                {% if riddle.Number|int() < length_of_riddles|int() %} 
+                {% if player.riddle_number|int() < length_of_riddles|int() %} 
                     <button type="submit" name="sendAnswerButton" class="btn btn-riddle" id="sendAnswerButton">Submit your Answer</button>
                 {% endif %}
             </div>
@@ -73,15 +73,16 @@
         </div>
 
         <!-- Show attempt info during game until game is over, then hide it -->
-        {% if riddle.Number|int() < length_of_riddles|int() %} 
+        {% if player.riddle_number|int() < length_of_riddles|int() %} 
         <div class="riddle-answer-attempts">
-            {% for player in player_info %} {% if player.username == session['username'] %} {{player_answer}}
+            {% if player.username == session['username'] %} 
+            {{player_answer}}
             <p>Number of attempts made:&nbsp;&nbsp;{{ player.attempt }}</p>
             {% if player.attempt == 0 %}
             <p>Attempts remaining:&nbsp;&nbsp; 2</p>
             {% elif player.attempt == 1 %}
             <p>Attempts remaining:&nbsp;&nbsp; 1</p>
-            {% else %} {% endif %}{% endif %} {% endfor %}
+            {% else %} {% endif %}{% endif %}
         </div>
     {% else %}
     <!-- Button Go to Leader Board -->
@@ -96,7 +97,7 @@
 <!-- Debug area. Hidden if debug set to False -->
 {% block content_debug %}
 <div class="left">
-    Length:{{length_of_riddles}} Number:{{riddle.Number}}
+    Number:{{player.riddle_number|int()}} of Length:{{length_of_riddles|int()}} 
     <h5>Players List:</h5>
     {% for player in player_info %}
     <p>
@@ -106,17 +107,15 @@
         wrong: {{ player.wrong }}<br>
         riddle_number: {{ player.riddle_number }}<br>
         attempt_total: {{ player.attempt_total }}<br>
-        restart: {{ player.restart }}
-        <br> resume: {{ player.resume }}
         <br>
     </p>
     {% endfor %}
 </div>
 <div class="right">
     <h5>Current Riddle Index</h5>
-    <p>{{ riddle.Number }}</p>
+    <p>{{ player.riddle_number }}</p>
     <h5>Correct Anwer</h5>
-    <p>{{ riddle.Answer }}</p>
+    <p>{{ player.riddle_answer }}</p>
     <h5>Leader Board</h5>
     {% for leader in leaderboard %}
     <p>

@@ -37,7 +37,7 @@ def create_player(username):
     '''
     Creates a player dict{} in player_info List to track the players; score, attempts and their current riddle
     '''
-    player_info.append({"username":username, "score":0, "attempt":0, "wrong":0, "riddle_number":0, "attempt_total":0}) #creates a player
+    player_info.append({"username":username, "score":0, "attempt":0, "wrong":0, "riddle_number":0, "attempt_total":0, "restart":False, "resume":False}) #creates a player
     return player_info
 
 
@@ -47,10 +47,41 @@ def start_game():
     Intialise the global lists and riddle dictionary. Populate with the player info to track their progress.
     Get the first riddle to start the game. Redirect to the game html page - play() play.html.
     '''
-    create_player(session['username'])
-    global riddle
-    riddle = get_next_riddle(0) #returns a dictionary FIRST RIDDLE
-    return redirect(url_for('play'))    
+    for player in player_info:
+        if player['username'] == session['username'] and player['resume'] == True and player['restart'] == False:
+            global riddle
+            riddle = get_next_riddle(player['riddle_number']) #returns a dictionary FIRST RIDDLE
+            player.update({"resume":False})
+            return redirect(url_for('play'))
+        elif player['username'] == session['username'] and player['restart'] == True and player['resume'] == False:
+            global riddle
+            riddle = get_next_riddle(0) #returns a dictionary FIRST RIDDLE
+            player.update({"restart":False})
+            return redirect(url_for('play')) 
+        elif player['username'] == session['username'] and player['restart'] == False and player['resume'] == False:
+            global riddle
+            riddle = get_next_riddle(0) #returns a dictionary FIRST RIDDLE
+            return redirect(url_for('play'))            
+    else:
+        create_player(session['username'])
+        global riddle
+        riddle = get_next_riddle(0) #returns a dictionary FIRST RIDDLE
+        return redirect(url_for('play'))    
+            
+    
+    # for player in player_info:
+    #     if player['username'] == session['username'] and player['restart'] == True:
+    #         global riddle
+    #         riddle = get_next_riddle(player['riddle_number']) #returns a dictionary FIRST RIDDLE
+    #         return redirect(url_for('play'))
+    #     else:
+    #         create_player(session['username'])
+    #         global riddle
+    #         riddle = get_next_riddle(0) #returns a dictionary FIRST RIDDLE
+    #         return redirect(url_for('play'))
+    #     return redirect(url_for('play'))        
+        
+
 
 
 @app.route('/play')
@@ -61,9 +92,14 @@ def play():
     try:
         if session.get('username'):
             for player in player_info:
-                length_of_riddles = len(riddles)
-                return render_template("play.html", page_title="Riddle-Me-This - Play", username=session['username'], leaderboard=leaderboard, 
-                                        player_info=player_info, player=player, usernames=usernames, riddle=riddle, session=session, length_of_riddles=length_of_riddles)
+                if player['username'] == session['username'] and player['restart'] == False:
+                    length_of_riddles = len(riddles)
+                    return render_template("play.html", page_title="Riddle-Me-This - Play", username=session['username'], leaderboard=leaderboard, 
+                                            player_info=player_info, player=player, usernames=usernames, riddle=riddle, session=session, length_of_riddles=length_of_riddles)
+                elif player['username'] == session['username'] and player['restart'] == True:
+                    length_of_riddles = len(riddles)
+                    return render_template("play.html", page_title="Riddle-Me-This - Play", username=session['username'], leaderboard=leaderboard, 
+                                            player_info=player_info, player=player, usernames=usernames, riddle=riddle, session=session, length_of_riddles=length_of_riddles)
         else:
             return redirect(url_for('index')) 
     except Exception as e:
@@ -77,23 +113,8 @@ def end():
     The session is cleared. Else the leaderboard is still rendered to the broswer if there are games in session at the same time.
     '''
     try:
-        # if session.get('username'):
-        #     date_completed = datetime.now().strftime("%d-%m-%Y") # date now
-        #     for player in player_info:
-        #         if not leaderboard:
-        #             leaderboard.append({"username": session['username'], "score": player['score'], "timestamp":date_completed}) # added to leaderboard list
-        #         else:    
-        #             for leader in leaderboard:
-        #                 print(leaderboard)
-        #                 if player['username'] == session['username'] and player['username'] != leader['username']:
-        #                     print(player['username'] ,session['username'] , player['username'] , leader['username'])
-        #                     leaderboard.append({"username": session['username'], "score": player['score'], "timestamp":date_completed}) # added to leaderboard list
-            sorted_leaderboard_list = sorted(leaderboard, key=itemgetter('score'), reverse=True) # show leader board list sorted by score
-            #session.pop('username', None) # clear the session
-            return render_template("end.html", page_title="Riddle-Me-This - Game Over", session=session, leaderboard=leaderboard, players=player_info, sorted_leaderboard_list=sorted_leaderboard_list)
-        # else:
-        #     sorted_leaderboard_list = sorted(leaderboard, key=itemgetter('score'), reverse=True) # show leader board list sorted by score 
-        #     return render_template("end.html", page_title="Riddle-Me-This - Game Over", leaderboard=leaderboard, sorted_leaderboard_list=sorted_leaderboard_list)
+        sorted_leaderboard_list = sorted(leaderboard, key=itemgetter('score'), reverse=True) # show leader board list sorted by score
+        return render_template("end.html", page_title="Riddle-Me-This - Game Over", session=session, leaderboard=leaderboard, players=player_info, sorted_leaderboard_list=sorted_leaderboard_list)
     except Exception as e:
         return render_template("500.html", error=e)        
                 
@@ -111,6 +132,7 @@ def check_answer(answerInputByPlayer, riddle):
             if riddle['Answer'] == answerInputByPlayer:
                 flash("Correct! The answer was:  {}.".format(riddle['Answer'])) # flash - player told answer is correct
                 player['attempt'] = 0
+                player['attempt_total'] +=1 # increase attempt_total by 1
                 player['score'] += 1 # increase score by 1
                 player['riddle_number'] += 1 # increase riddle number by 1
                 if (player['riddle_number'] < len(riddles)): # check for last riddle
@@ -121,7 +143,7 @@ def check_answer(answerInputByPlayer, riddle):
                 player['attempt_total'] +1# increase attempt_total by 1
                 if player['attempt'] == 2: # max of 2 attempts reached
                     player['wrong'] += 1 # increase wrong count by 1
-                    player['attempt_total'] +=2 # increase attempt_total by 2
+                    player['attempt_total'] +=1 # increase attempt_total by 1
                     flash("{} was the correct answer.".format(riddle['Answer'])) # flash - player told the correct answer
                     player['attempt'] = 0 # reset attempts back to 0
                     player['riddle_number'] += 1 # increase riddle number by 1
@@ -163,7 +185,6 @@ def check():
         player_answer = request.form['riddleAnswer'] # get player answer from form
         if player_answer.isdigit(): #check if answer is a digit instead of text e.g. 7 instead of seven
             checked_player_answer = number_to_string(int(player_answer)) # send to helper function
-            print("checked_player_answer :" ,checked_player_answer)
         else:
             checked_player_answer = player_answer # reset player_answer var with checked answer
         global riddle
@@ -184,24 +205,44 @@ def check_username(username):
     check if it's already taken
     '''
     if (username not in usernames) and session.get('username') == username:
-        message_false = Markup("{}, a game with this name has already started. You cannot continue or restart this game.<br>Register with a new name".format(username))
-        flash(message_false) # username taken try again until username is not in usernames[]  
-        return False
+        usernames.append(username)
+        for player in player_info:
+            if player['username'] == username and player['riddle_number'] == len(riddles):
+                flash("You have already completed the 10 riddles. You can try again")
+                player.update({"restart":True,"resume":False,"riddle_number":0,"score":0,"attempt_total":0,"wrong":0,"attempts":0 })
+                return True
+            elif player['username'] == username and player['riddle_number'] != len(riddles):
+                player.update({"resume":True,"restart":False})
+                return True
+        return True
     elif (username in usernames) and not session.get('username') == username:
-        message_false = Markup("{}, this name has already been taken. <br>Enter a different player name".format(username))
-        flash(message_false) # username taken try again until username is not in usernames[]  
-        return False
+        session['username'] = username
+        for player in player_info:
+            if player['username'] == username and player['riddle_number'] == len(riddles):
+                flash("You have already completed the 10 riddles. You can try again")
+                player.update({"restart":True,"resume":False,"riddle_number":0,"score":0,"attempt_total":0,"wrong":0,"attempts":0 })
+                return True
+            elif player['username'] == username and player['riddle_number'] != len(riddles):
+                player.update({"resume":True,"restart":False})
+                return True
+        return True
     elif (username in usernames) and session.get('username') == username:
-        message_false = Markup("{}, a game with this name has already started. You cannot continue or restart this game.<br>Register with a new name".format(username))
-        flash(message_false) # username taken try again and usnername already in a session - so game underway  
-        return False
+        for player in player_info:
+            if player['username'] == username and player['riddle_number'] == len(riddles):
+                flash("You have already completed the 10 riddles. You can try again")
+                player.update({"restart":True,"resume":False,"riddle_number":0,"score":0,"attempt_total":0,"wrong":0,"attempts":0 })
+                return True
+            elif player['username'] == username and player['riddle_number'] != len(riddles):
+                player.update({"resume":True,"restart":False})
+                return True
+        return True
     elif (username not in usernames):
         usernames.append(username) # if its a new unique username, add to usernames[]
         session['username'] = username # add username to flask session
         return True        
     else:
         flash("{}, this player name has been taken, please try a different name.".format(username)) # username taken try again until username is not in usernames[]  
-        return render_template("index.html", page_title="Riddle-Me-This - Home", usernames=usernames, leaderboard=leaderboard) 
+        return render_template("index.html", page_title="Riddle-Me-This - Home",  usernames=usernames, leaderboard=leaderboard) 
    
     
 
@@ -213,6 +254,7 @@ def index():
     '''
     #session.pop('username', None)
     session.pop('_flashes', None)
+    length = len(riddles)
     try:
         if request.method == "POST":
             username_from_form = request.form['addUsername']
@@ -220,7 +262,7 @@ def index():
                 return redirect(url_for('start_game')) # start the game
     except Exception as e:
         return render_template("500.html", error=e)
-    return render_template("index.html", page_title="Riddle-Me-This - Home", usernames=usernames, leaderboard=leaderboard)     
+    return render_template("index.html", page_title="Riddle-Me-This - Home",length=length, player_info=player_info, usernames=usernames, leaderboard=leaderboard)     
       
 
 
