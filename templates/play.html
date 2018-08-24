@@ -8,16 +8,16 @@
         <!-- if it's the first riddle show 'first', last riddle show 'last' otherwise show 'next'.  -->
         {% if riddle.Number == 0 %}
         <h2>Hi {{username}},</h2>
-        <p>try answering this <span>first</span> riddle: {{ riddle.Number +1 }} of {{ length_of_riddles }}</p>
+        <p>try answering this <span class="red-text">first</span> riddle: </p><p class="num-of-ten">{{ riddle.Number +1 }} of {{ length_of_riddles }}</p>
         {% elif riddle.Number|int() == length_of_riddles|int()-1 %}
         <h2>Hi {{username}},</h2>
-        <p>try answering this <span>last</span> riddle: {{ riddle.Number +1 }} of {{ length_of_riddles }}</p>
+        <p>try answering this <span class="red-text">last</span> riddle: </p><p class="num-of-ten">{{ riddle.Number +1 }} of {{ length_of_riddles }}</p>
         {% elif riddle.Number|int() > length_of_riddles|int()-1 %}
         <h2>Hi {{username}},</h2>
         <p>there are no more riddles</p>
         {% else %}
         <h2>Hi {{username}},</h2>
-        <p>try answering this <span>next</span> riddle: {{ riddle.Number +1 }} of {{ length_of_riddles }}</p>
+        <p>try answering this <span class="red-text">next</span> riddle: </p><p class="num-of-ten">{{ riddle.Number +1 }} of {{ length_of_riddles }}</p>
         {% endif %}
     </div>
     <!-- Riddle Text -->
@@ -53,8 +53,9 @@
                         <p class="end-message">Well done {{ session['username'] }}!<br> 
                         {% for player in player_info %} 
                         {% if session['username'] == player.username %} 
-                        {{ player.score}} riddles correct <br> and  {{ player.wrong }} incorrect.<br> 
-                        You had a total of {{ player.attempt_total }} attempts.
+                        <span class="red-text">{{ player.score}}</span> riddles correct <br> 
+                        and <span class="red-text">{{ player.wrong }}</span> incorrect.<br> 
+                        You had a total of <span class="red-text">{{ player.attempt_total }}</span> attempts.
                         {% endif %}</p>
                         {% endfor %} {% endif %}
                 </div>

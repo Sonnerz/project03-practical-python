@@ -35,9 +35,6 @@ button.close {
 .form-control:focus {
   border-color: #b32c16; }
 
-.form-group {
-  margin-bottom: 0; }
-
 body {
   font-family: 'Margarine', cursive;
   background: url(/static/img/riddler-wallpaper.jpg) no-repeat fixed;
@@ -85,6 +82,9 @@ i {
       top: 0;
       transform: translate(0, 0); } }
 
+.red-text {
+  color: #b32c16; }
+
 .alert-container {
   box-sizing: border-box;
   padding: 0;
@@ -95,7 +95,7 @@ i {
   color: #fff;
   background-color: #052003;
   border-color: #052003;
-  width: 60%; }
+  white-space: nowrap; }
 
 .btn-nav {
   color: #b32c16;
@@ -185,7 +185,7 @@ i {
     box-shadow: 0 0 0 0.2rem rgba(5, 32, 3, 0.25); }
   #container-content #username-form-container .button-submit-margin {
     margin-top: 20px;
-    padding-right: 43px;
+    padding-right: 2.7rem;
     margin-bottom: 40px; }
   #container-content #username-form-container .link-howto-margin {
     padding-bottom: 5px;
@@ -227,9 +227,10 @@ i {
     border-radius: .25rem;
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out; }
     #riddle-question-area .welcome-user-message p {
-      font-size: 1.4rem; }
-    #riddle-question-area .welcome-user-message span {
-      color: #b32c16; }
+      font-size: 1.4rem;
+      margin-bottom: 0; }
+    #riddle-question-area .welcome-user-message p.num-of-ten {
+      text-align: right; }
   #riddle-question-area .riddle-question-box {
     display: table;
     font-size: 1.5rem;
@@ -256,19 +257,6 @@ i {
     padding-top: 5%; }
   #riddle-question-area .game-over > img {
     width: 100%; }
-  #riddle-question-area .welcome-user-message {
-    font-size: 1.9rem;
-    margin-bottom: 20px;
-    text-align: center;
-    padding: 5px 5px;
-    background-color: rgba(245, 245, 245, 0.7);
-    border: 1px solid transparent;
-    border-radius: .25rem;
-    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out; }
-    #riddle-question-area .welcome-user-message p {
-      font-size: 1.4rem; }
-    #riddle-question-area .welcome-user-message span {
-      color: #b32c16; }
   @media (min-width: 768px) {
     #riddle-question-area .riddle-question-box {
       height: 380px;
@@ -278,7 +266,7 @@ i {
       font-size: 2.1rem; }
     #riddle-question-area .welcome-user-message {
       text-align: left;
-      height: 100px;
+      height: 130px;
       font-size: 2rem;
       padding: 10px 10px; } }
 
@@ -295,6 +283,8 @@ i {
     text-align: center; }
   #riddle-answer-area .form-control {
     width: 100%; }
+  #riddle-answer-area .form-group {
+    text-align: center; }
 
 @media (min-width: 768px) {
   .riddle-answer-box {
@@ -305,7 +295,7 @@ i {
     margin-bottom: 20px; }
 
   #riddle-answer-area {
-    padding-top: 180px; } }
+    padding-top: 210px; } }
 .riddle-answer-attempts {
   width: 80%;
   margin: 0 auto;

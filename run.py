@@ -35,17 +35,21 @@ def get_next_riddle(riddleIndex):
 
 def create_player(username):
     '''
-    Creates a player dict{} in player_info List to track the players; score, attempts and their current riddle
+    Creates a player dict{} in player_info List to track the players; score, attempts, wrong, current riddle number, 
+    total attempts, whether they are resuming a game or restarting after completeing the game.
     '''
-    player_info.append({"username":username, "score":0, "attempt":0, "wrong":0, "riddle_number":0, "attempt_total":0, "restart":False, "resume":False}) #creates a player
+    player_info.append({"username":username, "score":0, "attempt":0, "wrong":0, "riddle_number":0, "attempt_total":0, "restart":False, "resume":False}) #creates a player dict{}
     return player_info
 
 
 @app.route('/start_game', methods=["GET", "POST"])
 def start_game():
     '''
-    Intialise the global lists and riddle dictionary. Populate with the player info to track their progress.
-    Get the first riddle to start the game. Redirect to the game html page - play() play.html.
+    Intialise 'riddle' dictionary. Checks if user is starting/restarting/resuming a game.
+    Populate 'player' with player info to track their progress.
+    Get the first riddle to start the game, 
+    or get the current riddle a player is on if resuming a game
+    or get the first riddle if a player is resuming
     '''
     for player in player_info:
         if player['username'] == session['username'] and player['resume'] == True and player['restart'] == False:
@@ -53,36 +57,17 @@ def start_game():
             riddle = get_next_riddle(player['riddle_number']) #returns a dictionary FIRST RIDDLE
             player.update({"resume":False})
             return redirect(url_for('play'))
-        elif player['username'] == session['username'] and player['restart'] == True and player['resume'] == False:
+        elif player['username'] == session['username'] and player['resume'] == False and player['restart'] == True or player['username'] == session['username'] and player['resume'] == False and player['restart'] == False:
             global riddle
             riddle = get_next_riddle(0) #returns a dictionary FIRST RIDDLE
-            player.update({"restart":False})
-            return redirect(url_for('play')) 
-        elif player['username'] == session['username'] and player['restart'] == False and player['resume'] == False:
-            global riddle
-            riddle = get_next_riddle(0) #returns a dictionary FIRST RIDDLE
-            return redirect(url_for('play'))            
+            if player['restart'] == True:
+                player.update({"restart":False})
+            return redirect(url_for('play'))
     else:
         create_player(session['username'])
         global riddle
         riddle = get_next_riddle(0) #returns a dictionary FIRST RIDDLE
         return redirect(url_for('play'))    
-            
-    
-    # for player in player_info:
-    #     if player['username'] == session['username'] and player['restart'] == True:
-    #         global riddle
-    #         riddle = get_next_riddle(player['riddle_number']) #returns a dictionary FIRST RIDDLE
-    #         return redirect(url_for('play'))
-    #     else:
-    #         create_player(session['username'])
-    #         global riddle
-    #         riddle = get_next_riddle(0) #returns a dictionary FIRST RIDDLE
-    #         return redirect(url_for('play'))
-    #     return redirect(url_for('play'))        
-        
-
-
 
 @app.route('/play')
 def play():
@@ -92,11 +77,7 @@ def play():
     try:
         if session.get('username'):
             for player in player_info:
-                if player['username'] == session['username'] and player['restart'] == False:
-                    length_of_riddles = len(riddles)
-                    return render_template("play.html", page_title="Riddle-Me-This - Play", username=session['username'], leaderboard=leaderboard, 
-                                            player_info=player_info, player=player, usernames=usernames, riddle=riddle, session=session, length_of_riddles=length_of_riddles)
-                elif player['username'] == session['username'] and player['restart'] == True:
+                if player['username'] == session['username'] and player['restart'] == False or player['username'] == session['username'] and player['restart'] == True:
                     length_of_riddles = len(riddles)
                     return render_template("play.html", page_title="Riddle-Me-This - Play", username=session['username'], leaderboard=leaderboard, 
                                             player_info=player_info, player=player, usernames=usernames, riddle=riddle, session=session, length_of_riddles=length_of_riddles)
@@ -132,18 +113,18 @@ def check_answer(answerInputByPlayer, riddle):
             if riddle['Answer'] == answerInputByPlayer:
                 flash("Correct! The answer was:  {}.".format(riddle['Answer'])) # flash - player told answer is correct
                 player['attempt'] = 0
-                player['attempt_total'] +=1 # increase attempt_total by 1
                 player['score'] += 1 # increase score by 1
                 player['riddle_number'] += 1 # increase riddle number by 1
                 if (player['riddle_number'] < len(riddles)): # check for last riddle
                     return player # player
             else:
                 flash("{} is incorrect.".format(answerInputByPlayer)) # flash - player told answer is incorrect
+                player['attempt_total'] = 0
                 player['attempt'] += 1 # increase attempt by 1
-                player['attempt_total'] +1# increase attempt_total by 1
+                player['attempt_total'] += 1# increase attempt_total by 1
                 if player['attempt'] == 2: # max of 2 attempts reached
                     player['wrong'] += 1 # increase wrong count by 1
-                    player['attempt_total'] +=1 # increase attempt_total by 1
+                    player['attempt_total'] += 1 # increase attempt_total by 1
                     flash("{} was the correct answer.".format(riddle['Answer'])) # flash - player told the correct answer
                     player['attempt'] = 0 # reset attempts back to 0
                     player['riddle_number'] += 1 # increase riddle number by 1
@@ -204,8 +185,11 @@ def check_username(username):
     '''
     check if it's already taken
     '''
-    if (username not in usernames) and session.get('username') == username:
-        usernames.append(username)
+    if username not in usernames and session.get('username') == username or username in usernames and not session.get('username') == username or username in usernames and session.get('username') == username:
+        if username not in usernames:
+            usernames.append(username)
+        if not session.get('username') == username:
+            session['username'] = username
         for player in player_info:
             if player['username'] == username and player['riddle_number'] == len(riddles):
                 flash("You have already completed the 10 riddles. You can try again")
@@ -215,28 +199,7 @@ def check_username(username):
                 player.update({"resume":True,"restart":False})
                 return True
         return True
-    elif (username in usernames) and not session.get('username') == username:
-        session['username'] = username
-        for player in player_info:
-            if player['username'] == username and player['riddle_number'] == len(riddles):
-                flash("You have already completed the 10 riddles. You can try again")
-                player.update({"restart":True,"resume":False,"riddle_number":0,"score":0,"attempt_total":0,"wrong":0,"attempts":0 })
-                return True
-            elif player['username'] == username and player['riddle_number'] != len(riddles):
-                player.update({"resume":True,"restart":False})
-                return True
-        return True
-    elif (username in usernames) and session.get('username') == username:
-        for player in player_info:
-            if player['username'] == username and player['riddle_number'] == len(riddles):
-                flash("You have already completed the 10 riddles. You can try again")
-                player.update({"restart":True,"resume":False,"riddle_number":0,"score":0,"attempt_total":0,"wrong":0,"attempts":0 })
-                return True
-            elif player['username'] == username and player['riddle_number'] != len(riddles):
-                player.update({"resume":True,"restart":False})
-                return True
-        return True
-    elif (username not in usernames):
+    elif username not in usernames:
         usernames.append(username) # if its a new unique username, add to usernames[]
         session['username'] = username # add username to flask session
         return True        

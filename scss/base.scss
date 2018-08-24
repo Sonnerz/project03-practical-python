@@ -57,6 +57,9 @@ i {
     }
   }
 }
+.red-text {
+  color: $darkred;
+}
 
 .alert-container {
   box-sizing: border-box;
@@ -69,7 +72,7 @@ i {
   color: $white;
   background-color: $darkgreen;
   border-color: $darkgreen;
-  width: 60%;
+  white-space: nowrap;
 }
 
 .btn-nav {

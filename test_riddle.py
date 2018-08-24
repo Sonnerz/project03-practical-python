@@ -66,7 +66,7 @@ class TestRiddle(unittest.TestCase):
             with c.session_transaction() as sess:
                 sess['username'] = 'bob'
                 with app.test_request_context():
-                    self.assertEqual(run.create_player(sess['username']), [{'username':'bob', 'score':0, 'attempt':0,  "wrong":0, "riddle_number":0, "attempt_total":0}])
+                    self.assertEqual(run.create_player(sess['username']), [{'username':'bob', 'score':0, 'attempt':0,  "wrong":0, "riddle_number":0, "attempt_total":0, "restart":False, "resume":False}])
                     
 
     ''' TEST 05 '''
@@ -77,19 +77,19 @@ class TestRiddle(unittest.TestCase):
                 with app.test_request_context():
                     username = 'bob'
                     usernames = []
-                    if not usernames and username == 'bob': 
+                    if not usernames and username == 'bob' and sess['username']:
                         self.assertTrue(run.check_username(username))
                     username = 'bob'
                     usernames = []
-                    if not usernames and username == 'bob' and sess['username']: 
+                    if usernames and username == 'bob' and not sess['username']: 
                         self.assertFalse(run.check_username(username))                        
                     username = 'bob'
                     usernames = ['bob']
                     if usernames and username == 'bob' and sess['username']:
-                        self.assertFalse(run.check_username(username))
+                        self.assertTrue(run.check_username(username))
                     username = 'bob'
                     usernames = ['bob']
-                    if usernames and username == 'bob' and not sess['username']:
+                    if not usernames and username == 'bob':
                         self.assertFalse(run.check_username(username))
                         
                         
@@ -101,7 +101,7 @@ class TestRiddle(unittest.TestCase):
         test_number = run.number_to_string(2) # take a number return a word
         test_number1 = run.number_to_string(345) # take a number return a string
         test_number2 = run.number_to_string("answer") # take a number return a string
-        self.assertEqual(test_number, "Two")
+        self.assertEqual(test_number, "two")
         self.assertEqual(test_number1, "345")
         self.assertEqual(test_number2, "answer")
      

@@ -8,9 +8,10 @@
         @include text-background();
         p {
             font-size: 1.4rem;
+            margin-bottom: 0;
         }
-        span {
-            color: $darkred;
+        p.num-of-ten {
+            text-align: right;
         }
     }
     .riddle-question-box {
@@ -19,7 +20,7 @@
         @include text-background();
         width: 100%;
         .riddle-count {
-            float:right;
+            float: right;
             padding-right: 20px;
             vertical-align: bottom;
             p {
@@ -30,8 +31,7 @@
     .riddle-question-text {
         display: table-cell;
         text-align: center;
-        vertical-align: middle;
-        // float:left;
+        vertical-align: middle; // float:left;
         p {
             width: 80%;
             margin: 15% auto;
@@ -41,21 +41,8 @@
     .game-over {
         padding-top: 5%;
     }
-    .game-over > img {
+    .game-over>img {
         width: 100%;
-    }
-    .welcome-user-message {
-        font-size: 1.9rem;
-        margin-bottom: 20px;
-        text-align: center;
-        padding: 5px 5px;
-        @include text-background();
-        p {
-            font-size: 1.4rem;
-        }
-        span {
-            color: $darkred;
-        }
     }
     @media (min-width: 768px) {
         .riddle-question-box {
@@ -68,7 +55,7 @@
         }
         .welcome-user-message {
             text-align: left;
-            height: 100px;
+            height: 130px;
             font-size: 2rem;
             padding: 10px 10px;
         }
@@ -88,6 +75,9 @@
     .form-control {
         width: 100%;
     }
+    .form-group {
+        text-align: center;
+    }
 }
 
 @media (min-width: 768px) {
@@ -99,7 +89,7 @@
         margin-bottom: 20px;
     }
     #riddle-answer-area {
-    padding-top: 180px;
+        padding-top: 210px;
     }
 }
 
@@ -111,7 +101,7 @@
         font-size: 1rem;
         margin-bottom: 0.5rem;
     }
-    p:nth-child(2){
+    p:nth-child(2) {
         margin-bottom: 0;
     }
 }
