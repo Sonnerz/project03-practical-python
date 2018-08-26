@@ -73,6 +73,7 @@ i {
   background-color: $darkgreen;
   border-color: $darkgreen;
   white-space: nowrap;
+  transition: all .1s linear;
 }
 
 .btn-nav {
@@ -92,6 +93,11 @@ i {
   background-color: $darkred;
   border-color: $darkred;
 }
+
+.btn-riddle:active, .btn-riddle-index:active {
+  transform: translateY(3px);
+}
+
 
 #messages-container {
   margin: 0 auto;

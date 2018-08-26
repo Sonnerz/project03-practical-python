@@ -17,6 +17,7 @@
         <div style="clear:both;"></div>
     </div>
     {% for rows in sorted_leaderboard_list %}
+    {% if loop.index < 15 %}
     <div class="leaderboard-row">
         <div class="leaderboard-col leaderboard-col-data">{{ loop.index }}</div>
         <div class="leaderboard-col leaderboard-col-data">{{ rows.username }}</div>
@@ -24,7 +25,11 @@
         <div class="leaderboard-col leaderboard-col-data time">{{ rows.timestamp }}</div>
         <div style="clear:both;"></div>
     </div>
+    {% endif %}
     {% endfor %}
+
+
+    
 </div>
 {% endblock %}
 

@@ -14,7 +14,8 @@
         <form method="POST" name="addUsernameForm" id="addUsernameForm">
             <div class="control-group">
                 <div class="form-group floating-label-form-group controls">
-                    <input type="text" class="form-control" placeholder="Enter a player name..." name="addUsername" id="addUsername" required data-validation-required-message="Please enter your player name.">
+                    <input type="text" class="form-control" placeholder="Enter a player name..." name="addUsername" id="addUsername" required data-validation-required-message="Please enter your player name." pattern="[A-Za-z0-9]{1,50}">
+                    <div class="input-info">Letters and numbers only accepted</div>
                 </div>
                 <!-- Button trigger modal -->
                 <div class="link-howto-margin">
@@ -65,15 +66,13 @@
 {% block content_debug %}
 
 <div>
-    <h5>Length</h5>
-    {{ length }}
     <h5>Player</h5>
     {% for player in player_info %}
     <p>username: {{ player.username }}<br> score: {{ player.score }}
-    <br> wrong: {{ player.wrong }}<br> attempt_total: {{ player.attempt_total }}
-    <br> riddle_number: {{ player.riddle_number }}
-    <br> restart: {{ player.restart }}
-    <br> resume: {{ player.resume }}
+        <br> wrong: {{ player.wrong }}<br> attempt_total: {{ player.attempt_total }}
+        <br> riddle_number: {{ player.riddle_number }}
+        <br> restart: {{ player.restart }}
+        <br> resume: {{ player.resume }}
     </p>
     {% endfor %}
     <br>

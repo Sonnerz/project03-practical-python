@@ -95,7 +95,8 @@ i {
   color: #fff;
   background-color: #052003;
   border-color: #052003;
-  white-space: nowrap; }
+  white-space: nowrap;
+  transition: all .1s linear; }
 
 .btn-nav {
   color: #b32c16;
@@ -111,6 +112,9 @@ i {
   color: #fff;
   background-color: #b32c16;
   border-color: #b32c16; }
+
+.btn-riddle:active, .btn-riddle-index:active {
+  transform: translateY(3px); }
 
 #messages-container {
   margin: 0 auto;
@@ -184,13 +188,25 @@ i {
     outline: 0;
     box-shadow: 0 0 0 0.2rem rgba(5, 32, 3, 0.25); }
   #container-content #username-form-container .button-submit-margin {
-    margin-top: 20px;
-    padding-right: 2.7rem;
-    margin-bottom: 40px; }
-  #container-content #username-form-container .link-howto-margin {
+    margin-top: 10px;
+    margin-bottom: 40px;
+    text-align: center; }
+  #container-content #username-form-container .link-howto-margin,
+  #container-content #username-form-container .input-info {
     padding-bottom: 5px;
     text-align: right;
-    padding-right: 43px; }
+    padding-right: 1.6rem; }
+  #container-content #username-form-container .input-info {
+    font-size: .7rem; }
+  @media (min-width: 425px) {
+    #container-content #username-form-container .link-howto-margin,
+    #container-content #username-form-container .input-info {
+      padding-bottom: 5px;
+      text-align: right;
+      padding-right: 2.5rem; }
+    #container-content #username-form-container .button-submit-margin {
+      padding-right: 2.8rem;
+      text-align: right; } }
   #container-content #username-form-container .vertical-align-modal {
     display: table;
     height: 100%;
@@ -206,6 +222,9 @@ i {
     height: inherit;
     margin: 0 auto;
     pointer-events: all; }
+  #container-content #username-form-container #form-wrapper {
+    width: 80%;
+    background-color: #ff0000; }
 @media (min-width: 768px) {
   #container-content #username-form-container {
     padding: 100px 0px;

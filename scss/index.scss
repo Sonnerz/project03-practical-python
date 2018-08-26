@@ -19,7 +19,7 @@
                 text-align: right;
             }
             input {
-            margin: 0 auto;
+                margin: 0 auto;
             }
         }
         #messages-container {
@@ -37,14 +37,30 @@
         }
 
         .button-submit-margin {
-            margin-top: 20px;
-            padding-right: 2.7rem;
+            margin-top: 10px;
             margin-bottom: 40px;
+            text-align: center;
         }
-        .link-howto-margin {
+        .link-howto-margin,
+        .input-info {
             padding-bottom: 5px;
             text-align: right;
-            padding-right: 43px;
+            padding-right: 1.6rem;
+        }
+        .input-info {
+            font-size: .7rem;
+        }
+        @media (min-width: 425px) {
+            .link-howto-margin,
+            .input-info {
+                padding-bottom: 5px;
+                text-align: right;
+                padding-right: 2.5rem;
+            }
+            .button-submit-margin {
+                padding-right: 2.8rem;
+                text-align: right;
+        }
         }
 
         /* StackOverflow solution to vertically and horizontally center the Modal */
@@ -66,7 +82,10 @@
             margin: 0 auto;
             pointer-events: all;
         }
-
+        #form-wrapper {
+            width: 80%;
+            background-color: #ff0000;
+        }
     }
 
     @media (min-width: 768px) {
