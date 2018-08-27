@@ -49,6 +49,7 @@
                 <div class="form-group floating-label-form-group controls">
                     {% if riddle.Number|int() < length_of_riddles|int() %} 
                     <input type="text" class="form-control" placeholder="Enter your Riddle Answer..." name="riddleAnswer" id="riddleAnswer" required data-validation-required-message="Please enter your answer." pattern="[A-Za-z0-9]{1,50}">
+                    <input type="hidden" name="player_current_riddle_number" id="player_current_riddle_number" value={{player.riddle_number|int()}}>
                         {% else %}
                         <p class="end-message">Well done {{ session['username'] }}!<br> 
                         {% for player in player_info %} 
@@ -107,9 +108,6 @@
         wrong: {{ player.wrong }}<br>
         riddle_number: {{ player.riddle_number }}<br>
         attempt_total: {{ player.attempt_total }}<br>
-        restart: {{ player.restart }}
-        <br> resume: {{ player.resume }}
-        <br>
     </p>
     {% endfor %}
 </div>

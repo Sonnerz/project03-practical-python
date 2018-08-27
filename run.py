@@ -12,14 +12,12 @@ from flask import Flask, render_template, request, flash, redirect, url_for, ses
 
 riddles = content()
 
-
 app = Flask(__name__)
 app.secret_key = 'The cat is on the roof'
 usernames = []
 leaderboard = []
 player_info = []
 riddle = {}
-
 
 @app.context_processor
 def debug_on_off():
@@ -42,6 +40,25 @@ def create_player(username):
     return player_info
 
 
+def number_to_string(number):
+    '''
+    Helper function - to change a digit to the word version of a number e.g. 7 to seven
+    '''
+    switcher = {
+        1: "one",
+        2: "two",
+        3: "three",
+        4: "four",
+        5: "five",
+        6: "six",
+        7: "seven",
+        8: "eight",
+        9: "nine",
+        10: "ten",
+        18: "eighteen"
+    }
+    return switcher.get(number, str(number))
+
 @app.route('/start_game', methods=["GET", "POST"])
 def start_game():
     '''
@@ -51,23 +68,26 @@ def start_game():
     or get the current riddle a player is on if resuming a game
     or get the first riddle if a player is resuming
     '''
+    global riddle
     for player in player_info:
-        if player['username'] == session['username'] and player['resume'] == True and player['restart'] == False:
-            global riddle
-            riddle = get_next_riddle(player['riddle_number']) #returns a dictionary FIRST RIDDLE
+        if player['resume'] == True:
+            # returns NEXT riddle for that player
+            riddle = get_next_riddle(player['riddle_number'])
             player.update({"resume":False})
             return redirect(url_for('play'))
-        elif player['username'] == session['username'] and player['resume'] == False and player['restart'] == True or player['username'] == session['username'] and player['resume'] == False and player['restart'] == False:
-            global riddle
-            riddle = get_next_riddle(0) #returns a dictionary FIRST RIDDLE
-            if player['restart'] == True:
-                player.update({"restart":False})
+        if player['restart'] == True:
+            # returns FIRST riddle
+            riddle = get_next_riddle(0)
+            player.update({"restart":False})
             return redirect(url_for('play'))
     else:
         create_player(session['username'])
-        global riddle
-        riddle = get_next_riddle(0) #returns a dictionary FIRST RIDDLE
-        return redirect(url_for('play'))    
+        # returns FIRST riddle
+        riddle = get_next_riddle(0)
+        
+        return redirect(url_for('play'))
+        
+        
 
 @app.route('/play')
 def play():
@@ -87,20 +107,6 @@ def play():
         return render_template("500.html", error=e)
 
 
-@app.route('/end')
-def end():
-    '''
-    User is told the game is over. Their score is added to the Leader Boad List. The leader board list is sorted by Score and rendered to the browser.
-    The session is cleared. Else the leaderboard is still rendered to the broswer if there are games in session at the same time.
-    '''
-    try:
-        sorted_leaderboard_list = sorted(leaderboard, key=itemgetter('score'), reverse=True) # show leader board list sorted by score
-        return render_template("end.html", page_title="Riddle-Me-This - Game Over", session=session, leaderboard=leaderboard, players=player_info, sorted_leaderboard_list=sorted_leaderboard_list)
-    except Exception as e:
-        return render_template("500.html", error=e)        
-                
-    
-
 def check_answer(answerInputByPlayer, riddle):
     '''
     Based on the username in session the inputed answer is compared against the actual riddle answer.
@@ -111,48 +117,38 @@ def check_answer(answerInputByPlayer, riddle):
     for player in player_info:
         if player['username'] == session['username']:
             if riddle['Answer'] == answerInputByPlayer:
-                flash("Correct! The answer was:  {}.".format(riddle['Answer'])) # flash - player told answer is correct
+                # flash - player told answer is correct
+                flash("Correct! The answer was:  {}.".format(riddle['Answer'])) 
                 player['attempt'] = 0
-                player['score'] += 1 # increase score by 1
-                player['riddle_number'] += 1 # increase riddle number by 1
-                if (player['riddle_number'] < len(riddles)): # check for last riddle
+                # increase score by 1
+                player['score'] += 1 
+                # increase riddle number by 1
+                player['riddle_number'] += 1 
+                # check for last riddle
+                if (player['riddle_number'] < len(riddles)): 
                     return player # player
             else:
-                flash("{} is incorrect.".format(answerInputByPlayer)) # flash - player told answer is incorrect
-                player['attempt_total'] = 0
-                player['attempt'] += 1 # increase attempt by 1
-                player['attempt_total'] += 1# increase attempt_total by 1
-                if player['attempt'] == 2: # max of 2 attempts reached
-                    player['wrong'] += 1 # increase wrong count by 1
-                    player['attempt_total'] += 1 # increase attempt_total by 1
-                    flash("{} was the correct answer.".format(riddle['Answer'])) # flash - player told the correct answer
-                    player['attempt'] = 0 # reset attempts back to 0
-                    player['riddle_number'] += 1 # increase riddle number by 1
-                    if (player['riddle_number'] < len(riddles)): # check for last riddle
-                        return player # return player
-            return player # return player
+                # flash - player told answer is incorrect
+                flash("{} is incorrect.".format(answerInputByPlayer)) 
+                # increase attempt by 1
+                player['attempt'] += 1 
+                # increase attempt_total by 1
+                player['attempt_total'] += 1
+                # max of 2 attempts reached
+                if player['attempt'] == 2: 
+                    # increase wrong count by 1
+                    player['wrong'] += 1 
+                    # flash - player told the correct answer
+                    flash("{} was the correct answer.".format(riddle['Answer'])) 
+                    # reset attempts back to 0
+                    player['attempt'] = 0 
+                    # increase riddle number by 1
+                    player['riddle_number'] += 1 
+                    # check for last riddle
+                    if (player['riddle_number'] < len(riddles)): 
+                        return player
+            return player
 
-
-def number_to_string(number):
-    '''
-    Helper function - to change a digit to the word version of a number e.g. 7 to seven
-    '''
-    switcher = {
-        1: "one",
-        2: "two",
-        3: "three",
-        4: "four",
-        5: "five",
-        6: "six",
-        7: "seven",
-        8: "eight",
-        9: "nine",
-        10: "ten",
-        18: "eighteen"
-    }
-    return switcher.get(number, str(number))
-    
-        
 
 @app.route('/checkPlayerInput', methods=["GET", "POST"])
 def check():
@@ -162,52 +158,34 @@ def check():
     If the last riddle is complete, player is redirected to end() end.html
     If not the last riddle the index is passed to get_next_riddle() to get the next riddle from riddleList[]
     '''
+    global riddle
     if request.method == "POST":
-        player_answer = request.form['riddleAnswer'] # get player answer from form
-        if player_answer.isdigit(): #check if answer is a digit instead of text e.g. 7 instead of seven
-            checked_player_answer = number_to_string(int(player_answer)) # send to helper function
+        # get player answer from form
+        player_answer = request.form['riddleAnswer']
+        # get player urrent riddle number from form
+        player_current_riddle_number = int(request.form['player_current_riddle_number']) 
+        # check if answer is a digit instead of text e.g. 7 instead of seven
+        if player_answer.isdigit(): 
+            # send to helper function
+            checked_player_answer = number_to_string(int(player_answer)) 
         else:
-            checked_player_answer = player_answer # reset player_answer var with checked answer
-        global riddle
-        player = check_answer(checked_player_answer.lower(), riddle) # check_answer() called. Index of next riddle returned.
-        if player['riddle_number'] < len(riddles): # check for last riddle
+            # reset player_answer var with checked answer
+            checked_player_answer = player_answer
+        # get the correct riddle for that player    
+        current_riddle = get_next_riddle(player_current_riddle_number)
+        # check_answer() called. Index of next riddle returned.
+        player = check_answer(checked_player_answer.lower(), current_riddle) 
+        # check for last riddle
+        if player['riddle_number'] < len(riddles): 
             riddle = get_next_riddle(player['riddle_number'])
         else:
-            riddle = {'Number':len(riddles)} # set Riddle Number to length of riddles list
-            date_completed = datetime.now().strftime("%d-%m-%Y") # date now
+            # set Riddle Number to length of riddles list
+            riddle = {'Number':len(riddles)}
+            # date now
+            date_completed = datetime.now().strftime("%d-%m-%Y") 
             leaderboard.append({"username": session['username'], "score": player['score'], "timestamp":date_completed})
             redirect(url_for('play')) 
     return redirect(url_for('play'))    
-
-
-
-def check_username(username):
-    '''
-    check if it's already taken
-    '''
-    if username not in usernames and session.get('username') == username or username in usernames and not session.get('username') == username or username in usernames and session.get('username') == username:
-        if username not in usernames:
-            usernames.append(username)
-        if not session.get('username') == username:
-            session['username'] = username
-        for player in player_info:
-            if player['username'] == username and player['riddle_number'] == len(riddles):
-                flash("You have already completed the 10 riddles. You can try again")
-                player.update({"restart":True,"resume":False,"riddle_number":0,"score":0,"attempt_total":0,"wrong":0,"attempts":0 })
-                return True
-            elif player['username'] == username and player['riddle_number'] != len(riddles):
-                player.update({"resume":True,"restart":False})
-                return True
-        return True
-    elif username not in usernames:
-        usernames.append(username) # if its a new unique username, add to usernames[]
-        session['username'] = username # add username to flask session
-        return True        
-    else:
-        flash("{}, this player name has been taken, please try a different name.".format(username)) # username taken try again until username is not in usernames[]  
-        return render_template("index.html", page_title="Riddle-Me-This - Home",  usernames=usernames, leaderboard=leaderboard) 
-   
-    
 
 
 @app.route('/', methods=["GET", "POST"])
@@ -222,12 +200,59 @@ def index():
         if request.method == "POST":
             username_from_form = request.form['addUsername']
             if check_username(username_from_form):
-                return redirect(url_for('start_game')) # start the game
+                # start the game
+                return redirect(url_for('start_game')) 
     except Exception as e:
         return render_template("500.html", error=e)
     return render_template("index.html", page_title="Riddle-Me-This - Home",length=length, player_info=player_info, usernames=usernames, leaderboard=leaderboard)     
       
 
+
+def check_username(username):
+    '''
+    check if username is already taken or in session so that user can start/restart/resume
+    '''
+    in_usernames_list = username in usernames
+    in_session = session.get('username') == username
+    in_both = in_usernames_list and in_session
+    in_neither = not in_usernames_list and not in_session
+    if not in_usernames_list and in_session or in_usernames_list and not in_session or in_both:
+        if not in_usernames_list:
+            usernames.append(username)
+        if not in_session:
+            session['username']=username            
+        for player in player_info:
+            if player['username'] == username and player['riddle_number'] == len(riddles):
+                flash("You have already completed the 10 riddles. You can try again")
+                player.update({"restart":True,"resume":False,"riddle_number":0,"score":0,"attempt_total":0,"wrong":0,"attempts":0 })
+            elif player['username'] == username and player['riddle_number'] != len(riddles):
+                player.update({"resume":True,"restart":False})
+        return True
+    elif in_neither:
+        # if its a new unique username, add to usernames[]
+        usernames.append(username)
+        # add username to flask session
+        session['username'] = username 
+        return True        
+    else:
+         # username taken try again until username is not in usernames[] 
+        flash("{}, this player name has been taken, please try a different name.".format(username)) 
+        return render_template("index.html", page_title="Riddle-Me-This - Home",  usernames=usernames, leaderboard=leaderboard) 
+         
+
+ 
+@app.route('/end')
+def end():
+    '''
+    User is told the game is over. Their score is added to the Leader Boad List. The leader board list is sorted by Score and rendered to the browser.
+    The session is cleared. Else the leaderboard is still rendered to the broswer if there are games in session at the same time.
+    '''
+    try:
+        # show leader board list sorted by score
+        sorted_leaderboard_list = sorted(leaderboard, key=itemgetter('score'), reverse=True) 
+        return render_template("end.html", page_title="Riddle-Me-This - Game Over", session=session, leaderboard=leaderboard, players=player_info, sorted_leaderboard_list=sorted_leaderboard_list)
+    except Exception as e:
+        return render_template("500.html", error=e)  
 
     
 @app.errorhandler(404)

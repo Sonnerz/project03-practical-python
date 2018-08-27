@@ -97,3 +97,36 @@ def check_username(username):
         flash("{}, this player name has been taken, please try a different name.".format(username)) # username taken try again until username is not in usernames[]  
         return render_template("index.html", page_title="Riddle-Me-This - Home",  usernames=usernames, leaderboard=leaderboard) 
         
+        
+        
+        
+        
+#Chris
+    # in_list = username in usernames
+    # in_session = session.get('username') == username
+    # both = in_list and in_session
+    # neither = not in_list and not in_session and in_list == in_session
+    
+    # # 1. Username is in the list but not the session
+    # # 2. Username is in the session but not in the list
+    # # 3. Username is in both
+    # # 4. Username is in neither
+    
+    # if both:
+    #     for player in player_info:
+    #         if player['username'] == username and player['riddle_number'] == len(riddles):
+    #             flash("You have already completed the 10 riddles. You can try again")
+    #             player.update({"restart":True,"resume":False,"riddle_number":0,"score":0,"attempt_total":0,"wrong":0,"attempts":0 })
+    #             return True
+    #         elif player['username'] == username and player['riddle_number'] != len(riddles):
+    #             player.update({"resume":True,"restart":False})
+    #             return True
+    # elif in_list:
+    #     session['username'] = username
+    # elif in_session:
+    #     usernames.append(username)
+    # elif neither:
+    #     session['username'] = username
+    #     usernames.append(username)
+        
+        
