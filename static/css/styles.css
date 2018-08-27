@@ -194,18 +194,26 @@ i {
   #container-content #username-form-container .link-howto-margin,
   #container-content #username-form-container .input-info {
     padding-bottom: 5px;
-    text-align: right;
-    padding-right: 1.6rem; }
+    text-align: center; }
   #container-content #username-form-container .input-info {
     font-size: .7rem; }
-  @media (min-width: 425px) {
+  @media (min-width: 768px) {
     #container-content #username-form-container .link-howto-margin,
     #container-content #username-form-container .input-info {
       padding-bottom: 5px;
       text-align: right;
-      padding-right: 2.5rem; }
+      padding-right: 1.8rem; }
     #container-content #username-form-container .button-submit-margin {
-      padding-right: 2.8rem;
+      padding-right: 1.8rem;
+      text-align: right; } }
+  @media (min-width: 992px) {
+    #container-content #username-form-container .link-howto-margin,
+    #container-content #username-form-container .input-info {
+      padding-bottom: 5px;
+      text-align: right;
+      padding-right: 2.8rem; }
+    #container-content #username-form-container .button-submit-margin {
+      padding-right: 2.3rem;
       text-align: right; } }
   #container-content #username-form-container .vertical-align-modal {
     display: table;

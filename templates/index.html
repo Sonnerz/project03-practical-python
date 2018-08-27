@@ -16,11 +16,12 @@
                 <div class="form-group floating-label-form-group controls">
                     <input type="text" class="form-control" placeholder="Enter a player name..." name="addUsername" id="addUsername" required data-validation-required-message="Please enter your player name." pattern="[A-Za-z0-9]{1,50}">
                     <div class="input-info">Letters and numbers only accepted</div>
+                    <!-- Button trigger modal -->
+                    <div class="link-howto-margin">
+                        <p><a href="#helpModal" data-toggle="modal" data-target="#helpModal"><i class="fa fa-info-circle" aria-hidden="true"></i>How to Play</a></p>
+                    </div>
                 </div>
-                <!-- Button trigger modal -->
-                <div class="link-howto-margin">
-                    <p><a href="#helpModal" data-toggle="modal" data-target="#helpModal"><i class="fa fa-info-circle" aria-hidden="true"></i>How to Play</a></p>
-                </div>
+
             </div>
             {{ restart_message }}
             <div id="messages-container">

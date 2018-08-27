@@ -44,24 +44,36 @@
         .link-howto-margin,
         .input-info {
             padding-bottom: 5px;
-            text-align: right;
-            padding-right: 1.6rem;
+            text-align: center;
+            // padding-right: 1.6rem;
         }
         .input-info {
             font-size: .7rem;
         }
-        @media (min-width: 425px) {
+        @media (min-width: 768px) {
             .link-howto-margin,
             .input-info {
                 padding-bottom: 5px;
                 text-align: right;
-                padding-right: 2.5rem;
+                padding-right: 1.8rem;
             }
             .button-submit-margin {
-                padding-right: 2.8rem;
+                padding-right: 1.8rem;
                 text-align: right;
+            }
         }
-        }
+        @media (min-width: 992px) {
+            .link-howto-margin,
+            .input-info {
+                padding-bottom: 5px;
+                text-align: right;
+                padding-right: 2.8rem;
+            }
+            .button-submit-margin {
+                padding-right: 2.3rem;
+                text-align: right;
+            }
+        }        
 
         /* StackOverflow solution to vertically and horizontally center the Modal */
         .vertical-align-modal {

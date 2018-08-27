@@ -24,12 +24,12 @@ class TestRiddle(unittest.TestCase):
         
     
     ''' TEST 02 '''    
-    def test_get_next_riddle(self):
+    def test_get_riddle(self):
         """
-        Test that the 'get_next_riddle' function returns a dictionary that has a length greater than 0
+        Test that the 'get_riddle' function returns a dictionary that has a length greater than 0
         """
-        #dictionary = run.get_next_riddle(5) # will fail as list has 3 riddles
-        dictionary = run.get_next_riddle(2) # will pass as list has 3 riddles
+        #dictionary = run.get_riddle(5) # will fail as list has 3 riddles
+        dictionary = run.get_riddle(2) # will pass as list has 3 riddles
         self.assertGreater(len(dictionary), 0)
         
     

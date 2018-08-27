@@ -17,13 +17,13 @@ a.	**Create a section in your README.md titled 'Testing.' In this section, summa
 b.	**Write and run automated tests to ensure that your website’s functionality works well**<br>
 c.	**If you run any manual tests be sure to document those tests in the 'Testing' section of your README**<br>
 d.	**If there are any tests that are not running as expected or are failing, provide a summary in the 'Testing' section of your README of what your expected output was and any reasons as to why the test(s) may be failing.**<br>
-Testing is covered in the [Testing documentation](testing.md).
+Testing is covered in the [Testing documentation](Testing.md).
 4.	**Use flask, a micro-framework, to structure your project's back-end.**<br>
 Flask micro framework has been used. <br>
 5.	**Provide instructions on how to deploy your project in your README.**<br>
     ************************TBC   ******************************
 6.	**Make sure your site is as responsive as possible. You can test this by checking the site on different screen sizes and browsers.**<br>
-The site was developed using Bootstrap 4 and was continually tested using dev tools in Chrome and viewing the site on mobile devices. Testing is covered in the [Testing documentation](testing.md).<br>
+The site was developed using Bootstrap 4 and was continually tested using dev tools in Chrome and viewing the site on mobile devices. Testing is covered in the [Testing documentation](Testing.md).<br>
 7.	**We advise that you write down user stories and create wireframes/mockups before embarking on full-blown development.**<br>
 [User Stories](#scenarios) and [Wireframes](#wireframes) have been provided in this ReadMe.<br>
 8.	**The site can also make use of CSS frameworks such as Bootstrap, just make sure you maintain a clear separation between the library code and your code.**<br>
@@ -88,7 +88,7 @@ Flask session was used to store the player username, variables were used there a
             *   riddleList.py
             *   run.py
             *   test_riddle.py
-        *   [Testing documentation](testing.md)
+        *   [Testing documentation](Testing.md)
         *   [Deployment](#deployment)
 *  [Credit](#external)
 
@@ -180,16 +180,31 @@ Python and the Flask micro-framework will be the primary technologies used to im
 ### Puzzle enthusiast:
 A puzzle enthusiast will be a player who is familiar with riddles and their veiled meaning. They will most likely be familiar with a game 
 interface where player input is required. They will also be familiar with leader boards and the information they provide.
-They will expect features for example, a defined number of attempts, attempt count indicator, input area and good feedback.
+They will expect features for example, a defined number of attempts, attempt count indicator, input area and good feedback.<br>
+A puzzle enthusiast may:
+1.  Log in to the game
+2.  Attempt all 10 riddles
+3.  View the leader board at the end of the game
+4.  They may also view the leader board during the game
 
 
 ### Puzzle player:
 A puzzle player will visit the site out of curiosity to investigate a possible new riddle source. They may attempt a few riddles and then abandon the 
-game when they answer incorrectly or they may continue until they appear on the leader board. 
+game when they answer incorrectly or they may continue until they appear on the leader board.<br>
+A puzzle player may:
+1.  Log in to the game
+2.  Attempt some riddles
+3.  May abandon the game
 
 ### Casual player:
 A casual player will visit the site out of curiosity to investigate the type of game. They may attempt a few riddles and then 
-abandon the game when they answer incorrectly. They may not visit the leader board.
+abandon the game when they answer incorrectly. They may not visit the leader board.<br>
+A casual player may:
+1.  attempt to play the game without logging in
+2.  Attempt some/none riddles
+3.  Randomly view the leaderboard
+4.  May abandon the game
+  
 
 [Top of page](#topofpage)
 
