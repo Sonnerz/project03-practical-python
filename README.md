@@ -1,7 +1,9 @@
 # RIDDLE-ME-THIS Guessing Game
 
-GitHub: https://sonnerz.github.io/ <br>
-GitHub Pages: https://sonnerz.github.io/ <br>
+Heroku App: https://practical-python.herokuapp.com/<br>
+Heroku git: https://git.heroku.com/practical-python.git<br>
+GitHub: https://github.com/Sonnerz/project03-practical-python<br>
+
 
 **Build a web application game that asks players to guess the answer to a pictorial or text-based riddle**
 
@@ -21,7 +23,7 @@ Testing is covered in the [Testing documentation](Testing.md).
 4.	**Use flask, a micro-framework, to structure your project's back-end.**<br>
 Flask micro framework has been used. <br>
 5.	**Provide instructions on how to deploy your project in your README.**<br>
-    ************************TBC   ******************************
+    Instructions are under the [Deployment](#deployment) section.
 6.	**Make sure your site is as responsive as possible. You can test this by checking the site on different screen sizes and browsers.**<br>
 The site was developed using Bootstrap 4 and was continually tested using dev tools in Chrome and viewing the site on mobile devices. Testing is covered in the [Testing documentation](Testing.md).<br>
 7.	**We advise that you write down user stories and create wireframes/mockups before embarking on full-blown development.**<br>
@@ -247,13 +249,16 @@ The game interface will provide players with;
 
 All html pages will be created using HTML5 and CSS3, supported by the Bootstrap 4.0 Framework 
 
-**Start**
+**Start Page**<br>
+
 ![Application Start](static/img/readme_images/start_page.png)
 
-**Application structure**
+**Application structure**<br>
+
 ![Application page](static/img/readme_images/app_page.png)
 
-**Leader Board structure**
+**Leader Board structure**<br>
+
 ![Leader Board layout](static/img/readme_images/leader_page.png)
 
 <a name="nav"></a>
@@ -483,33 +488,72 @@ Tested: helper function  - number_to_string()
 
 [Top of page](#topofpage)
 
-[Top of page](#topofpage)
 
 <a name="deployment"></a>
 ### Deployment
-GitHub is used to host the code and publish the pages.
+I pushed the code to GitHub .
+I create a repository in GitHub<br>
+https://github.com/Sonnerz/project03-practical-python
 
-A new repository was created in GitHub called: **project02-interactive-frontend**
 
-After a final Git Add and Git commit
+1.  `` $ git remote add origin https://github.com/Sonnerz/project03-practical-python `` 
+2.  `` $ git push -u origin master``
+3.  `` Enter: _username_``
+4.  `` Enter: _password_``
 
-``$git add .``
+Heroku is used to host the code and publish the app publicly.
 
-``$git commit -m "Final commit"``
+I logged into Heroku and created a new app called **practical-python**<br>
+I chose the European hosting region<br>
+A git repo was created: https://git.heroku.com/practical-python.git<br>
+A heroku app url was provided:  https://practical-python.herokuapp.com/<br>
 
-The pages were pushed to the new GitHub repository
+In a cloud9 terminal, I ran the following commands:
+1.  `` $ git add .`` 
+2.  `` $ git commit -m "comments about readme updates"`` 
+3.  `` $ heroku`` 
+4.  `` $ heroku login`` 
+5.  Enter: _username_
+6.  Enter: _password_
+7.  `` $ heroku apps`` (to confirm my app was there)
+8.  `` $ git remote -v``
+9.  `` $ git remote add heroku https://git.heroku.com/practical-python.git`` 
+8.  `` $ git push -u heroku master`` 
 
-``$ git remote add origin https://github.com/Sonnerz/project02-interactive-frontend``
+**This build failed. :(**
 
-``$ git push -u origin master``
+Error:
+Could not find a version that satisfies the requirement pygobject==3.12.0 (from -r /tmp/build_dac2400feea2848d7bae10ab941d8a29/requirements.txt (line 20)) (from versions: 3.27.0, 3.27.1, 3.27.2, 3.27.3, 3.27.4, 3.27.5, 3.28.0, 3.28.1, 3.28.2, 3.28.3, 3.29.1.dev0, 3.29.2.dev0, 3.29.3.dev0)
+       No matching distribution found for pygobject==3.12.0 (from -r /tmp/build_dac2400feea2848d7bae10ab941d8a29/requirements.txt (line 20))
+ <br>!     Push rejected, failed to compile Python app.
+ <br>!     Push failed
+ 
+**To solve the problem I recreated the requirements.txt file**
 
-``$Username``
+I deleted the requirements.txt file<br>
+In Heroku under the app settings I added the following config vars:<br>
+IP - 0.0.0.0<br>
+PORT - 5000
 
-``$Password``
+In a cloud9 terminal, I ran the following commands:
+1.  `` $ heroku`` 
+2.  `` $ heroku login`` 
+3.  Enter: _username_
+4.  Enter: _password_
+5.  `` $ git remote -v``
+6.  `` $ sudo pip3 freeze --local > requirements.txt``
+7.  `` $ git add requirements.txt``
+8.  `` $ git commit -m "req.txt updated after failed heroku push"``
+9.  `` $ git push -u heroku master``
+10.  `` $ heroku ps:scale web=1``
+  
 
-Under the Settings – GitHub Pages of the new repository, the master branch of the code is published to the url: 
+I confirmed that the site was live at https://practical-python.herokuapp.com/
 
-https://sonnerz.github.io/
+
+
+
+
 
 [Top of page](#topofpage)
 

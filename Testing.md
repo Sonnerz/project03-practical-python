@@ -1,6 +1,7 @@
-#   Testing the Riddle-Me-This game
 <a name="topofpage"></a>
+#   Testing the Riddle-Me-This game
 
+Return to main ReadMe file [ReadMe](ReadMe.md)
 ### Table of Contents
 
 *   [Testing](#testing)
