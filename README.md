@@ -484,6 +484,8 @@ riddle = {}
 *   if check_username() returns True, we are redirected to start_game()
 
 
+
+
     def check_username(username):
         
 
@@ -495,6 +497,8 @@ riddle = {}
 *   If a person _is in_ the usernames list but _does not_ have an active session they are asked to choose a different username
 
 
+
+
     @app.route('/start_game', methods=["GET", "POST"])
         def start_game():
     
@@ -504,10 +508,14 @@ riddle = {}
 *   If they are a new user, a new player{} is created create_player() they get the first riddle
 
 
+
+
     @app.route('/play')
         def play():
         
 *   play() function decides if a person is in session they can load play.html otherwise they are redirected to the log in page index.html
+
+
 
 
     @app.route('/checkPlayerInput', methods=["GET", "POST"])
@@ -523,6 +531,7 @@ riddle = {}
 
 
 
+
     def check_answer(answerInputByPlayer, riddle):
  
 *   The player answer is checked against the riddle answer
@@ -532,10 +541,14 @@ riddle = {}
 
 
 
+
+
     @app.route('/end')
         def end():
 
 *   The leaderboard list is sorted by score in descending order and rendered to end.html
+
+
 
 
     @app.context_processor
@@ -545,6 +558,8 @@ riddle = {}
 *   creating a debug variable for hiding/showing the debug panel on each html page
 
 
+
+
     def get_riddle(riddleIndex):
         '''
         If answer is correct or attempts are more than two, get the next riddle from the riddle List, based on the riddle number
@@ -552,8 +567,10 @@ riddle = {}
         # get next riddle by passing index to riddles[] and return the riddle {} dictionary
         nextRiddle = riddles[riddleIndex] 
         return nextRiddle
-        
+
 *   get_riddle() gets the next riddle from riddles based on it's index number
+
+
 
 
     def create_player(username):
@@ -561,9 +578,13 @@ riddle = {}
 *   create_player() creates a player{} inside the player_info list    
 
 
+
+
     def number_to_string(number):
 
 *   Helper function - to change a digit to the word version of a number e.g. 7 to seven 
+
+
 
 
     @app.errorhandler(404)
