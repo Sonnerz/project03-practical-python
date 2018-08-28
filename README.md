@@ -478,17 +478,15 @@ riddle = {}
     @app.route('/', methods=["GET", "POST"])
         def index():
         
-    
 *   index() - This function takes the username from the form on index.html
 *   sends the username to check_username()
 *   if check_username() returns True, we are redirected to start_game()
 
 
-
+***
 
     def check_username(username):
         
-
 *   check_username() function takes the username from index()
 *   it checks if the username is already taken or in session so that user can start/restart/resume
 *   If a new player is _not_ in the usernames list and _does not_ have an active session they enter a username and can continue on to play the game.
@@ -497,7 +495,7 @@ riddle = {}
 *   If a person _is in_ the usernames list but _does not_ have an active session they are asked to choose a different username
 
 
-
+***
 
     @app.route('/start_game', methods=["GET", "POST"])
         def start_game():
@@ -508,14 +506,14 @@ riddle = {}
 *   If they are a new user, a new player{} is created create_player() they get the first riddle
 
 
-
+***
 
     @app.route('/play')
         def play():
         
 *   play() function decides if a person is in session they can load play.html otherwise they are redirected to the log in page index.html
 
-
+***
 
 
     @app.route('/checkPlayerInput', methods=["GET", "POST"])
@@ -530,7 +528,7 @@ riddle = {}
 *   It the riddle number is #10 the game is over and the score is appended to the leaderboard otherwise the player can continue on
 
 
-
+***
 
     def check_answer(answerInputByPlayer, riddle):
  
@@ -540,7 +538,7 @@ riddle = {}
 *   An updated player{} is returned to the check()
 
 
-
+***
 
 
     @app.route('/end')
@@ -549,7 +547,7 @@ riddle = {}
 *   The leaderboard list is sorted by score in descending order and rendered to end.html
 
 
-
+***
 
     @app.context_processor
     def debug_on_off():
@@ -558,7 +556,7 @@ riddle = {}
 *   creating a debug variable for hiding/showing the debug panel on each html page
 
 
-
+***
 
     def get_riddle(riddleIndex):
         '''
@@ -571,21 +569,21 @@ riddle = {}
 *   get_riddle() gets the next riddle from riddles based on it's index number
 
 
-
+***
 
     def create_player(username):
         
 *   create_player() creates a player{} inside the player_info list    
 
 
-
+***
 
     def number_to_string(number):
 
 *   Helper function - to change a digit to the word version of a number e.g. 7 to seven 
 
 
-
+***
 
     @app.errorhandler(404)
     def page_not_found(error):
