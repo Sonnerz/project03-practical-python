@@ -31,12 +31,11 @@ The app was tested on an ongoing basis. Chrome and Chrome Developer Tools were t
 in run.py. It helped me monitor the values as I tested the app in a browser to ensure the correct values were being set.
 
     ![Debug Panel](static/img/readme_images/debug_panel1.png)|
-*   As each major development was successful, I saved a copy of that run.py or html template to the previous_versions folder in the route of my project.
+*   When I wanted to try something new, I saved run.py to the previous_versions folder in the route of my project.
 I would continue to develop and refer back to the folder if I needed to quickly revert to or reference code from a previous version.
 *	Div’s had vibrant background colours so that the developer was easily able to identify them 
-*	Each change was viewed in a chrome browser and tested using developer tools at full width resolution and using a variety of device emulators; Galaxy SIII, Galaxy 5, Laptop touch screen, iPhone 5/SE, iPhone 6/7/8, iPhone 6/7/8 Plus, iPhone X, iPad. 
-*	Remote debugging using Android, Windows OS and Chrome Dev
-*   Tools was used to test each new functionality and new/updated page.
+*	Each css or html update was viewed in a chrome browser and tested using developer tools at full width resolution and using a variety of device emulators; Galaxy SIII, Galaxy 5, Laptop touch screen, iPhone 5/SE, iPhone 6/7/8, iPhone 6/7/8 Plus, iPhone X, iPad. 
+*	Remote debugging using Android, Windows OS and Chrome Dev Tools was used to test each new functionality and new/updated page.
 
 [Top of page](#topofpage)
 
@@ -46,11 +45,24 @@ Testing was carried out continuously while developing the app.
 As per the Defensive Design Strategy described in the Strategy Plan, all form inputs are checked for empty values. Users are messaged if they click a submit button without providing text.
 Users are also informed by an on-screen text if their answer was correct or incorrect. 
 
+Custom 404 and 500 error pages were created. These were implemented to give players a friendly error feedback if something errored or a page was not found.
+
+#### Logging in
+*check_username()*
+
+This function checks if the username entered is already taken or in session so that user can start/restart/resume a game.
+
+*_The Session takes precedence over the usernames List._*
+
+*   If a new player is _not_ in the usernames list and _does not_ have an active session they enter a username and can continue on to play the game.
+*   If a person _is in_ the usernames list and _does not_ have an active session they must enter a new username and can continue on to play the game.
+*   If a person _is not_ in the usernames list and _does_ have an active session they can enter their username and continue on to play/restart/resume the game.
+*   If a person _is in_ the usernames list but _does not_ have an active session they are asked to choose a different username
 
 | | |
 |:---|:---|
 |Users are informed if the input box is not completed.|![Input Check](static/img/readme_images/inputcheck.png)|
-|If the username is taken.|Users are informed: 'username', this name has already been taken. Enter a different player name|
+|If the username is taken.|Users are informed: 'username', this name has already been taken. Enter a different player name<br> ![Username Taken ](static/img/readme_images/name_taken.png)|
 |Correct answer feedback.|![Correct answer](static/img/readme_images/correct_anwer.png)|
 |Incorrect answer feedback and player is informed of attempt count and attempts remaining|![Incorrect answer](static/img/readme_images/incorrect_anwer.png)|
 |Player is informed of riddle count <br>If it’s riddle number 1:<br>try answering this first riddle:<br><br>If it’s riddle number 10:<br>try answering this last riddle:<br><br>If it’s riddle number 2 to 9:<br>try answering this first riddle:<br><br>If it’s the end of the game:<br>there are no more riddles<br>|![Try Answering](static/img/readme_images/try_anwering.png)|
@@ -120,7 +132,9 @@ Importing riddle content and ensuring it is available to the browser
 |SyntaxWarning: name 'riddle' is assigned to before global declaration|Terminal|not resolved
 |First, Next, Last riddle message not working|play|not resolved
 |Riddle x of 10 - numbering starts at 0|play|not resolved
-
+|Multiple instance of user score being displayed|play|not resolved
+|Multiple instance of user attempts being displayed|play|not resolved
+|Multiple players playing simunltaneously affect each other. If Player A gets a riddle correct, Player B is told their correct answer is incorrect|play|not resolved
 
 [Top of page](#topofpage)
 
@@ -284,6 +298,38 @@ This solved my multiple player issue.
 
 [Top of page](#topofpage)
 
+
+<a name="issues"></a>
+### Issues Update
+|Issue|Page|Ongoing|
+|:---|:---|:---|
+|SyntaxWarning: name 'riddle' is assigned to before global declaration|Terminal|resolved|
+Solution: I was declaring global riddle too many times in a function. It just needed to be called once at the start
+
+|Issue|Page|Ongoing|
+|:---|:---|:---|
+|First, Next, Last riddle message not working|play|resolved|
+
+Solution: I needed to put an |int() filter on a variable in the html {% if riddle.Number|int() < length_of_riddles|int() %}
+
+|Issue|Page|Ongoing|
+|:---|:---|:---|
+|Riddle x of 10 - numbering starts at 0|play|resolved|
+Solution: I needed to add 1 to the riddle number as they matched the list index, beginning at 0. riddle.number+1
+
+|Issue|Page|Ongoing|
+|:---|:---|:---|
+|Multiple instance of user score being displayed|play|resolved
+|Multiple instance of user attempts being displayed|play|resolved
+Solution: I had been creating a new player in player_info list when a user resumed a game. I rewrote the if statememt to stop this happening.
+
+|Issue|Page|Ongoing|
+|:---|:---|:---|
+|Multiple players playing simunltaneously affect each other. If Player A gets a riddle correct, Player B is told their correct answer is incorrect|play|resolved
+Solution: this was solved by adding a hidden field to the play.html form. It tracked the player riddle number rather than a global riddle number. This stopped 
+cross over between players sharing a global variable but rather they had their own way to track their number.
+
+[Top of page](#topofpage)
 
 <a name="finalusertests"></a>
 ##  User Tests

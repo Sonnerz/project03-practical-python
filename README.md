@@ -427,11 +427,11 @@ riddles = content()
 ```
 Set riddles to be the value of content() imported from riddlesList.py
 
- Global variables: 
- - 'usernames': Python List, 
- - 'leaderboard': Python List, 
- - 'player_info': Python List,
- - 'riddle':  Python dictionary.
+Global variables: 
+* 'usernames': Python List,
+* 'leaderboard': Python List, 
+* 'player_info': Python List,
+* 'riddle':  Python dictionary.
 
 ***
 
@@ -475,10 +475,124 @@ riddle = {}
 **Function order in run.py**<br>
 ![Function order in run.py](static/img/readme_images/runflow.png)
 
+    @app.route('/', methods=["GET", "POST"])
+        def index():
+        
+    
+*   index() - This function takes the username from the form on index.html
+*   sends the username to check_username()
+*   if check_username() returns True, we are redirected to start_game()
+
+
+    def check_username(username):
+        
+
+*   check_username() function takes the username from index()
+*   it checks if the username is already taken or in session so that user can start/restart/resume
+*   If a new player is _not_ in the usernames list and _does not_ have an active session they enter a username and can continue on to play the game.
+*   If a person _is in_ the usernames list and _does not_ have an active session they must enter a new username and can continue on to play the game.
+*   If a person _is not_ in the usernames list and _does_ have an active session they can enter their username and continue on to play/restart/resume the game.
+*   If a person _is in_ the usernames list but _does not_ have an active session they are asked to choose a different username
+
+
+    @app.route('/start_game', methods=["GET", "POST"])
+        def start_game():
+    
+*   start_game() function decides what riddle a player is to be presented with
+*   If the player is resuming they get the last riddle they were answering
+*   If the player is restarting they get the first riddle
+*   If they are a new user, a new player{} is created create_player() they get the first riddle
+
+
+    @app.route('/play')
+        def play():
+        
+*   play() function decides if a person is in session they can load play.html otherwise they are redirected to the log in page index.html
+
+
+    @app.route('/checkPlayerInput', methods=["GET", "POST"])
+        def check():
+
+*   check() is called by the input form on play.html
+*   It takes the players answer (player_answer) and if it's a digit it is sent to number_to_string() otherwise
+*   The answer is sent to check_answer() for processing/checking
+*   The current riddle number is requested by the function from the input form
+*   The riddle number (player_current_riddle_number) is passed to get_riddle() to get that players current riddle
+*   The riddle number is checked that it is not the last riddle (#10)
+*   It the riddle number is #10 the game is over and the score is appended to the leaderboard otherwise the player can continue on
+
+
+
+    def check_answer(answerInputByPlayer, riddle):
+ 
+*   The player answer is checked against the riddle answer
+*   scores are increased and attempts increased if needed
+*   If the player has 2 attempts they are told the answer
+*   An updated player{} is returned to the check()
+
+
+
+    @app.route('/end')
+        def end():
+
+*   The leaderboard list is sorted by score in descending order and rendered to end.html
+
+
+    @app.context_processor
+    def debug_on_off():
+        return dict(debug=app.debug)
+    
+*   creating a debug variable for hiding/showing the debug panel on each html page
+
+
+    def get_riddle(riddleIndex):
+        '''
+        If answer is correct or attempts are more than two, get the next riddle from the riddle List, based on the riddle number
+        '''
+        # get next riddle by passing index to riddles[] and return the riddle {} dictionary
+        nextRiddle = riddles[riddleIndex] 
+        return nextRiddle
+        
+*   get_riddle() gets the next riddle from riddles based on it's index number
+
+
+    def create_player(username):
+        
+*   create_player() creates a player{} inside the player_info list    
+
+
+    def number_to_string(number):
+
+*   Helper function - to change a digit to the word version of a number e.g. 7 to seven 
+
+
+    @app.errorhandler(404)
+    def page_not_found(error):
+        '''
+        404 error is redirected to 404.html
+        '''
+        return render_template('404.html')
+        
+
+    @app.errorhandler(500)
+    def internal_error(error):
+        '''
+        500 error is redirected to 500.html
+        '''
+        session.pop('_flashes', None)
+        session.pop('username', None)
+        return render_template('500.html') 
+
+*   Decorators to catch errors before they happen and redirect players to user friendly pages
+
+
+
 
 **test_riddle.py**
 
-Tested: get_next_riddle() function<br>
+More in [Testing documentation](Testing.md).
+
+Tested: get_riddle() function<br>
 Tested: ensure that a session gets created<br>
 Tested: that a response is received from the html files<br>
 Tested: create_player() function<br>

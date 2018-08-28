@@ -34,7 +34,7 @@ def index():
                 # start the game
                 return redirect(url_for('start_game')) 
     except Exception as e:
-        return render_template("500.html", error=e)
+        return render_template("500.html")
     return render_template("index.html", page_title="Riddle-Me-This - Home",length=length, player_info=player_info, usernames=usernames, leaderboard=leaderboard)     
       
 
@@ -42,16 +42,17 @@ def index():
 def check_username(username):
     '''
     check if username is already taken or in session so that user can start/restart/resume
+    Session takes precedence over the usernames List. If a person is in the usernames list but does not have an active
+    session they are asked to choose a different username
     '''
     in_usernames_list = username in usernames
     in_session = session.get('username') == username
     in_both = in_usernames_list and in_session
     in_neither = not in_usernames_list and not in_session
-    if not in_usernames_list and in_session or in_usernames_list and not in_session or in_both:
+    #if user has an active session but is not in the list
+    if not in_usernames_list and in_session or in_both:
         if not in_usernames_list:
             usernames.append(username)
-        if not in_session:
-            session['username']=username            
         for player in player_info:
             if player['username'] == username and player['riddle_number'] == len(riddles):
                 flash("You have already completed the 10 riddles. You can try again")
@@ -59,6 +60,12 @@ def check_username(username):
             elif player['username'] == username and player['riddle_number'] != len(riddles):
                 player.update({"resume":True,"restart":False})
         return True
+    elif in_usernames_list and not in_session:
+        # username taken try again until username is not in usernames[] 
+        message_false = Markup("{}, this name has already been taken. <br>Enter a different player name".format(username))
+        flash(message_false)  
+        return False
+
     elif in_neither:
         # if its a new unique username, add to usernames[]
         usernames.append(username)
@@ -66,8 +73,6 @@ def check_username(username):
         session['username'] = username 
         return True        
     else:
-         # username taken try again until username is not in usernames[] 
-        flash("{}, this player name has been taken, please try a different name.".format(username)) 
         return render_template("index.html", page_title="Riddle-Me-This - Home",  usernames=usernames, leaderboard=leaderboard) 
          
 
@@ -116,7 +121,7 @@ def play():
         else:
             return redirect(url_for('index')) 
     except Exception as e:
-        return render_template("500.html", error=e)
+        return render_template("500.html")
 
 
 
@@ -214,7 +219,7 @@ def end():
         sorted_leaderboard_list = sorted(leaderboard, key=itemgetter('score'), reverse=True) 
         return render_template("end.html", page_title="Riddle-Me-This - Game Over", session=session, leaderboard=leaderboard, players=player_info, sorted_leaderboard_list=sorted_leaderboard_list)
     except Exception as e:
-        return render_template("500.html", error=e)  
+        return render_template("500.html")  
 
 
 
@@ -283,5 +288,5 @@ def internal_error(error):
 
 
 if __name__ == '__main__':
-    app.run(host=os.getenv('IP'), port=int(os.getenv('PORT')), debug=False)
+    app.run(host=os.getenv('IP'), port=int(os.getenv('PORT')), debug=True)
     
