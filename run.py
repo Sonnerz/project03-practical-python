@@ -2,7 +2,6 @@ import os
 import ast
 import math
 import sys
-from config import config
 from flask import Markup
 from datetime import datetime
 from riddlesList import content
@@ -16,6 +15,7 @@ app = Flask(__name__)
 app.debug = False
 
 if app.debug:
+    from config import config
     app.secret_key = config()
 else:
     app.secret_key = os.environ.get('SECRET_KEY')

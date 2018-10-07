@@ -690,8 +690,14 @@ In a cloud9 terminal, I ran the following commands:
 
 I confirmed that the site was live at https://practical-python.herokuapp.com/
 
+**Final build before submission failed.**
 
+After changing the way I set the secret key, my app errored on Heroku
 
+`from config import config
+2018-10-07T14:41:31.439131+00:00 app[web.1]: ModuleNotFoundError: No module named 'config'`
+
+I change the python code to check for debug status before I imported the config file.
 
 
 
