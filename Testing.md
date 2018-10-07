@@ -23,6 +23,7 @@ Return to main ReadMe file [ReadMe](README.md)
 The app was tested on an ongoing basis. Chrome and Chrome Developer Tools were the primary browser and tool used for testing. However, the site was also tested using Firefox and Internet Explorer.
 
 *   CSS was validated using the **CSS Validation Service** provided by The World Wide Web Consortium (W3C): https://jigsaw.w3.org/css-validator/
+*   Python code has no pep8 issues
 
 <a name="during"></a>
 ### During development:
@@ -33,6 +34,7 @@ in run.py. It helped me monitor the values as I tested the app in a browser to e
     ![Debug Panel](static/img/readme_images/debug_panel1.png)|
 *   When I wanted to try something new, I saved run.py to the previous_versions folder in the route of my project.
 I would continue to develop and refer back to the folder if I needed to quickly revert to or reference code from a previous version.
+I realise I could have used git or git branches, but most of the previous_versions files were trial and error, mostly error.
 *	Div’s had vibrant background colours so that the developer was easily able to identify them 
 *	Each css or html update was viewed in a chrome browser and tested using developer tools at full width resolution and using a variety of device emulators; Galaxy SIII, Galaxy 5, Laptop touch screen, iPhone 5/SE, iPhone 6/7/8, iPhone 6/7/8 Plus, iPhone X, iPad. 
 *	Remote debugging using Android, Windows OS and Chrome Dev Tools was used to test each new functionality and new/updated page.

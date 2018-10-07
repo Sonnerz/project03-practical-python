@@ -13,7 +13,13 @@ from flask import Flask, render_template, request, flash, redirect, url_for,\
 riddles = content()
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = config()
+app.debug = False
+
+if app.debug:
+    app.secret_key = config()
+else:
+    app.secret_key = os.environ.get('SECRET_KEY')
+
 usernames = []
 leaderboard = [{"username": "Player 1", "score": 8, "timestamp": "01-09-2018"},
                {"username": "Player 2", "score": 3, "timestamp": "02-09-2018"}]
@@ -338,4 +344,4 @@ def internal_error(error):
 
 
 if __name__ == '__main__':
-    app.run(host=os.getenv('IP'), port=int(os.getenv('PORT')), debug=False)
+    app.run(host=os.getenv('IP'), port=int(os.getenv('PORT')))

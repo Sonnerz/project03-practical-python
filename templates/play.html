@@ -64,7 +64,7 @@
             </div>
             <div class="form-group">
                 {% if riddle.Number|int() < length_of_riddles|int() %} 
-                    <button type="submit" name="sendAnswerButton" class="btn btn-riddle" id="sendAnswerButton">Submit your Answer</button>
+                    <button type="submit" name="sendAnswerButton" class="btn btn-riddle" id="sendAnswerButton" title="Submit your Answer">Submit your Answer</button>
                 {% endif %}
             </div>
         </form>
@@ -89,7 +89,7 @@
     {% else %}
     <!-- Button Go to Leader Board -->
     <div>
-        <input type="button" class="btn btn-riddle" onclick="location.href='/end';" value="Game over, go to Leader Board" />
+        <input type="button" title="Game over, go to Leader Board" class="btn btn-riddle" onclick="location.href='/end';" value="Game over, go to Leader Board" />
     </div>
     {% endif %}
 </div>

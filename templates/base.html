@@ -33,7 +33,7 @@
                             <div class="unNav">{% for player in player_info %} {% if session['username'] == player.username %} {{ player.username }}: {{ player.score }} {% endif %} {% endfor %}</div>
                         </div>
                         <div class="col-12 col-md-6 col-md-3">
-                            <button type="button" class="btn btn-nav btnleader" onclick="location.href='/end';">Leaderboard</button>
+                            <button type="button" class="btn btn-nav btnleader" title="View the leaderboard" onclick="location.href='/end';">Leaderboard</button>
                         </div>
                     </div>
                 </nav>
@@ -52,7 +52,7 @@
                         </div>
                         <div class="col-12 col-md-6 col-md-3">
                             <div class="button-row">
-                                <button type="button" class="btn btn-nav btn-resume" onclick="location.href='/play';">Resume Game</button>
+                                <button type="button" title="Resume your game" class="btn btn-nav btn-resume" onclick="location.href='/play';">Resume Game</button>
                             </div>
                         </div>
                     </div>
