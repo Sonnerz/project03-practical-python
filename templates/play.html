@@ -52,11 +52,15 @@
                     <!-- Hidden field to track current riddle number -->
                     <input type="hidden" name="player_current_riddle_number" id="player_current_riddle_number" value={{player.riddle_number|int()}}>
                         {% else %}
-                        <p class="end-message">Well done {{ session['username'] }}!<br> 
                         {% for player in player_info %} 
-                        {% if session['username'] == player.username %} 
-                        <span class="red-text">{{ player.score}}</span> riddles correct <br> 
-                        and <span class="red-text">{{ player.wrong }}</span> incorrect.<br> 
+                        {% if session['username'] == player.username %}
+                        {% if player.score < 5 %}
+                        <p class="end-message">Hard luck {{ session['username'] }}!<br>
+                        {% else %}
+                        <p class="end-message">Well done {{ session['username'] }}!<br>
+                        {%endif%}
+                        <span class="red-text">{{ player.score}}</span> riddles correct out of 10 <br>
+                        and <span class="red-text">{{ player.wrong }}</span> incorrect.<br>
                         You had a total of <span class="red-text">{{ player.attempt_total }}</span> attempts.
                         {% endif %}</p>
                         {% endfor %} {% endif %}
