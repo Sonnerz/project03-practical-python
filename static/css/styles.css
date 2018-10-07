@@ -35,12 +35,23 @@ button.close {
 .form-control:focus {
   border-color: #b32c16; }
 
+html {
+  height: 100%; }
+
 body {
   font-family: 'Margarine', cursive;
-  background: url(/static/img/riddler-wallpaper.jpg) no-repeat fixed;
+  background: #000 url(/static/img/riddler-wallpaper.jpg) no-repeat fixed;
   background-size: cover;
-  background-position: 0px 0px; }
+  background-position: 0px 0px;
+  height: 100%; }
 
+@media all and (max-width: 699px) {
+  /* max-width would be the breakpoint for when this style kicks in */
+  body {
+    background-size: cover;
+    /* stretches to size of viewport */
+    background-position: center;
+    /* center the bg image */ } }
 h1,
 h2,
 h3,
@@ -70,6 +81,9 @@ i {
   #container-nav nav {
     color: #fff;
     font-size: 1.4rem; }
+  #container-nav .unNav {
+    font-size: 1rem;
+    padding-top: 5px; }
   @media (min-width: 768px) {
     #container-nav nav {
       line-height: 80px; }
@@ -80,7 +94,9 @@ i {
       position: static;
       left: 0;
       top: 0;
-      transform: translate(0, 0); } }
+      transform: translate(0, 0); }
+    #container-nav .unNav {
+      font-size: inherit; } }
 
 .red-text {
   color: #b32c16; }
@@ -103,6 +119,9 @@ i {
   background-color: #fff;
   border-color: #b32c16; }
 
+.btnleader {
+  line-height: 1.1rem; }
+
 .btn-nav:hover {
   color: #fff;
   background-color: #052003;
@@ -115,6 +134,13 @@ i {
 
 .btn-riddle:active, .btn-riddle-index:active {
   transform: translateY(3px); }
+
+.btn-resume {
+  margin-top: 1.2em; }
+
+.button-row {
+  margin: 0 auto;
+  text-align: center; }
 
 #messages-container {
   margin: 0 auto;
@@ -133,7 +159,13 @@ i {
 
   #nav-logo img {
     width: 100%;
-    max-width: 450px; } }
+    max-width: 450px; }
+
+  .btn-resume {
+    margin-top: 0; }
+
+  .btnleader {
+    line-height: 1.5rem; } }
 /* error pages */
 #error-page {
   margin-top: 100px;
@@ -337,6 +369,7 @@ i {
   margin-top: 100px; }
 #container-leader-content .leaderboard-list {
   padding: 10px;
+  height: 100%;
   background-color: rgba(245, 245, 245, 0.7);
   border: 1px solid transparent;
   border-radius: .25rem;

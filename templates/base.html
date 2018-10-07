@@ -13,7 +13,6 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css')}}" type="text/css" />
     <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico')}}" type="image/gif" sizes="16x16">
-
     <title>Riddle-Me-This</title>
 </head>
 
@@ -31,10 +30,10 @@
                 <nav>
                     <div class="row">
                         <div class="col-12 col-md-6 col-md-3">
-                                {% for player in player_info %} {% if session['username'] == player.username %} {{ player.username }}: {{ player.score }} {% endif %} {% endfor %}
+                            <div class="unNav">{% for player in player_info %} {% if session['username'] == player.username %} {{ player.username }}: {{ player.score }} {% endif %} {% endfor %}</div>
                         </div>
                         <div class="col-12 col-md-6 col-md-3">
-                            <button type="button" class="btn btn-nav" onclick="location.href='/end';">Leaderboard</button>
+                            <button type="button" class="btn btn-nav btnleader" onclick="location.href='/end';">Leaderboard</button>
                         </div>
                     </div>
                 </nav>
@@ -44,30 +43,29 @@
                 <div id="nav-logo">
                     <a href="/" title="Riddle Me This home"><img src="{{ url_for('static', filename='img/logo-navbar.png')}}" alt="Riddle Me This" title="Riddle Me This"></a>
                 </div>
-            </div>    
+            </div>
             <div class="col-6">
                 <nav>
                     <div class="row">
                         <div class="col-12 col-md-6 col-md-3">
-                             {% for player in player_info %} 
-                             {% if session['username'] == player.username %} 
-                             {{ player.username }} 
-                             {% endif %} {% endfor %}
+                            {% for player in player_info %} {% if session['username'] == player.username %} {{ player.username }} {% endif %} {% endfor %}
                         </div>
                         <div class="col-12 col-md-6 col-md-3">
-                            <button type="button" class="btn btn-nav" onclick="location.href='/play';">Resume Game</button>
+                            <div class="button-row">
+                                <button type="button" class="btn btn-nav btn-resume" onclick="location.href='/play';">Resume Game</button>
+                            </div>
                         </div>
                     </div>
                 </nav>
             </div>
-            {%  else  %}
+            {% else %}
             <div class="col-12"></div>
             {% endif %}
         </div>
     </div>
 
-<!-- error -->
-{% block errorcontent %}{% endblock %}
+    <!-- error -->
+    {% block errorcontent %}{% endblock %}
 
     <!-- Content -->
     {% if request.path == "/" or request.path == "/play" %}
@@ -77,8 +75,7 @@
                 <!-- Content Left -->
                 {% block page_content_left %}{% endblock %}
             </div>
-
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-6 mb-2">
                 <!-- Content Right -->
                 {% block page_content_right %}{% endblock %}
             </div>
@@ -92,7 +89,6 @@
             <div class="col-12">
                 <!-- Content Leaderboard List -->
                 {% block page_content_leaderboard %}{% endblock %}
-                
             </div>
         </div>
     </div>

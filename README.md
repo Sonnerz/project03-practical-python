@@ -85,8 +85,7 @@ Flask session was used to store the player username, variables were used there a
             *   Leader Board Page
             *   Data
             *   SCSS/CSS
-        *   [Content Sections](#contsect)
-            *   Python
+        *   [Python Files](#contsect)
             *   riddleList.py
             *   run.py
             *   test_riddle.py
@@ -288,11 +287,11 @@ The application directories and files will be organised in the following way;
 [Top of page](#topofpage)
 <a name="wireframes"></a>
 ##  Wireframes
-## Start Application Page (‘/’ index.html)<a name="apodwf"></a>
+## Start Application Page (‘/’ index.html)<a name="indexwf"></a>
 ![start application](static/img/readme_images/start_application.png)
-## Application Page (‘/play’ play.html)<a name="epicwf"></a>
+## Application Page (‘/play’ play.html)<a name="playwf"></a>
 ![application page](static/img/readme_images/application_page.png)
-## Leader Board Page (‘/end’ end.html)<a name="librarywf"></a>
+## Leader Board Page (‘/end’ end.html)<a name="endwf"></a>
 ![leaderboard](static/img/readme_images/leaderboard.png)
 
 
@@ -332,25 +331,33 @@ The Readme provides information on how the site was deployed and tested and if s
 <a name="html"></a>
 ### HTML/CSS Structure
 **Start Application Page**
+(**index.html**)
 
 The web application start page gives the player the options of; starting the game by entering a username, or viewing the game help.  A logo will take a prominent position on the page. The options; play the game, and view help will be placed beside the logo.
 The page and its functionality will be created using the Bootstrap 4 Framework, Python and The Flask micro-framework.
 
+[Index layout](#indexwf)
+
 
 **Application Page**
+(**play.html**)
 
 The web application game page displays the riddle question and provides a text input area where the player can enter their answer. After clicking the submit button, the answer will be evaluated and feedback will be provided in the message area under the submit button.
 An attempt count will be provided below the answer input area.
 The page and its functionality will be created using the Bootstrap 4 Framework, Python and The Flask micro-framework.
 
+[Game layout](#playwf)
 
 **Leader Board Page**
+(**end.html**)
 
 The leader board page will provide players with a list of the top 15 scoring players.
 The list will show the username, score and the timestamp when that score was created.
 The page and its functionality will be created using the Bootstrap 4 Framework, Python and The Flask micro-framework.
 
-**Data**
+[Leader Board layout](#endwf)
+
+**Data Source**
 
 The riddles and answers will be read from a python file (riddlesList.py) on the application site and the usernames will be stored as a dictionary in a python list.
 
@@ -371,7 +378,7 @@ variables.scss</li></ul>
 
 [Top of page](#topofpage)
 <a name="contsect"></a>
-###  Content Sections - Python
+###  Python Files
 
 <ul><li>run.py file has been created for the app code</li><li>
 test_riddle.py contains unittests for the app</li><li>
@@ -609,7 +616,7 @@ riddle = {}
 
 **test_riddle.py**
 
-More in [Testing documentation](Testing.md).
+This code file is described more indebtedly in the [Testing document](Testing.md).
 
 Tested: get_riddle() function<br>
 Tested: ensure that a session gets created<br>

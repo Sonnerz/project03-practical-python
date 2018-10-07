@@ -36,19 +36,20 @@
             </div>
             {% endif %}
     </div>
-
 </div>
 {% endblock %}
 
 <!-- Riddle Answer Column -->
 {% block page_content_right %}
 <div id="riddle-answer-area">
+    <!-- Riddle Answer Box -->
     <div class="riddle-answer-box">
         <form method="POST" name="riddleAnswer" id="answerForm" action="/checkPlayerInput">
             <div class="control-group">
                 <div class="form-group floating-label-form-group controls">
                     {% if riddle.Number|int() < length_of_riddles|int() %} 
                     <input type="text" class="form-control" placeholder="Enter your Riddle Answer..." name="riddleAnswer" id="riddleAnswer" required data-validation-required-message="Please enter your answer." pattern="[A-Za-z0-9]{1,50}">
+                    <!-- Hidden field to track current riddle number -->
                     <input type="hidden" name="player_current_riddle_number" id="player_current_riddle_number" value={{player.riddle_number|int()}}>
                         {% else %}
                         <p class="end-message">Well done {{ session['username'] }}!<br> 
@@ -67,7 +68,7 @@
                 {% endif %}
             </div>
         </form>
-
+        <!-- Riddle Flash response -->
         <div id="messages-container">
             {% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %}
             <p>{{ message }}</p>

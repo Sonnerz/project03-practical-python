@@ -4,9 +4,9 @@
     }
     .leaderboard-list {
         padding: 10px;
+        height:100%;
         @include text-background()
     }
-
     .leaderboard-row {
         text-align: center;
         margin-bottom: 20px;
@@ -15,7 +15,6 @@
         background-color: $leaderboard-row;
         clear: both;
     }
-
     .leaderboard-row-header {
         font-size: 0.9rem;
         font-weight: 500;
@@ -25,13 +24,11 @@
     .leaderboard-col-header {
         text-decoration: underline;
     }
-
     .leaderboard-col {
         float: left;
         width: 25%;
         padding: 20px;
     }
-
     .leaderboard-col-data {
         font-size: 0.9rem;
         white-space: nowrap;
@@ -40,7 +37,6 @@
         font-size: 0.6rem;
         line-height: 20px;
     }
-
     @media (min-width: 768px) {
         .leaderboard-list {
             padding: 40px;

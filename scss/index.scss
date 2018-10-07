@@ -6,9 +6,6 @@
     .logo-container img {
         max-width: 100%;
     }
-
-
-
     #username-form-container {
         padding: 20px 20px;
 
@@ -44,8 +41,7 @@
         .link-howto-margin,
         .input-info {
             padding-bottom: 5px;
-            text-align: center;
-            // padding-right: 1.6rem;
+            text-align: center; // padding-right: 1.6rem;
         }
         .input-info {
             font-size: .7rem;
@@ -73,7 +69,7 @@
                 padding-right: 2.3rem;
                 text-align: right;
             }
-        }        
+        }
 
         /* StackOverflow solution to vertically and horizontally center the Modal */
         .vertical-align-modal {

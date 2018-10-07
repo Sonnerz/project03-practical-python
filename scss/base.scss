@@ -1,8 +1,19 @@
+html{
+  height:100%;
+}
 body {
   @include sans-serif-font;
-  background: url(/static/img/riddler-wallpaper.jpg) no-repeat fixed;
+  background: #000 url(/static/img/riddler-wallpaper.jpg) no-repeat fixed;
   background-size: cover;
   background-position: 0px 0px;
+  height:100%;
+}
+
+@media all and (max-width: 699px) { /* max-width would be the breakpoint for when this style kicks in */
+  body {
+    background-size: cover; /* stretches to size of viewport */
+    background-position: center; /* center the bg image */
+  }
 }
 
 h1,
@@ -41,6 +52,10 @@ i {
     color: #fff;
     font-size: 1.4rem;
   }
+  .unNav {
+    font-size: 1rem;
+    padding-top: 5px;
+  }
   @media (min-width: 768px) {
     nav {
       line-height: 80px;
@@ -55,6 +70,9 @@ i {
       top: 0;
       transform: translate(0, 0);
     }
+    .unNav {
+    font-size: inherit;
+  }
   }
 }
 .red-text {
@@ -82,6 +100,10 @@ i {
   border-color: $darkred;
 }
 
+.btnleader {
+  line-height: 1.1rem;
+}
+
 .btn-nav:hover {
   color: $white;
   background-color: $darkgreen;
@@ -97,7 +119,14 @@ i {
 .btn-riddle:active, .btn-riddle-index:active {
   transform: translateY(3px);
 }
+.btn-resume {
+  margin-top: 1.2em;
+}
 
+.button-row {
+  margin: 0 auto;
+  text-align: center;
+}
 
 #messages-container {
   margin: 0 auto;
@@ -120,6 +149,12 @@ i {
     width: 100%;
     max-width: 450px;
   }
+  .btn-resume {
+    margin-top: 0;
+  }
+  .btnleader {
+  line-height: 1.5rem;
+}
 }
 
 /* error pages */

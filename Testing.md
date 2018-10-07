@@ -123,6 +123,14 @@ Importing riddle content and ensuring it is available to the browser
 |Feedback messages appear|Passed|Passed|Passed|Passed|
 |Player score/attempts|Multiple same user instance|Multiple same user instance|Multiple same user instance|Multiple same user instance
 
+
+|Device/Test|Mobile S|Mobile M|Mobile L|Tablet|Laptop 1024|Laptop L 1440|4K 2560|
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+|Responsive Design|ongoing css issues|ongoing css issues|ongoing css issues|ongoing css issues|ongoing css issues|ongoing css issues|ongoing css issues|
+|Styling|ongoing development issues|ongoing development issues|ongoing development issues|ongoing development issues|ongoing development issues|ongoing development issues|ongoing development issues|
+|Error messages|visible|visible|visible|visible|visible|visible|visible
+|Bkg image|not filling screen to bottom|not filling screen to bottom|not filling screen to bottom|ok|ok|ok|ok
+
 [Top of page](#topofpage)
 
 <a name="issues"></a>
@@ -531,10 +539,11 @@ Test to ensure the helper function number_to_string() takes in a digit and retur
 |Feedback messages|Passed|Passed|Passed|Passed|Passed|
 |Player score/attempts|Multiple same user instance|Passed Part of Major bug fix|Passed Part of Major bug fix|Passed Part of Major bug fix|Passed Part of Major bug fix|
 
-|Device/Test|Galaxy SIII|Galaxy 5|Laptop touch screen|iPhone 5/SE|iPhone 6/7/8|iPhone 6/7/8 Plus|iPhone X|iPad|
-|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-|Responsive Design|Passed|Passed|Not Applicable|Passed|Passed|Passed|Passed|Passed
-|Styling|Passed|Passed|Passed|Passed|Passed|Passed|Passed|Passed|
-|Error messages|Passed|Passed|Passed|Passed|Passed|Passed|Passed|Passed|
+|Device/Test|Mobile S|Mobile M|Mobile L|Tablet|Laptop 1024|Laptop L 1440|4K 2560|
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+|Responsive Design|passed|passed|passed|passed|passed|passed|passed|
+|Styling|passed|passed|passed|passed|passed|passed|passed|
+|Error messages|passed|passed|passed|passed|passed|passed|passed|
+|Bkg image|passed|passed|passed|passed|passed|passed|passed|
 
 [Top of page](#topofpage)
